@@ -1,0 +1,32 @@
+application/cache/*
+!application/cache/index.html
+!application/cache/.htaccess
+
+application/logs/*
+!application/logs/index.html
+!application/logs/.htaccess
+
+user_guide_src/build/*
+user_guide_src/cilexer/build/*
+user_guide_src/cilexer/dist/*
+user_guide_src/cilexer/pycilexer.egg-info/*
+/vendor/
+
+# IDE Files
+#-------------------------
+/nbproject/
+.idea/*
+
+## Sublime Text cache files
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+*.sublime-workspace
+*.sublime-project
+application/front/logs/
+/HTML5Application/nbproject/private/
+uploads/business_post/main/file_1498519488_uz7S6.mp4
+uploads/business_post/main/file_1498835014_5UquY.mp4
+application/front/config/constants.php
+uploads/
+counter.txt
