@@ -4,10 +4,12 @@ class Logins extends CI_Model {
 
     function check_login($user_name, $user_password) {
 
-        $this->db->select("user_id,email,password,status");
+        $this->db->select("user_login.user_id,user_login.email,ui.user_image,user_login.password,user_login.status,u.first_name,u.last_name");
         $this->db->where("email", $user_name);
       //  $this->db->where("password", md5($user_password));
-        $this->db->where('is_delete', '0');
+        $this->db->join('user u', 'u.user_id = user_login.user_id','left');
+         $this->db->join('user_info ui', 'ui.user_id = u.user_id','left');
+        $this->db->where('user_login.is_delete', '0');
         $this->db->from("user_login");
         $this->db->limit(1);
         $query = $this->db->get();

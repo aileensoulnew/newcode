@@ -171,13 +171,14 @@
                             </li>
                             <?php
                         }
+                        $session_user = $this->session->userdata();
                         ?>
                         <li class="dropdown user-id">
-                            <a href="#" title="<?php echo $userdata['first_name']; ?>" class="dropdown-toggle user-id-custom" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                <span class="usr-img"><?php if ($userdata['user_image'] != '') { ?><img ng-src="<?php echo USER_THUMB_UPLOAD_URL . $userdata['user_image'] ?>" alt="<?php echo $userdata['first_name'] ?>"><?php } else { ?><div class="custom-user"><?php echo ucfirst(strtolower(substr($userdata['first_name'], 0, 1))); ?></div><?php } ?></span>
+                            <a href="#" title="<?php echo $session_user['aileenuser_firstname']; ?>" class="dropdown-toggle user-id-custom" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <span class="usr-img"><?php if ($session_user['aileenuser_userimage'] != '') { ?><img ng-src="<?php echo USER_THUMB_UPLOAD_URL . $session_user['aileenuser_userimage'] ?>" alt="<?php echo $session_user['aileenuser_firstname'] ?>"><?php } else { ?><div class="custom-user"><?php echo ucfirst(strtolower(substr($session_user['aileenuser_firstname'], 0, 1))); ?></div><?php } ?></span>
                                 <span class="pr-name"><?php
-                                    if (isset($userdata['first_name'])) {
-                                        echo ucfirst($userdata['first_name']);
+                                    if (isset($session_user['aileenuser_firstname'])) {
+                                        echo ucfirst($session_user['aileenuser_firstname']);
                                     }
                                     ?></span>
                             </a>

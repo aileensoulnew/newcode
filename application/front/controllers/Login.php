@@ -75,6 +75,8 @@ class Login extends CI_Controller {
                     $this->session->set_userdata('aileenuser', $userinfo['user_id']);
                     $user_slug = $this->user_model->getUserSlugById($userinfo['user_id']);
                     $this->session->set_userdata('aileenuser_slug', $user_slug['user_slug']);
+                    $this->session->set_userdata('aileenuser_firstname', $userinfo['first_name'] );
+                    $this->session->set_userdata('aileenuser_userimage', $userinfo['user_image'] );
                     $is_data = 'ok';
                 } else if ($userinfo['password'] != md5($password_login)) {
                     $is_data = 'password';
