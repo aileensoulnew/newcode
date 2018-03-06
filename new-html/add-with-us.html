@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Aileensoul</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/animte.css">
+        <link rel="stylesheet" href="css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/owl.carousel.min.css">
+        <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
+        <link rel="stylesheet" href="css/component.css" />
+        <link rel="stylesheet" href="css/n-commen.css">
+        <link rel="stylesheet" href="css/n-style.css">
+
+    </head>
+    <body class="main-db add-with-us">
+        <div class="web-header">
+            <header class="custom-header">
+                <div class="header animated fadeInDownBig">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 left-header">
+                                <h2 class="logo"><a href="#">Aileensoul</a></h2>
+                                <!--form>
+                                        <input type="text" name="search" placeholder="Search..">
+                                </form-->
+                            </div>
+                            <div class="col-md-6 col-sm-6 right-header text-right">
+                                <a href="#" class="btn6">Login</a>
+                                <a href="#" class="btn7">Create an account</a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </header>
+
+        </div>
+
+        <div class="mobile-header">
+            <header class="">
+                <div class="header animated fadeInDownBig">
+                    <div class="container">
+
+                        <div class="left-header">
+                            <h2 class="logo"><a href="#"><img src="n-images/mob-logo.png"></a></h2>
+                            <div class="search-mob-block">
+                                <div class="">
+                                    <a href="#search">
+                                        <input type="search" id="tags1" class="tags" name="skills" value="" placeholder="Job Title,Skill,Company" />
+                                    </a>
+                                </div>
+                                <div id="search">
+                                    <form method="get">
+                                        <div class="new-search-input">
+                                            <input type="search" id="tags1" class="tags" name="skills" value="" placeholder="Job Title,Skill,Company" />
+                                            <input type="search" id="searchplace1" class="searchplace" name="searchplace" value="" placeholder="Find Location" />
+
+                                        </div>
+                                        <div class="new-search-btn">
+                                            <button type="button" class="close-new btn">Cancel</button>
+                                            <button type="submit"  id="search_btn" class="btn btn-primary" onclick="return check();">Search</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="right-header">
+                                <ul>
+                                    <li class="dropdown user-id">
+                                        <a href="#" class="dropdown-toggle user-id-custom" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="usr-img"><img src="img/user-pic.jpg"></span><span class="pr-name"></span></a>
+
+                                        <ul class="dropdown-menu profile-dropdown">
+                                            <li>Account</li>
+                                            <li><a href="#"><i class="fa fa-cog"></i> Setting</a></li>
+                                            <li><a href="#"><i class="fa fa-power-off"></i> Logout</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </header>
+            
+        </div>
+
+        <div class="middle-section">
+
+            <div class="add-banner">
+                <img src="n-images/add-with-us.jpg">
+				<h1>Promote Your Business With Aileensoul</h1>
+				
+            </div>
+            <div class="container">
+                <div class="add-form">
+                    <h3>Advertise With Us</h3>
+					
+                    <form>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input type="text" placeholder="First Name">
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" placeholder="Last Name">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <input type="text" placeholder="Email Address">
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <textarea placeholder="Your Requirement"></textarea>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-12 text-right">
+                                    <a href="" class="btn1">submit</a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+				<p class="text-center more-support">For more support <a href="mailto:inquiry@aileensoul.com">inquiry@aileensoul.com</a>
+				</p>
+            </div>
+
+		</div>
+		
+    </header>
+	
+	
+	
+	
+	
+	</div>
+		
+	
+	
+        
+		
+		
+	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/owl.carousel.min.js"></script>
+	<script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
+	<script src="js/classie.js"></script>
+	<script>
+            jQuery(document).ready(function($) {
+              var owl = $('.owl-carousel');
+              owl.on('initialize.owl.carousel initialized.owl.carousel ' +
+                'initialize.owl.carousel initialize.owl.carousel ' +
+                'resize.owl.carousel resized.owl.carousel ' +
+                'refresh.owl.carousel refreshed.owl.carousel ' +
+                'update.owl.carousel updated.owl.carousel ' +
+                'drag.owl.carousel dragged.owl.carousel ' +
+                'translate.owl.carousel translated.owl.carousel ' +
+                'to.owl.carousel changed.owl.carousel',
+                function(e) {
+                  $('.' + e.type)
+                    .removeClass('secondary')
+                    .addClass('success');
+                  window.setTimeout(function() {
+                    $('.' + e.type)
+                      .removeClass('success')
+                      .addClass('secondary');
+                  }, 500);
+                });
+              owl.owlCarousel({
+                loop: true,
+                nav: true,
+                lazyLoad: true,
+                margin: 0,
+                video: true,
+                responsive: {
+                  0: {
+                    items: 1
+                  },
+				  480: {
+                    items: 2
+                  },
+                  540: {
+                    items: 3
+                  },
+                  1200: {
+                    items: 1,
+                  },
+                  1280: {
+                    items: 2
+                  }
+=======
+        </div>
+
+
+
+
+        <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right mob-side-menu" id="cbp-spmenu-s2">
+            <div class="all-profile-box content custom-scroll">
+                <ul class="all-pr-list">
+                    <li>
+                        <a href="https://www.aileensoul.com/job">
+                            <div class="all-pr-img">
+                                <img src="https://www.aileensoul.com/assets/img/i1.png?ver=1517557803" alt="Job Profile">
+                            </div>
+                            <span>Job Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.aileensoul.com/recruiter">
+                            <div class="all-pr-img">
+                                <img src="https://www.aileensoul.com/assets/img/i2.jpg?ver=1517557803" alt="Recruiter Profile">
+                            </div>
+                            <span>Recruiter Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.aileensoul.com/freelance">
+                            <div class="all-pr-img">
+                                <img src="https://www.aileensoul.com/assets/img/i3.jpg?ver=1517557803" alt="Freelance Profile">
+                            </div>
+                            <span>Freelance Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.aileensoul.com/business-profile">
+                            <div class="all-pr-img">
+                                <img src="https://www.aileensoul.com/assets/img/i4.jpg?ver=1517557803" alt="Business Profile">
+                            </div>
+                            <span>Business Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.aileensoul.com/artist">
+                            <div class="all-pr-img">
+                                <img src="https://www.aileensoul.com/assets/img/i5.jpg?ver=1517557803" alt="Artistic Profile">
+                            </div>
+                            <span>Artistic Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.aileensoul.com/artist">
+                            <div class="all-pr-img">
+                                <img src="https://www.aileensoul.com/assets/img/i5.jpg?ver=1517557803" alt="Artistic Profile">
+                            </div>
+                            <span>Artistic Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.aileensoul.com/artist">
+                            <div class="all-pr-img">
+                                <img src="https://www.aileensoul.com/assets/img/i5.jpg?ver=1517557803" alt="Artistic Profile">
+                            </div>
+                            <span>Artistic Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.aileensoul.com/artist">
+                            <div class="all-pr-img">
+                                <img src="https://www.aileensoul.com/assets/img/i5.jpg?ver=1517557803" alt="Artistic Profile">
+                            </div>
+                            <span>Artistic Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.aileensoul.com/artist">
+                            <div class="all-pr-img">
+                                <img src="https://www.aileensoul.com/assets/img/i5.jpg?ver=1517557803" alt="Artistic Profile">
+                            </div>
+                            <span>Artistic Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.aileensoul.com/artist">
+                            <div class="all-pr-img">
+                                <img src="https://www.aileensoul.com/assets/img/i5.jpg?ver=1517557803" alt="Artistic Profile">
+                            </div>
+                            <span>Artistic Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.aileensoul.com/artist">
+                            <div class="all-pr-img">
+                                <img src="https://www.aileensoul.com/assets/img/i5.jpg?ver=1517557803" alt="Artistic Profile">
+                            </div>
+                            <span>Artistic Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.aileensoul.com/artist">
+                            <div class="all-pr-img">
+                                <img src="https://www.aileensoul.com/assets/img/i5.jpg?ver=1517557803" alt="Artistic Profile">
+                            </div>
+                            <span>Artistic Profile</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/owl.carousel.min.js"></script>
+        <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
+        <script src="js/classie.js"></script>
+        <script>
+                                                jQuery(document).ready(function ($) {
+                                                    var owl = $('.owl-carousel');
+                                                    owl.on('initialize.owl.carousel initialized.owl.carousel ' +
+                                                            'initialize.owl.carousel initialize.owl.carousel ' +
+                                                            'resize.owl.carousel resized.owl.carousel ' +
+                                                            'refresh.owl.carousel refreshed.owl.carousel ' +
+                                                            'update.owl.carousel updated.owl.carousel ' +
+                                                            'drag.owl.carousel dragged.owl.carousel ' +
+                                                            'translate.owl.carousel translated.owl.carousel ' +
+                                                            'to.owl.carousel changed.owl.carousel',
+                                                            function (e) {
+                                                                $('.' + e.type)
+                                                                        .removeClass('secondary')
+                                                                        .addClass('success');
+                                                                window.setTimeout(function () {
+                                                                    $('.' + e.type)
+                                                                            .removeClass('success')
+                                                                            .addClass('secondary');
+                                                                }, 500);
+                                                            });
+                                                    owl.owlCarousel({
+                                                        loop: true,
+                                                        nav: true,
+                                                        lazyLoad: true,
+                                                        margin: 0,
+                                                        video: true,
+                                                        responsive: {
+                                                            0: {
+                                                                items: 1
+                                                            },
+                                                            480: {
+                                                                items: 2
+                                                            },
+                                                            540: {
+                                                                items: 3
+                                                            },
+                                                            1200: {
+                                                                items: 1,
+                                                            },
+                                                            1280: {
+                                                                items: 2
+                                                            }
+                                                        }
+                                                    });
+                                                });
+                                                // mcustom scroll bar
+                                                (function ($) {
+                                                    $(window).on("load", function () {
+
+                                                        $(".custom-scroll").mCustomScrollbar({
+                                                            autoHideScrollbar: true,
+                                                            theme: "minimal"
+                                                        });
+
+                                                    });
+                                                })(jQuery);
+
+                                                // page scroll top 
+                                                $(document).ready(function () {
+                                                    $('html,body').animate({scrollTop: 200}, 500);
+                                                });
+
+        </script>
+        <script>
+            var menuRight = document.getElementById('cbp-spmenu-s2'),
+                    showRight = document.getElementById('showRight'),
+                    body = document.body;
+
+            showRight.onclick = function () {
+                classie.toggle(this, 'active');
+                classie.toggle(menuRight, 'cbp-spmenu-open');
+                disableOther('showRight');
+            };
+
+            function disableOther(button) {
+
+                if (button !== 'showRight') {
+                    classie.toggle(showRight, 'disabled');
+>>>>>>> cf5554b7ce1460be6a6bc1f38eb4ca8a433fe3d5
+                }
+            }
+
+            $(function () {
+                $('a[href="#search"]').on('click', function (event) {
+                    event.preventDefault();
+                    $('#search').addClass('open');
+                    $('#search > form > input[type="search"]').focus();
+                });
+                $('#search, #search button.close-new').on('click keyup', function (event) {
+                    if (event.target == this || event.target.className == 'close' || event.keyCode == 27) {
+                        $(this).removeClass('open');
+                    }
+                });
+            });
+        </script>
+
+    </body>
+</html>

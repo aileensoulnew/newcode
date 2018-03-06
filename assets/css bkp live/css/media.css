@@ -1,0 +1,313 @@
+@media only screen and (max-width:1199px){
+	h1, h1 a { font-size: 32px; line-height: 46px; }
+	h2, h2 a { font-size: 30px;  }
+
+	.header ul li a {/* font-size: 16px; padding: 18px 12px;*/ }
+	.midd-section h2 { font-size: 34px; }
+
+	.user-profile { margin-bottom: 20px; padding: 10px 0; }
+	.left-side-bar ul li a { padding: 6px 10px; }
+
+	/* Freelancer Post*/
+	.freelancer-banner form fieldset { width: 352px; }
+	.freelancer-banner { padding: 150px 0; }
+	.freelancer-title ul li a { font-size: 16px; }
+	.freelancer-title ul li:first-child { width: 74%; vertical-align: top; }
+        
+	
+	/* After Regi */
+	.mid-bar ul li a { padding: 10px 12px; }
+	.mid-bar ul li a:before { padding-right: 10px; }
+
+	.sticky { width: 100%; position: static; }
+}
+
+@media only screen and (max-width:1023px){
+	h1, h1 a { font-size: 26px; line-height: 40px; }
+	h2, h2 a { font-size: 24px; line-height: 32px; }
+
+	.title-section { padding: 20px 0; }
+
+	.midd-section h2 { font-size: 24px;}
+	.midd-section { padding: 70px 0; }
+
+	.footer { padding: 15px 0; }
+
+	/* Freelancer Post*/
+	.freelancer-banner  { padding: 110px 0; }
+	.freelancer-banner form fieldset { width: 47%; }
+	.freelancer-banner h2 { margin-bottom: 10px; }
+	.freelancer-banner form fieldset.submit  { float: right; margin-top: 15px; }
+
+	.user-midd-section { /*margin: 30px 0;*/ }
+	.freelancer-title ul li:first-child { width: 100%; }
+	.freelancer-title ul li { padding: 6px 10px; }
+
+	.freelancer-midd { padding: 93px 0; }
+	/*.user-section-free-up{height: 0px;}*/
+
+	/* After Regi */
+	.mid-bar ul li { /*width: 50%; */}
+	.mid-bar ul li a { font-size: 20px; padding: 25px 10px; margin-left: 0px; }
+	.role-model-normal { font-size: 20px; padding: 8px 10px; }
+	
+	/* Profile */
+	.profile-banner { padding:125px 0; }
+}
+
+@media only screen and (max-width:767px){
+	h1, h1 a { font-size: 24px; line-height: 36px; }
+	h6, h6 a { font-size: 16px; }
+	h4, h4 a { font-size: 18px; }
+
+	p { font-size: 14px; }
+	label { font-size: 14px; }
+
+	.title-section { padding: 10px 0; }
+
+	.midd-section h2 { font-size: 22px; margin: 15px 0; }
+	
+
+	.copyright { text-align: center; }
+	.copyright ul { float: none; margin-top: 15px; }
+
+	.job-post-detail { margin: 15px 0; }
+	.role-model-detail { margin-bottom: 20px;  }
+
+	.job-post-title { padding: 6px 15px; }
+	.exper-location { padding: 6px 0; }
+	.job-about { padding: 10px 15px; }
+
+	/*.job-about ul li span { float: right; }*/
+	.job-about ul li { font-size: 14px; margin: 0px 0 4px; padding: 0; /* display: inline-block;*/ }
+	.job-about ul li label { margin: 0; }
+
+
+	.exper-location ul li a { font-size: 14px; }
+	.cover-picture, .profile-banner { padding: 120px 0; }
+
+	/* Freelancer Post*/
+	.found-result { padding: 20px 0 0; }
+	.freelancer-post { margin: 10px 0; }
+	.freelancer-banner form fieldset { width: 100%; margin-top: 10px; margin-left: 0; }
+	.freelancer-banner form fieldset.submit { margin-right: 0; }
+	.freelancer-banner { padding: 80px 0; }
+	.shedule-interview { margin-top: 20px; } 
+
+		/* After Regi */
+		.second-mid-bar ul li{ margin-left: 0px;}
+	.mid-bar ul li a { font-size: 18px;  padding: 20px 10px; margin-left: 0px;}
+	.role-model-normal { font-size: 18px; padding: 8px 10px; }
+
+	/* Profile */
+	.profile-banner { padding:100px 0; }
+
+	.left-side-bar { margin-bottom: 20px;  }
+	.fixed { position: static; }
+	.job-search-box { margin: 0px; }
+	.job-search-box button { margin-top: 10px;  }
+	.job-search-box fieldset { padding: 0; padding: 0 15px; }
+	/*buisnessmenu*/
+	.profile-main-box-buis-menu li a{padding: 23px 17px 22px 17px;}
+	.bui-menu-profile{padding-left: 20px;}
+}
+@media only screen and (max-width:480px){
+	
+	/* Profile */
+	.profile-banner { padding:90px 0; }	
+	.mid-bar ul li { width: 100%; }
+
+	.cover-picture, .profile-banner { padding: 90px 0; }
+
+	.change-password-box { width: 100%; }
+	.change-password { padding: 40px 0; }
+	.change-password-box form { padding: 15px; }
+}
+@media only screen and (max-width: 479px){
+
+	.pushmenu { width: 260px; }
+}
+
+
+
+@media only screen and(max-width:767px)
+{
+	
+}
+
+/*vishang 6-5-17 start */
+/*
+     .profile-job-post-detail .profile-job-post-title .save_saved_btn 
+  { padding: 3px 5px 4px !important; width: 75px; text-align: center; }*/
+ 
+             
+      
+
+@media (min-width: 768px) and (max-width: 1024px){  
+    .fixed_left{left: 31.5%!important;}
+     .row4 { margin-right: 0px; margin-left: 0px; }
+    .all-form-content { padding-left: 15px !important; }
+
+     /*header1 on*/
+     /*.header ul { margin-right: 10px; }*/
+
+     /*.header .dropdown-menu { left: -40px; }*/
+     /*.header ul li.dropdown-user ul li a { padding: 2px; font-size: 11px; }*/
+
+
+     /* header1 off*/      
+
+     /*  header2 on */
+         .header2 input::-webkit-input-placeholder 
+               {    font-size: 12px; line-height: 3;  }
+          .header2 input::-moz-placeholder { font-size: 13px; line-height: 13px; } /* Firefox 19+ */
+          .header2 input:-moz-placeholder { font-size: 14px; line-height: 3;}  /* Firefox 18- */
+          .header2 .profiletitle { font-size: 11px; }
+          .stkiy { width: 90%; }
+           .job-search-box1 input { font-size: 12px; }
+    /*   header2 off */   
+
+     /* forms start*/
+        .required_field { font-size: 13px; }
+        .common-form fieldset label { margin: 0 0 2px; }
+          label { font-size: 12px; }
+          input, textarea, select { padding: 2px 9px; font-size: 12px; }
+          .common-form form input::-webkit-input-placeholder 
+               {    font-size: 12px; line-height: 3;  }
+           select { padding: 2px 9px; font-size: 12px; }
+           .common-form input[type=radio], .common-form input[type=checkbox] { height: 11px; }
+           .select2-container--default .select2-selection--multiple .select2-selection__rendered li { margin-top: 2px; font-size: 12px; margin-bottom: 2px;}
+            .radio_check_text { font-size: 14px; }
+           .job_address_btn { min-width: 50px !important; font-size: 15px !important; padding: 5px 14px !important;}
+           input[type=submit], input[type=button], button  { padding: 6px 22px 6px; font-size: 15px; }
+            .hs-submit input { min-width: 110px; font-size: 15px; }
+            .tabordion section .label-d { /*font-size: 1em;*/ padding: 11px 6px; }
+            .tabordion h6 { font-size: 14px; }
+            .job_add_head { font-size: 18px; }
+            .job_add_head_pro { font-size: 18px; }
+            
+            .job_carrier_checkbox { font-size: 12px; } 
+            
+            
+             .common-form1 h3 { padding: 3px 15px 3px; font-size: 18px; }
+             .hs-submit a { font-size: 15px; padding: 8px 25px; }
+             .freelancer_editpost_title { font-size: 23px; }
+             .action-buttons {/* padding: 1px; */}
+            .select2-container-multi .select2-choices .select2-search-choice { padding: 2px 4px 4px 13px!important; }
+            .fullwidth_experience select { width: 49%; margin-right: 4px; }
+            .select2-search-choice-close { top: 3px; }
+
+            /* forms end*/
+           
+
+  	 /*profile leftbar start*/
+
+  	     /*job on */
+    .buisness-profile-txext {  /* max-width: 21% !important; */}
+    .profile-box-job-menu { margin-top: -17px; height: 6%; }
+    .profile-box-job-menu ul { float: left; margin-left: 26%; }
+    .profile-box-job-menu ul li { padding-left: 0px; }
+    .profile-box-job-menu ul li a {  padding: 2px 8px 2px; margin-right: 1px; font-size: 13px; }
+    .profile-boxProfileCard-cover { height: 8%; }
+    .profile-boxProfileCard-bg img { height: auto; width: 100%; }
+    .profile-boxProfileCard-content .buisness-profile-txext a img { height: 100%; width: 100%; }
+     .profile-boxProfilebuisness-avatarLink2 {/* height: 10%; width: 96%;*/ }
+     .left-side-bar ul li a { font-size: 12px; }
+      .profile-text-bui-user { padding-top: 7px; }
+         /*job off */
+
+          /* recruter on*/
+     .profile-box-rec-menu { margin-top: -17px; height: 6%; }
+     .profile-box-rec-menu ul { float: left; margin-left: 21%; }
+     .profile-box-rec-menu ul li {     padding-left: 7px;  }
+     .profile-box-rec-menu ul li a { padding: 9px 7px 6px 8px; font-size: 13px; }
+     .job-menu-profile1 a h5 { font-size: 20px; }
+     .job-menu-profile1 a { font-size: 17px; }
+     .job-menu-profile1 h5 { font-weight: 600; }
+       .btn-3b  { padding: 4px 11px 4px 11px; }
+           /* recruter off */
+       
+
+     /* profile leftbar end */
+
+
+  
+    /* profile namebox on*/
+     
+     .job-menu-profile .profile-head-text { font-size: 20px; font-weight: 600; }
+     .job-menu-profile .profile-text a { font-size: 17px; }
+    /* profile namebox off */
+
+    
+    /* profile detail page on */
+ /*    .common-form h3 
+     { 
+         padding: 5px 15px 5px;
+         font-size: 16px;
+     }*/
+     .details_all_tital { font-size: 15px; }
+  
+
+       .profile-job-profile-menu h5 { font-size: 18px; }
+       .but1 { padding: 5px 15px 6px 2px; font-size: 14px; }
+       .but1:before { font-size: 15px; top: 6px; margin-left: -2px; left: 0%; }
+ 
+    /* profile detail page on */
+
+
+     /* post box on */
+      
+      /* job on */
+      
+           .profile-job-details ul li { font-size: 12px; line-height: 17px; }
+/*           .profile-job-details .post_title { font-size: 16px; width: 60%; }*/
+           .profile-job-post-detail .profile-job-post-title .button { padding: 1px 12px!important; font-size: 12px;  }
+          
+      /* job off */
+
+      /* recruiter on */
+            .profile-job-post-location-name-rec .post_name { font-size: 15px; width: 300px; overflow: hidden;text-overflow: ellipsis; white-space: nowrap; }
+            .profile-job-post-location-name-rec .post_designation { font-size: 12px; }
+            .buisness-profile-pic-candidate { height: 6%; width: 40px; }
+    
+           .profile-job-post-location-name-rec ul li { padding: 3px 3px 0px 8px; line-height: 16px; }
+
+      /* recruiter off */
+           
+     /* post box off*/
+
+      
+      /* menu  on */
+   
+    .profile-main-rec-box-menu { /*height: 6.3%;*/  margin-top: -79px; }
+     .right-side-menu { /*float: left; height: auto;*/ }
+    
+       .flw_msg_btn { margin-top: 0px; }
+       .flw_msg_btn ul li a {font-size: 12px; /* padding: 6px 11px; margin-top: 5px;*/ }
+
+
+        /* menu  off */
+
+        /* cover pic on */
+
+     #row2 img {  /*height: 35%;*/ width: 100%; }
+     label.cameraButton i { font-size: 20px; }
+     .cameraButton .tooltiptext  { padding: 5px 0px 5px; margin-top: 22px; width: 130px; }
+       
+          /* cover pic off */     
+     /* popup start*/
+      .modal-content { padding: 10px; }
+      .modal-close { height: 22px!important; width: 22px !important; font-size: 20px!important; top: -12px!important; right: -11px!important; line-height: 20px !important;  }
+      .modal.message-box  span.mes { font-size: 17px; margin: 10px 0; }
+      .pop_content .okbtn { font-size: 14px; padding: 8px 8px; width: 80px; }
+      .pop_content .cnclbtn { font-size: 14px; padding: 8px 8px; width: 80px; }
+      .reactivatebox { height: 135px ; width: 70%; margin-top: 18%; }
+       .reactivate_header h2 { margin: 6px 0px; font-size: 17px; }
+       .reactivate_btn_y { margin-top: 12px; }
+       .reactivate_btn_n { margin-top: 12px; }
+       .reactivate_btn_y a { font-size: 14px; padding: 8px 30px;}
+       .reactivate_btn_n a { font-size: 14px; padding: 8px 30px; }
+
+
+    }
+  /* vishang end*/

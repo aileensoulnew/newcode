@@ -1,0 +1,20 @@
+User-agent: *
+User-agent: Googlebot
+User-agent: Googlebot-image
+User-agent: googlebot-mobile
+User-Agent: YahooSeekerM1A1-R2D2
+User-Agent: MSNBOT_Mobile
+User-agent: Slurp
+User-agent: MSNBot
+Disallow: /admin/
+Disallow: /css/
+Disallow: /css_min/
+Disallow: /js/
+Disallow: /js_min/
+Disallow: /as-videoplayer/
+Disallow: /dragdrop/
+Disallow: /minifier/
+Disallow: /n-css/
+
+
+Sitemap: https://www.aileensoul.com/sitemap.xml

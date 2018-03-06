@@ -1,0 +1,102 @@
+Allow from all
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+#	RewriteCond %{HTTP_HOST} !^www\. [NC]
+#        RewriteRule ^(.*)$ https://www.%{HTTP_HOST}/$1 [R=301,L]
+	RewriteBase /aileensoul-new/
+
+	#Removes access to the system folder by users.
+	#Additionally this will allow you to create a System.php controller,
+	#previously this would not have been possible.
+	RewriteCond %{REQUEST_URI} ^system.*
+	RewriteRule ^(.*)$ /aileensoul-new/index.php?/$1 [L]
+	
+	#When your application folder isn't in the system folder
+	#This snippet prevents user access to the application folder
+	#Submitted by: Fabdrol
+	#Rename 'application' to your applications folder name.
+	RewriteCond %{REQUEST_URI} ^application.*
+	RewriteRule ^(.*)$ /aileensoul-new/index.php?/$1 [L]
+
+	#Checks to see if the user is attempting to access a valid file,
+	#such as an image or css document, if this isn't true it sends the
+	#request to index.php
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+        RewriteRule ^(.*)$ /aileensoul-new/index.php?/$1 [L]
+</IfModule>
+
+## EXPIRES CACHING ##
+<IfModule mod_expires.c>
+ExpiresActive On
+ExpiresByType image/jpg "access 1 year"
+ExpiresByType image/jpeg "access 1 year"
+ExpiresByType image/gif "access 1 year"
+ExpiresByType image/png "access 1 year"
+ExpiresByType text/css "access 1 month"
+ExpiresByType text/html "access 1 month"
+ExpiresByType application/pdf "access 1 month"
+ExpiresByType text/x-javascript "access 1 month"
+ExpiresByType application/x-shockwave-flash "access 1 month"
+ExpiresByType image/x-icon "access 1 year"
+ExpiresDefault "access 1 month"
+
+php_value upload_max_filesize 200M
+php_value post_max_size 200M
+php_value max_execution_time 200
+php_value max_input_time 200
+
+
+AddType video/mp4 mp4 m4v
+AddType video/avi avi
+AddType audio/mp4 m4a
+AddType video/ogg ogv
+AddType audio/ogg ogg oga
+AddType video/webm webm
+</IfModule>
+
+<IfModule mod_php5.c>
+    #Session timeout
+    php_value session.cookie_lifetime 144000
+    php_value session.gc_maxlifetime 144000
+</IfModule>
+
+# BEGIN Compress text files
+<ifModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/xml text/css text/plain
+  AddOutputFilterByType DEFLATE image/svg+xml application/xhtml+xml application/xml
+  AddOutputFilterByType DEFLATE application/rdf+xml application/rss+xml application/atom+xml
+  AddOutputFilterByType DEFLATE text/javascript application/javascript application/x-javascript application/json
+  AddOutputFilterByType DEFLATE application/x-font-ttf application/x-font-otf
+  AddOutputFilterByType DEFLATE font/truetype font/opentype
+</ifModule>
+# END Compress text files
+
+# BEGIN Cache-Control Headers
+<ifModule mod_headers.c>
+  <filesMatch "\.(ico|jpe?g|png|gif|swf)$">
+    Header set Cache-Control "public"
+  </filesMatch>
+  <filesMatch "\.(css)$">
+    Header set Cache-Control "public"
+  </filesMatch>
+  <filesMatch "\.(js)$">
+    Header set Cache-Control "private"
+  </filesMatch>
+  <filesMatch "\.(x?html?|php)$">
+    Header set Cache-Control "private, must-revalidate"
+  </filesMatch>
+</ifModule>
+
+# END Cache-Control Headers
+# BEGIN Turn ETags Off
+FileETag None
+# END Turn ETags Off
+
+<IfModule !mod_rewrite.c>
+	# If we don't have mod_rewrite installed, all 404's
+	# can be sent to index.php, and everything works as normal.
+	# Submitted by: ElliotHaughin
+
+	ErrorDocument 404 /index.php
+</IfModule>

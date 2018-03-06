@@ -1,0 +1,1 @@
+$(".alert").delay(3200).fadeOut(300),$.validator.addMethod("regx1",function(e,t,r){return e?r.test(e):!0},"Upto 8 digit number allow"),$(document).ready(function(){$("#freelancer_post_rate").validate({rules:{hourly:{number:!0,regx1:/^.{0,8}$/}},messages:{}})});
