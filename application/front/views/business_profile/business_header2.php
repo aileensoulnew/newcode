@@ -303,13 +303,14 @@ $userid = $this->session->userdata('aileenuser');
                                 </div>
                             </div>
                         </li>
-						<li class="dropdown user-id">
+			<li class="dropdown user-id">
                             <a href="#" class="dropdown-toggle user-id-custom" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user-circle-o" aria-hidden="true"></i><span class="pr-name">Account</span></a>
 
                             <ul class="dropdown-menu account">
                                 <li>Account</li>
-                                <li><a href="#"><i class="fa fa-cog"></i> Setting</a></li>
-                                <li><a href="#"><i class="fa fa-power-off"></i> Logout</a></li>
+                                <li><a href="<?php echo base_url('business-profile/details/' . $business_login_slug); ?>"><span class="icon-view-profile edit_data"></span>  View Profile </a></li>
+                                <li><a href="<?php echo base_url('business-profile/registration/business-information'); ?>"><span class="icon-edit-profile edit_data"></span>  Edit Profile </a></li>
+                                <li><a href="#"><span class="icon-delete edit_data"></span> Deactive Profile</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -327,7 +328,8 @@ $userid = $this->session->userdata('aileenuser');
                                 <label for="search_btn" id="search_f"><i class="fa fa-search" aria-hidden="true"></i></label>
                                 <input id="search_btn" style="display: none;" name="search_submit" value="Search" onclick="return checkvalue()" type="submit">
                             </fieldset>
-                        </form>    </div>
+                        </form>    
+                    </div>
                 </div>
             </div>
         </div>
