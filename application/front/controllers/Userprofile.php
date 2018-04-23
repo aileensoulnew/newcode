@@ -28,7 +28,8 @@ class Userprofile extends MY_Controller {
 
         $this->data['slug'] = $slug = $this->session->userdata('aileenuser_slug');
         $userid = $this->session->userdata('aileenuser');
-        $seg_slug = $this->uri->segment(2);
+        //$seg_slug = $this->uri->segment(2);
+        $seg_slug = $this->uri->segment(1);//Pratik
 
         if ($seg_slug == $slug) {
             $userslug = $slug;
@@ -50,10 +51,12 @@ class Userprofile extends MY_Controller {
             $this->data['contact_status'] = 1;
             $this->data['contact_value'] = $is_userContactInfo['status'];
             $this->data['contact_id'] = $is_userContactInfo['id'];
+            $this->data['from_id'] = $is_userContactInfo['from_id'];
         } else {
             $this->data['contact_value'] = 'new';
             $this->data['contact_status'] = 0;
             $this->data['contact_id'] = $is_userContactInfo['id'];
+            $this->data['from_id'] = $is_userContactInfo['from_id'];
         }
 
         if (count($is_userFollowInfo) != 0) {
