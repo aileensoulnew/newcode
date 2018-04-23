@@ -112,7 +112,7 @@ function rec_post(pagenum) {
                     }
                     $.ajax({
                         type: 'POST',
-                        url: base_url + 'login/job_check_login',
+                        url: base_url + 'registration/check_login',
                         data: post_data,
                         dataType: "json",
                         beforeSend: function ()
@@ -355,51 +355,8 @@ function rec_post(pagenum) {
                             required: "Email address is required.",
                         }
                     },
-                    submitHandler: submitforgotForm
                 });
                 /* validation */
-
- function submitforgotForm()
-    {
-
-        var email_login = $("#forgot_email").val();
-
-        var post_data = {
-            'forgot_email': email_login,
-            csrf_token_name: csrf_hash
-        }
-        $.ajax({
-            type: 'POST',
-            url: base_url + 'profile/forgot_live',
-            data: post_data,
-            dataType: "json",
-            beforeSend: function ()
-            {
-                $("#error").fadeOut();
-//                $("#forgotbuton").html('Your credential has been send in your register email id');
-            },
-            success: function (response)
-            {
-                if (response.data == "success") {
-                    //  alert("login");
-                    $("#forgotbuton").html(response.message);
-                    setTimeout(function () {
-                        $('#login').modal('show');
-                        $('#forgotPassword').modal('hide');
-                         $("#forgotbuton").html('');
-                    document.getElementById("forgot_email").value = "";
-                    }, 5000); // milliseconds
-
-                   
-                    //window.location = base_url + "job/home/live-post";
-                } else {
-                    $("#forgotbuton").html(response.message);
-
-                }
-            }
-        });
-        return false;
-    }
 
             });
 
@@ -455,7 +412,7 @@ function rec_post(pagenum) {
                     }
                     $.ajax({
                         type: 'POST',
-                        url: base_url + 'login/job_check_login',
+                        url: base_url + 'registration/check_login',
                         data: post_data,
                         dataType: "json",
                         beforeSend: function ()
@@ -549,7 +506,7 @@ function rec_post(pagenum) {
                     }
                     $.ajax({
                         type: 'POST',
-                        url: base_url + 'login/job_check_login',
+                        url: base_url + 'registration/check_login',
                         data: post_data,
                         dataType: "json",
                         beforeSend: function ()
@@ -565,7 +522,6 @@ function rec_post(pagenum) {
                                 if(response.jobuser==1)
                                 {
                                     var alldata = 'all';
-                                    var id = response.id;
                                     $.ajax({
                                                 type: 'POST',
                                                 url: base_url +'job/job_apply_post',

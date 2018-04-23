@@ -7,17 +7,18 @@ $(document).ready(function () {
             last_name: {
                 required: true,
             },
-            email_profile: {
+            email: {
                 required: true,
+                email: true,
                 remote: {
                     url: base_url + "profile/check_email",
                     type: "post",
                     data: {
                         email: function () {
-                            return $("#email_profile").val();
+                            return $("#email").val();
                         },
-                        //get_csrf_token_name: get_csrf_hash,
-                    },async: false
+                        get_csrf_token_name: get_csrf_hash,
+                    },
                 },
             },
             selday: {
@@ -40,8 +41,9 @@ $(document).ready(function () {
             last_name: {
                 required: "Last Name Is Required."
             },
-            email_profile: {
+            email: {
                 required: "Email Address Is Required.",
+                email: "Please Enter Valid Email Id.",
                 remote: "Email already exists"
             },
             selday: {

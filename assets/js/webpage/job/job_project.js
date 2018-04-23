@@ -2,8 +2,6 @@
 //Validation Start
  $(document).ready(function () { 
  
-     $('.ajax_load').hide();
-
    $.validator.addMethod("regx1", function(value, element, regexpr) {          
    if(!value) 
    {
@@ -59,18 +57,6 @@
             });
    
 //validation End
-
-
-function profile_reg(){
-
-    var form = $("#jobseeker_regform");
-    if(form.valid() == true ){
-     //$('#profilereg_ajax_load').show();
-     document.getElementById('profilereg_ajax_load').style.display = 'inline-block';
-     
-    }
-}
-
 
 //disable spacebar js start
   $(window).load(function(){

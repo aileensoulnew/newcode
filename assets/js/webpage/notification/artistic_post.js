@@ -23,31 +23,6 @@ var modal = document.getElementById('myModal');
                             }
                         } 
 
-$( document ).on( 'keydown', function ( e ) {
-    if ( e.keyCode === 27 ) {
-        //$( "#bidmodal" ).hide();
-        $('#likeusermodal').modal('hide');
-    }
-});  
-   
-$(document).on('keydown', function (e) { 
-    if (e.keyCode === 27) {
-        if($('.modal-post').show()){
-
-          $( document ).on( 'keydown', function ( e ) {
-          if ( e.keyCode === 27 ) {
-        //$( "#bidmodal" ).hide();
-       $('.modal-post').hide();
-        }
-       });  
-     
-
-        }
-         document.getElementById('myModal').style.display = "none";
-         }
- });
-
-//all popup close close using esc end
 
  //validation for edit email formate form
 
@@ -143,8 +118,8 @@ $(document).on('keydown', function (e) {
                     var dataString = 'position=' + Z[0];
                     $.ajax({
                         type: "POST",
-                        url: base_url + "artist/image_saveBG_ajax",
-                        //url: "<?php echo base_url('artist/image_saveBG_ajax'); ?>",
+                        url: base_url + "artistic/image_saveBG_ajax",
+                        //url: "<?php echo base_url('artistic/image_saveBG_ajax'); ?>",
                         data: dataString,
                         cache: false,
                         beforeSend: function () { },
@@ -262,8 +237,8 @@ function post_like(clicked_id)
                         {
                             $.ajax({
                                 type: 'POST',
-                                url: base_url + "artist/like_post",
-                                //url: '<?php echo base_url() . "artist/like_post" ?>',
+                                url: base_url + "artistic/like_post",
+                                //url: '<?php echo base_url() . "artistic/like_post" ?>',
                                 dataType: 'json',
                                 data: 'post_id=' + clicked_id,
                                 success: function (data) {
@@ -293,8 +268,8 @@ function comment_like(clicked_id)
 
                             $.ajax({
                                 type: 'POST',
-                                url: base_url + "artist/like_comment",
-                                //url: '<?php echo base_url() . "artist/like_comment" ?>',
+                                url: base_url + "artistic/like_comment",
+                                //url: '<?php echo base_url() . "artistic/like_comment" ?>',
                                 data: 'post_id=' + clicked_id,
                                 success: function (data) {
 
@@ -313,8 +288,8 @@ function comment_like1(clicked_id)
 
                             $.ajax({
                                 type: 'POST',
-                                url: base_url + "artist/like_comment1",
-                                //url: '<?php echo base_url() . "artist/like_comment1" ?>',
+                                url: base_url + "artistic/like_comment1",
+                                //url: '<?php echo base_url() . "artistic/like_comment1" ?>',
                                 data: 'post_id=' + clicked_id,
                                 success: function (data) {
                                      if(data == 'notavl'){
@@ -338,8 +313,8 @@ function comment_like1(clicked_id)
                             //alert(post_delete.value);
                             $.ajax({
                                 type: 'POST',
-                                url: base_url + "artist/delete_comment",
-                                //url: '<?php echo base_url() . "artist/delete_comment" ?>',
+                                url: base_url + "artistic/delete_comment",
+                                //url: '<?php echo base_url() . "artistic/delete_comment" ?>',
                                 data: 'post_id=' + clicked_id + '&post_delete=' + post_delete.value,
                                 dataType: "json",
                                 success: function (data) {
@@ -368,8 +343,8 @@ function comment_like1(clicked_id)
                             var post_delete1 = document.getElementById("post_deletetwo");
                             $.ajax({
                                 type: 'POST',
-                                url: base_url + "artist/delete_commenttwo",
-                                //url: '<?php echo base_url() . "artist/delete_commenttwo" ?>',
+                                url: base_url + "artistic/delete_commenttwo",
+                                //url: '<?php echo base_url() . "artistic/delete_commenttwo" ?>',
                                 data: 'post_id=' + clicked_id + '&post_delete=' + post_delete1.value,
                                 dataType: "json",
                                 success: function (data) {
@@ -415,8 +390,8 @@ function comment_like1(clicked_id)
                             if (x.style.display === 'block' && y.style.display === 'none') {
                                 $.ajax({
                                     type: 'POST',
-                                    url: base_url + "artist/insert_commentthree",
-                                    //url: '<?php echo base_url() . "artist/insert_commentthree" ?>',
+                                    url: base_url + "artistic/insert_commentthree",
+                                    //url: '<?php echo base_url() . "artistic/insert_commentthree" ?>',
                                     data: 'post_id=' + clicked_id + '&comment=' + encodeURIComponent(txt),
                                     dataType: "json",
                                     success: function (data) {
@@ -440,8 +415,8 @@ function comment_like1(clicked_id)
 
                                 $.ajax({
                                     type: 'POST',
-                                    url: base_url + "artist/insert_comment",
-                                    //url: '<?php echo base_url() . "artist/insert_comment" ?>',
+                                    url: base_url + "artistic/insert_comment",
+                                    //url: '<?php echo base_url() . "artistic/insert_comment" ?>',
                                     data: 'post_id=' + clicked_id + '&comment=' + encodeURIComponent(txt),
                                     dataType: "json",
                                     success: function (data) {
@@ -504,8 +479,8 @@ function comment_like1(clicked_id)
                                     if (x.style.display === 'block' && y.style.display === 'none') {
                                         $.ajax({
                                             type: 'POST',
-                                            url: base_url + "artist/insert_commentthree",
-                                            //url: '<?php echo base_url() . "artist/insert_commentthree" ?>',
+                                            url: base_url + "artistic/insert_commentthree",
+                                            //url: '<?php echo base_url() . "artistic/insert_commentthree" ?>',
                                             data: 'post_id=' + clicked_id + '&comment=' + encodeURIComponent(txt),
                                             dataType: "json",
                                             success: function (data) { //alert(123); alert(data.commentcount);
@@ -526,8 +501,8 @@ function comment_like1(clicked_id)
                                     } else {
                                         $.ajax({
                                             type: 'POST',
-                                            url: base_url + "artist/insert_comment",
-                                            //url: '<?php echo base_url() . "artist/insert_comment" ?>',
+                                            url: base_url + "artistic/insert_comment",
+                                            //url: '<?php echo base_url() . "artistic/insert_comment" ?>',
                                             data: 'post_id=' + clicked_id + '&comment=' + encodeURIComponent(txt),
                                             dataType: "json",
                                             success: function (data) {
@@ -677,8 +652,8 @@ function comment_editbox(clicked_id) {
 
                             $.ajax({
                                 type: 'POST',
-                                url: base_url + "artist/edit_comment_insert",
-                                //url: '<?php echo base_url() . "artist/edit_comment_insert" ?>',
+                                url: base_url + "artistic/edit_comment_insert",
+                                //url: '<?php echo base_url() . "artistic/edit_comment_insert" ?>',
                                 data: 'post_id=' + abc + '&comment=' + encodeURIComponent(txt),
                                 success: function (data) {
                                     if(data == 'notavl'){
@@ -733,8 +708,8 @@ function comment_editbox(clicked_id) {
                                     }, 500);
                                     $.ajax({
                                         type: 'POST',
-                                        url: base_url + "artist/edit_comment_insert",
-                                       // url: '<?php echo base_url() . "artist/edit_comment_insert" ?>',
+                                        url: base_url + "artistic/edit_comment_insert",
+                                       // url: '<?php echo base_url() . "artistic/edit_comment_insert" ?>',
                                         data: 'post_id=' + abc + '&comment=' + encodeURIComponent(txt),
                                         success: function (data) {
 
@@ -785,8 +760,8 @@ function comment_editbox(clicked_id) {
 
                             $.ajax({
                                 type: 'POST',
-                                url: base_url + "artist/edit_comment_insert",
-                               // url: '<?php echo base_url() . "artist/edit_comment_insert" ?>',
+                                url: base_url + "artistic/edit_comment_insert",
+                               // url: '<?php echo base_url() . "artistic/edit_comment_insert" ?>',
                                 data: 'post_id=' + abc + '&comment=' + encodeURIComponent(txt),
                                 success: function (data) {
                                     if(data == 'notavl'){
@@ -843,8 +818,8 @@ function commentedittwo(abc)
 
                                     $.ajax({
                                         type: 'POST',
-                                        url: base_url + "artist/edit_comment_insert",
-                                        //url: '<?php echo base_url() . "artist/edit_comment_insert" ?>',
+                                        url: base_url + "artistic/edit_comment_insert",
+                                        //url: '<?php echo base_url() . "artistic/edit_comment_insert" ?>',
                                         data: 'post_id=' + abc + '&comment=' + encodeURIComponent(txt),
                                         success: function (data) {
 
@@ -883,8 +858,8 @@ function commentall(clicked_id) {
                                
                                 $.ajax({
                                     type: 'POST',
-                                    url: base_url + "artist/fourcomment",
-                                    //url: '<?php echo base_url() . "artist/fourcomment" ?>',
+                                    url: base_url + "artistic/fourcomment",
+                                    //url: '<?php echo base_url() . "artistic/fourcomment" ?>',
                                     data: 'art_post_id=' + clicked_id,
                                     //alert(data);
                                     success: function (data) {
@@ -997,8 +972,8 @@ function khdiv(abc) {
          
          $.ajax({
                type: 'POST',
-               url: base_url + "artist/edit_more_insert",
-               //url: '<?php echo base_url() . "artist/edit_more_insert" ?>',
+               url: base_url + "artistic/edit_more_insert",
+               //url: '<?php echo base_url() . "artistic/edit_more_insert" ?>',
                data: 'art_post_id=' + abc,
                dataType: "json",
                success: function (data) {
@@ -1056,8 +1031,8 @@ function khdiv(abc) {
        } else {
            $.ajax({
                type: 'POST',
-               url: base_url + "artist/edit_post_insert",
-               //url: '<?php echo base_url() . "artist/edit_post_insert" ?>',
+               url: base_url + "artistic/edit_post_insert",
+               //url: '<?php echo base_url() . "artistic/edit_post_insert" ?>',
                data: 'art_post_id=' + abc + '&art_post=' + editpostname.value + '&art_description=' + editpostdetails,
                dataType: "json",
                success: function (data) {
@@ -1087,8 +1062,8 @@ function khdiv(abc) {
 
                             $.ajax({
                                 type: 'POST',
-                                url: base_url + "artist/artistic_save",
-                                //url: '<?php echo base_url() . "artist/artistic_save" ?>',
+                                url: base_url + "artistic/artistic_save",
+                                //url: '<?php echo base_url() . "artistic/artistic_save" ?>',
                                 data: 'art_post_id=' + abc,
                                 success: function (data) {
 
@@ -1112,8 +1087,8 @@ function khdiv(abc) {
    
        $.ajax({
            type: 'POST',
-           url: base_url + "artist/art_delete_post",
-           //url: '<?php echo base_url() . "artist/art_delete_post" ?>',
+           url: base_url + "artistic/art_delete_post",
+           //url: '<?php echo base_url() . "artistic/art_delete_post" ?>',
            dataType: 'json',
            data: 'art_post_id=' + abc,
            //alert(data);
@@ -1144,8 +1119,8 @@ function del_particular_userpost(abc)
    {
        $.ajax({
            type: 'POST',
-           url: base_url + "artist/del_particular_userpost",
-           //url: '<?php echo base_url() . "artist/del_particular_userpost" ?>',
+           url: base_url + "artistic/del_particular_userpost",
+           //url: '<?php echo base_url() . "artistic/del_particular_userpost" ?>',
            dataType: 'json',
            data: 'art_post_id=' + abc,
            //alert(data);
@@ -1171,8 +1146,8 @@ function del_particular_userpost(abc)
 
                             $.ajax({
                                 type: 'POST',
-                                url: base_url + "artist/follow",
-                                //url: '<?php echo base_url() . "artist/follow" ?>',
+                                url: base_url + "artistic/follow",
+                                //url: '<?php echo base_url() . "artistic/follow" ?>',
                                 data: 'follow_to=' + clicked_id,
                                 success: function (data) {
 
@@ -1407,8 +1382,8 @@ function imgval(event) {
                                         if (x.style.display === 'block' && y.style.display === 'none') {
                                             $.ajax({
                                                 type: 'POST',
-                                                url: base_url + "artist/insert_commentthree",
-                                                //url: '<?php echo base_url() . "artist/insert_commentthree" ?>',
+                                                url: base_url + "artistic/insert_commentthree",
+                                                //url: '<?php echo base_url() . "artistic/insert_commentthree" ?>',
                                                 data: 'post_id=' + clicked_id + '&comment=' + encodeURIComponent(txt),
                                                 dataType: "json",
                                                 success: function (data) {
@@ -1424,8 +1399,8 @@ function imgval(event) {
 
                                             $.ajax({
                                                 type: 'POST',
-                                                url: base_url + "artist/insert_comment",
-                                                //url: '<?php echo base_url() . "artist/insert_comment" ?>',
+                                                url: base_url + "artistic/insert_comment",
+                                                //url: '<?php echo base_url() . "artistic/insert_comment" ?>',
                                                 data: 'post_id=' + clicked_id + '&comment=' + encodeURIComponent(txt),
                                                 // dataType: "json",
                                                 success: function (data) {
@@ -1453,8 +1428,8 @@ function likeuserlist(post_id) {
 
                             $.ajax({
                                 type: 'POST',
-                                url: base_url + "artist/likeuserlist",
-                               // url: '<?php echo base_url() . "artist/likeuserlist" ?>',
+                                url: base_url + "artistic/likeuserlist",
+                               // url: '<?php echo base_url() . "artistic/likeuserlist" ?>',
                                 data: 'post_id=' + post_id,
                                 dataType: "html",
                                 success: function (data) {
@@ -1496,6 +1471,31 @@ function check_length(my_form)
                             }
                         }
 
+$( document ).on( 'keydown', function ( e ) {
+    if ( e.keyCode === 27 ) {
+        //$( "#bidmodal" ).hide();
+        $('#likeusermodal').modal('hide');
+    }
+});  
+   
+$(document).on('keydown', function (e) { 
+    if (e.keyCode === 27) {
+        if($('.modal-post').show()){
+
+          $( document ).on( 'keydown', function ( e ) {
+          if ( e.keyCode === 27 ) {
+        //$( "#bidmodal" ).hide();
+       $('.modal-post').hide();
+        }
+       });  
+     
+
+        }
+         document.getElementById('myModal').style.display = "none";
+         }
+ });
+
+//all popup close close using esc end
 
  // pop up open & close aarati code start 
 jQuery(document).mouseup(function (e) {

@@ -14,11 +14,11 @@ $(document).on('keydown', function (e) {
 
 //CODE FOR RESPONES OF AJAX COME FROM CONTROLLER AND LAZY LOADER START
 $(document).ready(function () {
-    freelancerhire_project(user_id);
+    freelancerhire_project(user_id, returnpage);
     $(window).scroll(function () {
         //if ($(window).scrollTop() == $(document).height() - $(window).height()) {
-        // if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
-        if ($(window).scrollTop() >= ($(document).height() - $(window).height()) * 0.7) {
+       // if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
+        if ($(window).scrollTop() >= ($(document).height() - $(window).height())*0.7){
             var page = $(".page_number:last").val();
             var total_record = $(".total_record").val();
             var perpage_record = $(".perpage_record").val();
@@ -32,7 +32,7 @@ $(document).ready(function () {
                 //if ($(".page_number:last").val() <= $(".total_record").val()) {
                 if (parseInt(page) <= parseInt(available_page)) {
                     var pagenum = parseInt($(".page_number:last").val()) + 1;
-                    freelancerhire_project(user_id, pagenum);
+                    freelancerhire_project(user_id, returnpage, pagenum);
                 }
             }
         }
@@ -40,7 +40,7 @@ $(document).ready(function () {
 
 });
 var isProcessing = false;
-function freelancerhire_project(user_id, pagenum)
+function freelancerhire_project(user_id, returnpage, pagenum)
 {
     if (isProcessing) {
         /*
@@ -53,28 +53,23 @@ function freelancerhire_project(user_id, pagenum)
     isProcessing = true;
     $.ajax({
         type: 'POST',
-        url: base_url + "freelancer_hire/ajax_freelancer_hire_post/" + user_id + '?page=' + pagenum,
+        url: base_url + "freelancer/ajax_freelancer_hire_post/" + user_id + '/' + returnpage + '?page=' + pagenum,
         data: {total_record: $("#total_record").val()},
         dataType: "html",
         beforeSend: function () {
-            document.getElementById("loader").style.display = "block";
+            if (pagenum == 'undefined') {
+                $(".contact-frnd-post").prepend('<p style="text-align:center;"><img class="loader" src="' + base_url + 'images/loading.gif"/></p>');
+            } else {
+                $('#loader').show();
+            }
         },
         complete: function () {
-            document.getElementById("loader").style.display = "none";
+            $('#loader').hide();
         },
         success: function (data) {
-
-            $('.job-contact-frnd1').append(data);
+            $('.loader').remove();
+            $('.contact-frnd-post').append(data);
             // second header class add for scroll
-
-            //display border for no projects available start
-            var numItems = $('.job-contact-frnd1 .all-job-box').length;
-            // return false;
-            if (numItems == 0) {
-                $('.job-contact-frnd1').addClass('cust-border');
-            }
-            //display border for no projects available end
-
             var nb = $('.post-design-box').length;
             if (nb == 0) {
                 $("#dropdownclass").addClass("no-post-h2");
@@ -98,21 +93,19 @@ function divClicked() {
     editableText.focus();
     editableText.blur(editableTextBlurred);
 }
-function capitalize(s) {
-    return s[0].toUpperCase() + s.slice(1);
-}
+
 function editableTextBlurred() {
     //alert(789);
     var html = $(this).val();
     var viewableText = $("<a>");
     if (html.match(/^\s*$/) || html == '') {
-        html = "Designation";
+        html = "Current Work";
     }
-    viewableText.html(capitalize(html));
+    viewableText.html(html);
     $(this).replaceWith(viewableText);
     viewableText.click(divClicked);
     $.ajax({
-        url: base_url + "freelancer_hire/hire_designation",
+        url: base_url + "freelancer/hire_designation",
         type: "POST",
         data: {"designation": html},
         success: function (response) {
@@ -153,7 +146,7 @@ function save_post(abc)
 {
     $.ajax({
         type: 'POST',
-        url: base_url + "freelancer_hire/save_user",
+        url: base_url + "freelancer/save_user",
         data: 'post_id=' + abc,
         success: function (data) {
             $('.' + 'savedpost' + abc).html(data).addClass('saved');
@@ -162,31 +155,28 @@ function save_post(abc)
 }
 //CODE FOR SAVE POST END
 //CODE FOR REMOVE POST START
+function removepopup(id) {
+    $('.biderror .mes').html("<div class='pop_content'>Do you want to remove this project?<div class='model_ok_cancel'><a class='okbtn' id=" + id + " onClick='remove_post(" + id + ")' href='javascript:void(0);' data-dismiss='modal'>Yes</a><a class='cnclbtn' href='javascript:void(0);' data-dismiss='modal'>No</a></div></div>");
+    $('#bidmodal').modal('show');
+}
 function remove_post(abc)
-{ 
-  
+{
     $.ajax({
         type: 'POST',
-        url: base_url + "freelancer_hire/remove_post",
+        url: base_url + "freelancer/remove_post",
         data: 'post_id=' + abc,
-        success: function () {
-            $('#' + 'removeapply' + abc).remove();
-            var numItems = $('.job-contact-frnd1 .all-job-box').length;
+        success: function (data) {
+            $('#' + 'removeapply' + abc).html(data);
+            $('#' + 'removeapply' + abc).parent().removeClass();
+            var numItems = $('.contact-frnd-post .job-contact-frnd').length;
             if (numItems == '0') {
-                var nodataHtml = '<div class="art-img-nn"><div class="art_no_post_img"><img src="../assets/img/free-no1.png"></div><div class="art_no_post_text">No Project Found</div></div>';
-                $('.job-contact-frnd1').html(nodataHtml);
-                $('.job-contact-frnd1').addClass('cust-border');
+                var nodataHtml = '<div class="art-img-nn"><div class="art_no_post_img"><img src="../img/free-no1.png"></div><div class="art_no_post_text">No Project Found</div></div>';
+                $('.contact-frnd-post').html(nodataHtml);
             }
         }
     });
 
 }
-
-function removepopup(id) {
-    $('.biderror .mes').html("<div class='pop_content'>Do you want to remove this project?<div class='model_ok_cancel'><a class='okbtn' id=" + id + " onClick='remove_post(" + id + ")' href='javascript:void(0);' data-dismiss='modal'>Yes</a><a class='cnclbtn' href='javascript:void(0);' data-dismiss='modal'>No</a></div></div>");
-    $('#bidmodal').modal('show');
-}
-
 //CODE FOR REMOVE POST END
 //CODE FOR APPLY POST START
 function applypopup(postid, userid) {
@@ -200,19 +190,12 @@ function apply_post(abc, xyz) {
         type: 'POST',
         url: base_url + "freelancer/apply_insert",
         data: 'post_id=' + abc + '&allpost=' + alldata + '&userid=' + user,
-        datatype: 'json',
         success: function (data) {
             $('.savedpost' + abc).hide();
-            $('.applypost' + abc).html(data.status);
+            $('.applypost' + abc).html(data);
             $('.applypost' + abc).attr('disabled', 'disabled');
             $('.applypost' + abc).attr('onclick', 'myFunction()');
             $('.applypost' + abc).addClass('applied');
-
-            if (data.notification.notification_count != 0) {
-                var notification_count = data.notification.notification_count;
-                var to_id = data.notification.to_id;
-                show_header_notification(notification_count, to_id);
-            }
         }
     });
 }

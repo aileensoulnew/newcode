@@ -20,9 +20,7 @@ $(document).ready(function () {
        // if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
         if ($(window).scrollTop() >= ($(document).height() - $(window).height())*0.7){
             var page = $(".page_number:last").val();
-         
             var total_record = $(".total_record").val();
-            
             var perpage_record = $(".perpage_record").val();
             if (parseInt(perpage_record) <= parseInt(total_record)) {
                 var available_page = total_record / perpage_record;
@@ -56,12 +54,12 @@ function freelancerhire_save(pagenum)
     isProcessing = true;
     $.ajax({
         type: 'POST',
-        url: base_url + "freelancer_hire/ajax_freelancer_save?page=" + pagenum,
+        url: base_url + "freelancer/ajax_freelancer_save?page=" + pagenum,
         data: {total_record: $("#total_record").val()},
         dataType: "html",
         beforeSend: function () {
             if (pagenum == 'undefined') {
-                $(".contact-frnd-post").prepend('<p style="text-align:center;"><img class="loader" src="' + base_url + 'assets/images/loading.gif"/></p>');
+                $(".contact-frnd-post").prepend('<p style="text-align:center;"><img class="loader" src="' + base_url + 'images/loading.gif"/></p>');
             } else {
                 $('#loader').show();
             }
@@ -95,22 +93,20 @@ function divClicked() {
     // setup the blur event for this new textarea
     editableText.blur(editableTextBlurred);
 }
-function capitalize(s){
-    return s[0].toUpperCase() + s.slice(1);
-}
+
 function editableTextBlurred() {
     var html = $(this).val();
     var viewableText = $("<a>");
     if (html.match(/^\s*$/) || html == '') {
-        html = "Designation";
+        html = "Current Work";
     }
-    viewableText.html(capitalize(html));
+    viewableText.html(html);
     $(this).replaceWith(viewableText);
     // setup the click event for this new div
     viewableText.click(divClicked);
 
     $.ajax({
-        url: base_url + "freelancer_hire/hire_designation",
+        url: base_url + "freelancer/hire_designation",
         type: "POST",
         data: {"designation": html},
         success: function (response) {
@@ -147,14 +143,14 @@ function remove_user(abc)
 {
     $.ajax({
         type: 'POST',
-        url: base_url + "freelancer_hire/remove_save",
+        url: base_url + "freelancer/remove_save",
         data: 'save_id=' + abc,
         success: function (data) {
             $('#' + 'removeapply' + abc).html(data);
             $('#' + 'removeapply' + abc).parent().removeClass();
             var numItems = $('.contact-frnd-post .job-contact-frnd').length;
             if (numItems == '0') {
-                var nodataHtml = '<div class="art-img-nn"><div class="art_no_post_img"><img src="../assets/img/free-no1.png"></div><div class="art_no_post_text">No Saved Freelancer Found</div></div>';
+                var nodataHtml = '<div class="art-img-nn"><div class="art_no_post_img"><img src="../img/free-no1.png"></div><div class="art_no_post_text">No Saved Freelancer Found</div></div>';
                 $('.contact-frnd-post').html(nodataHtml);
             }
         }
@@ -178,7 +174,35 @@ $(document).ready(function () {
     $('html,body').animate({scrollTop: 265}, 100);
 });
 //FOR SCROLL PAGE AT PERTICULAR POSITION JS END
-
+//UOPLOAD PROFILE PIC START
+function profile_pic() {
+    if (typeof FormData !== 'undefined') {
+        // var fd = new FormData();
+        var formData = new FormData($("#userimage")[0]);
+//    fd.append("image", $("#profilepic")[0].files[0]);
+//         files = this.files;
+        $.ajax({
+            // url: "<?php echo base_url(); ?>freelancer/user_image_insert",
+            url: base_url + "freelancer/user_image_insert",
+            type: "POST",
+            data: formData,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function (data)
+            {
+                $('#bidmodal-2').modal('hide');
+                $(".user-pic").html(data);
+                document.getElementById('profilepic').value = null;
+                //document.getElementById('profilepic').value == '';
+                $('#preview').prop('src', '#');
+                $('.popup_previred').hide();
+            },
+        });
+        return false;
+    }
+}
+//UOPLOAD PROFILE PIC END
 
 
 

@@ -1,3 +1,4 @@
+
 $(function () {
 
 
@@ -23,19 +24,7 @@ $(function () {
         //startDate: today,
 
     });
-    $(".day").attr('tabindex', 13);
-    $(".day").attr('onChange', 'check_datevalidation();');
-    $(".month").attr('tabindex', 14);
-    $(".month").attr('onChange', 'check_datevalidation();');
-    $(".year").attr('tabindex', 15);
-    $(".year").attr('onChange', 'check_datevalidation();');
 
-});
-
-
-
-$("#post_name").blur(function(){
-   $( "#ui-id-6 " ).addClass( "autoposition" );
 });
 
 
@@ -102,8 +91,8 @@ $.validator.addMethod("greaterThan1",
                 return true;
             } else
             {
-                return parseInt(value) > parseInt($min.val());
-                //return (value) > ($min.val());
+                //return parseInt(value) > parseInt($min.val());
+                return (value) > ($min.val());
             }
         }, "Maximum experience must be greater than minimum experience.");
 
@@ -171,12 +160,12 @@ jQuery.validator.addMethod("isValid", function (value, element) {
     var todaydate_new = todaydate[1] + "/" + todaydate[0] + "/" + todaydate[2];
     var todaydate_new_one = new Date(todaydate_new).getTime();
 
-    if (lastdata_new_one > todaydate_new_one) {
-       // $('.day').addClass('error');
-        //$('.month').addClass('error');
-       // $('.year').addClass('error');
+    if (lastdata_new_one >= todaydate_new_one) {
+        $('.day').addClass('error');
+        $('.month').addClass('error');
+        $('.year').addClass('error');
         return true;
-    } else { 
+    } else {
         $('.day').addClass('error');
         $('.month').addClass('error');
         $('.year').addClass('error');
@@ -207,7 +196,7 @@ $.validator.addMethod("required1", function (value, element, regexpr) {
 }, "Last date of apply is required.");
 //   validation border is not show in last date end  
 //pattern validation at salary start//
-$.validator.addMethod("patternn", function (value, element, param) {
+$.validator.addMethod("pattern", function (value, element, param) {
     if (this.optional(element)) {
         return true;
     }
@@ -234,9 +223,7 @@ $(document).ready(function () {
             post_name: {
 
                 required: true,
-                regx: /^[-@./#&+,\w\s]*[a-zA-Z][a-zA-Z0-9]*/,
-//                minlength: 10,
-                maxlength: 100
+                regx: /^[-@./#&+,\w\s]*[a-zA-Z][a-zA-Z0-9]*/
 
             },
             skills: {
@@ -302,26 +289,26 @@ $(document).ready(function () {
 
             },
 
-            // last_date: {
+            last_date: {
 
-            //     required1: "Last date of apply is required.",
-            //     isValid: 'Last date should be grater than and equal to today date.'
+                required1: "Last date of apply is required.",
+                isValid: 'Last date should be grater than and equal to today date.'
 
-            // },
+            },
             minsal: {
-//                // required: true,
-//                //number:true,
-               maxlength: 11,
-                patternn: /^([0-9]\d*)(\\d+)?$/
-//
+                // required: true,
+                //number:true,
+                maxlength: 11,
+                pattern: /^([0-9]\d*)(\\d+)?$/
+
             },
             maxsal: {
                 // required: true,
-             //   number: true,
-                patternn: /^([0-9]\d*)(\\d+)?$/,
+                number: true,
                 min: 0,
                 greaterThan: "#minsal",
-                maxlength: 11
+                maxlength: 11,
+                pattern: /^([0-9]\d*)(\\d+)?$/
             },
 
         },
@@ -381,10 +368,10 @@ $(document).ready(function () {
 
             },
 
-            // last_date: {
+            last_date: {
 
-            //     required: "Last date for apply required."
-            // },
+                required: "Last date for apply required."
+            },
 
             maxsal: {
                 required: "Maximum salary is required.",
@@ -404,160 +391,57 @@ $(document).ready(function () {
 
 //alert(data);
 
-
-
-function check_datevalidation() {
-    var day = $('.day').val();
-    var month = $('.month').val();
-    var year = $('.year').val();
-    if (day == '' || month == '' || year == '') {
-        if (day == '') {
-            $('.day').addClass('error');
-        }
-        if (month == '') {
-            $('.month').addClass('error');
-        }
-        if (year == '') {
-            $('.year').addClass('error');
-        }
-        $('.date-dropdowns .last_date_error').remove();
-        $('.date-dropdowns').append('<label for="example2" class="error last_date_error">Last Date of apply is required.</label>');
-        return false;
-        //<label for="example2" class="error">Last Date of apply is required.</label>
-    } else {
-        var todaydate = new Date();
-        var dd = todaydate.getDate();
-        var mm = todaydate.getMonth() + 1; //January is 0!
-        var yyyy = todaydate.getFullYear();
-        if (mm <= 9) { mm = 0 + mm.toString(); }
-        var todaydate_in_str = yyyy.toString() + mm.toString() + dd.toString();
-
-
-        var selected_date_in_str = "" + year + month + day;
-
-        if (parseInt(todaydate_in_str) > parseInt(selected_date_in_str)) {
-            $('.day').addClass('error');
-            $('.month').addClass('error');
-            $('.year').addClass('error');
-
-            $('.date-dropdowns .last_date_error').remove();
-            $('.date-dropdowns').append('<label for="example2" class="error last_date_error">Last date should be grater than and equal to today date</label>');
-            return false;
-        } else {
-            $('.day').removeClass('error');
-            $('.month').removeClass('error');
-            $('.year').removeClass('error');
-            $('.date-dropdowns .last_date_error').remove();
-            return true;
-        }
-    }
-}
-
-
-
-$("form").submit(function () {
-
-    var day = $('.day').val();
-    var month = $('.month').val();
-    var year = $('.year').val();
-    if (day == '' || month == '' || year == '') {
-        if (day == '') {
-            $('.day').addClass('error');
-        }
-        if (month == '') {
-            $('.month').addClass('error');
-        }
-        if (year == '') {
-            $('.year').addClass('error');
-        }
-        $('.date-dropdowns .last_date_error').remove();
-        $('.date-dropdowns').append('<label for="example2" class="last_date_error error-other" style="display: block;">Last Date of apply is required.</label>');
-        return false;
-
-    } else {
-        var todaydate = new Date();
-        var dd = todaydate.getDate();
-        var mm = todaydate.getMonth() + 1; //January is 0!
-        var yyyy = todaydate.getFullYear();
-
-          if (mm <= 9) { mm = 0 + mm.toString(); }
-          
-        var todaydate_in_str = yyyy.toString() + mm.toString() + dd.toString();
-
-
-        var selected_date_in_str = "" + year + month + day;
-
-        if (parseInt(todaydate_in_str) > parseInt(selected_date_in_str)) {
-            $('.day').addClass('error');
-            $('.month').addClass('error');
-            $('.year').addClass('error');
-
-            $('.date-dropdowns .error').show();
-            $('.date-dropdowns').append('<label for="example2" class="error last_date_error error-other">Last date should be grater than and equal to today date</label>');
-            $('.date-dropdowns .last_date_error').removeAttr('style');
-            return false;
-        } else {
-            $('.day').removeClass('error');
-            $('.month').removeClass('error');
-            $('.year').removeClass('error');
-            $('.date-dropdowns .last_date_error').remove();
-            return true;
-        }
-    }
-
-});
-
 // EDUCATION AUTOCOMPLETE DATA START
 
-$(function () {
-    function split(val) {
-        return val.split(/,\s*/);
-    }
-    function extractLast(term) {
-        return split(term).pop();
-    }
-
-    $("#education").bind("keydown", function (event) {
-        if (event.keyCode === $.ui.keyCode.TAB &&
-                $(this).autocomplete("instance").menu.active) {
-            event.preventDefault();
-        }
-    })
-            .autocomplete({
-                minLength: 0,
-                source: function (request, response) {
-                    // delegate back to autocomplete, but extract the last term
-                    $.getJSON(base_url + "general/get_degree", {term: extractLast(request.term)}, response);
-                },
-                focus: function () {
-                    // prevent value inserted on focus
-                    return false;
-                },
-                select: function (event, ui) {
-
-                    var terms = split(this.value);
-                    if (terms.length <= 20) {
-                        // remove the current input
-                        terms.pop();
-                        // add the selected item
-                        terms.push(ui.item.value);
-                        // add placeholder to get the comma-and-space at the end
-                        terms.push("");
-                        this.value = terms.join(", ");
-                        return false;
-                    } else {
-                        var last = terms.pop();
-                        $(this).val(this.value.substr(0, this.value.length - last.length - 2)); // removes text from input
-                        $(this).effect("highlight", {}, 1000);
-                        $(this).attr("style", "border: solid 1px red;");
-                        return false;
-                    }
-                }
-
-
-
-            });
-});
+//$(function () {
+//    function split(val) {
+//        return val.split(/,\s*/);
+//    }
+//    function extractLast(term) {
+//        return split(term).pop();
+//    }
+//
+//    $("#education").bind("keydown", function (event) {
+//        if (event.keyCode === $.ui.keyCode.TAB &&
+//                $(this).autocomplete("instance").menu.active) {
+//            event.preventDefault();
+//        }
+//    })
+//            .autocomplete({
+//                minLength: 0,
+//                source: function (request, response) {
+//                    // delegate back to autocomplete, but extract the last term
+//                    $.getJSON(base_url + "general/get_degree", {term: extractLast(request.term)}, response);
+//                },
+//                focus: function () {
+//                    // prevent value inserted on focus
+//                    return false;
+//                },
+//                select: function (event, ui) {
+//
+//                    var terms = split(this.value);
+//                    if (terms.length <= 20) {
+//                        // remove the current input
+//                        terms.pop();
+//                        // add the selected item
+//                        terms.push(ui.item.value);
+//                        // add placeholder to get the comma-and-space at the end
+//                        terms.push("");
+//                        this.value = terms.join(", ");
+//                        return false;
+//                    } else {
+//                        var last = terms.pop();
+//                        $(this).val(this.value.substr(0, this.value.length - last.length - 2)); // removes text from input
+//                        $(this).effect("highlight", {}, 1000);
+//                        $(this).attr("style", "border: solid 1px red;");
+//                        return false;
+//                    }
+//                }
+//
+//
+//
+//            });
+//});
 
 // EDUCATION AUTOCOMPLETE DATA END
 
@@ -664,9 +548,8 @@ $(function () {
     $("#post_name").autocomplete({
         source: function (request, response) {
             var matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex(request.term), "i");
-            response($.grep(jobdata, function (item) { 
+            response($.grep(jobdata, function (item) {
                 return matcher.test(item.label);
-                $("#ui-id-1").addClass("autoposition");
             }));
         },
         minLength: 1,
@@ -703,8 +586,6 @@ $(function () {
                 source: function (request, response) {
                     // delegate back to autocomplete, but extract the last term
                     $.getJSON(base_url + "general/get_skill", {term: extractLast(request.term)}, response);
-                     $("#ui-id-7").addClass("autoposition");
-                     $("#ui-id-1").addClass("autoposition");
                 },
                 focus: function () {
                     // prevent value inserted on focus
@@ -885,9 +766,9 @@ var span = document.getElementsByClassName("close")[0];
 //    }
 
 // When the user clicks on <span> (x), close the modal
-//span.onclick = function () {
-//    modal.style.display = "none";
-//}
+span.onclick = function () {
+    modal.style.display = "none";
+}
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function (event) {
@@ -1015,106 +896,48 @@ $(document).ready(function () {
 //    });
 //});
 
-//OTHER INDUSTRY INSERT START
-$(document).on('change', '#industry', function (event) {
-   
-      var item=$(this);
-      var industry=(item.val());
-     
-      if(industry == 288)
-      {
-       
-            item.val('');
 
-             $('.biderror .mes').html('<h2>Add Industry</h2><input tabindex="1" type="text" name="other_indu" id="other_indu"><a id="indus" tabindex="2" class="btn">OK</a>');
-            $('#bidmodal').modal('show');
-           // $.fancybox.open('<div class="message" style="width:300px;"><h2>Add Industry</h2><input type="text" name="other_indu" id="other_indu"><a id="indus" class="btn">OK</a></div>');
-   
-             $('.message #indus').off('click').on('click', function () {
 
-                $("#other_indu").removeClass("keyskill_border_active");
-                $('#field_error').remove();
- var x = $.trim(document.getElementById("other_indu").value);
-            if (x == '') {
-                $("#other_indu").addClass("keyskill_border_active");
-                $('<span class="error" id="field_error" style="float: right;color: red; font-size: 11px;">Empty Field  is not valid</span>').insertAfter('#other_indu');
-                return false;
-            } else {
-      var $textbox = $('.message').find('input[type="text"]'),
-      textVal  = $textbox.val();
-      $.ajax({
-                          type: 'POST',
-                          url: base_url + 'recruiter/recruiter_other_industry',
-                          dataType: 'json',
-                          data: 'other_industry=' + textVal,
-                          success: function (response) {
-                      
-                               if(response == 0)
-                              {
-                                $("#other_indu").addClass("keyskill_border_active");
-                                $('<span class="error" id="field_error" style="float: right;color: red; font-size: 11px;">Written industry already available in industry Selection</span>').insertAfter('#other_indu');
-                              }
-                              else if(response == 1)
-                              {
-                               
-                                $("#other_indu").addClass("keyskill_border_active");
-                                $('<span class="error" id="field_error" style="float: right;color: red; font-size: 11px;">Empty industry  is not valid</span>').insertAfter('#other_indu');
-                              }  
-                              else
-                              {
-                                
-                                   //$.fancybox.close();
-                                   $('#bidmodal').modal('hide');
-                                   $('.industry1').html(response.select);
-                              }
-                          }
-                      });
-      }
-                  });
-      }
-     
-   });
-//OTHER INDUSTRY INSERT END
 
 //Click on University other option process Start 
-// $(document).on('change', '#industry', function (event) {
+$(document).on('change', '#industry', function (event) {
 
-//     //alert(111);
-//     var item = $(this);
-//     var industry = (item.val());
-//     if (industry == 288)
-//     {
-//         $.fancybox.open('<div class="message"><h2>Add Industry</h2><input type="text" name="other_indu" id="other_indu"><a id="indus" class="btn">OK</a></div>');
+    //alert(111);
+    var item = $(this);
+    var uni = (item.val());
+    if (uni == 288)
+    {
+        $.fancybox.open('<div class="message"><h2>Add Industry</h2><input type="text" name="other_indu" id="other_indu"><a id="indus" class="btn">OK</a></div>');
 
-//         $('.message #indus').on('click', function () {
-//             var $textbox = $('.message').find('input[type="text"]'),
-//                     textVal = $textbox.val();
-//             $.ajax({
-//                 type: 'POST',
-//                 url: base_url + "recruiter/recruiter_other_industry",
-//                 dataType: 'json',
-//                 data: 'other_industry=' + textVal,
-//                 success: function (response) {
+        $('.message #indus').on('click', function () {
+            var $textbox = $('.message').find('input[type="text"]'),
+                    textVal = $textbox.val();
+            $.ajax({
+                type: 'POST',
+                url: base_url + "recruiter/recruiter_other_industry",
+                dataType: 'json',
+                data: 'other_industry=' + textVal,
+                success: function (response) {
 
-//                     if (response.select == 0)
-//                     {
-//                         $.fancybox.open('<div class="message"><h2>Written industry already available in industry Selection</h2><button data-fancybox-close="" class="btn">OK</button></div>');
-//                     } else if (response.select == 1)
-//                     {
-//                         $.fancybox.open('<div class="message"><h2>Empty industry is not valid</h2><button data-fancybox-close="" class="btn">OK</button></div>');
-//                     } else
-//                     {
-//                         $.fancybox.close();
-//                         $('#industry').html(response.select1);
-//                         $('#industry').html(response.select);
-//                     }
-//                 }
-//             });
+                    if (response.select == 0)
+                    {
+                        $.fancybox.open('<div class="message"><h2>Written industry already available in industry Selection</h2><button data-fancybox-close="" class="btn">OK</button></div>');
+                    } else if (response.select == 1)
+                    {
+                        $.fancybox.open('<div class="message"><h2>Empty industry is not valid</h2><button data-fancybox-close="" class="btn">OK</button></div>');
+                    } else
+                    {
+                        $.fancybox.close();
+                        $('#industry').html(response.select1);
+                        $('#industry').html(response.select);
+                    }
+                }
+            });
 
-//         });
-//     }
+        });
+    }
 
-// });
+});
 
 function leave_page(clicked_id)
 {
@@ -1254,15 +1077,5 @@ $('.header ul li #abody ul li a').click(function () {
     }
 });
 
-//all popup close close using esc start 
-$(document).ready(function () {
- $( document ).on( 'keydown', function ( e ) {
-    if ( e.keyCode === 27 ) {
-        $('#bidmodal').modal('hide');
-        //$.fancybox.close();
-        $( "#dropdown-content_hover" ).hide();
-    }
-   });  
-});
-//all popup close close using esc end 
+
 

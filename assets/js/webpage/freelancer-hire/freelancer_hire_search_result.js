@@ -39,7 +39,7 @@ function freelancerhire_search(pagenum)
          **/
         return;
     }
-    // url = '<?php echo base_url() . "freelance-hire/search?page=" ?>'+clicked_id+"&skill="  + encodeURIComponent(searchkeyword) + "&place=" + searchplace;
+    // url = '<?php echo base_url() . "freelancer-hire/search?page=" ?>'+clicked_id+"&skill="  + encodeURIComponent(searchkeyword) + "&place=" + searchplace;
     isProcessing = true;
     
     $.ajax({
@@ -102,7 +102,7 @@ function save_user(abc)
     var saveid = document.getElementById("hideenuser" + abc);
     $.ajax({
         type: 'POST',
-        url:  base_url + "freelancer_hire/save_user1",
+        url:  base_url + "freelancer/save_user1",
         data: 'user_id=' + abc + '&save_id=' + saveid.value,
         success: function (data) {
             $('.' + 'saveduser' + abc).html(data).addClass('saved');

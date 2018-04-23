@@ -3,9 +3,6 @@ $(".alert").delay(3200).fadeOut(300);
 //FLASH MASSAGE SCRIPT END
 //CODE FOR PREELOADER START
 jQuery(document).ready(function ($) {
-
-    $('.ajax_load').hide();
-
                     // site preloader -- also uncomment the div in the header and the css style for #preloader
                     $(window).load(function () {
                         $('#preloader').fadeOut('slow', function () {
@@ -13,24 +10,23 @@ jQuery(document).ready(function ($) {
                         });
                     });
                 });
-
 //CODE FOR PREELOADER END
-////CHECK SEARCH KEYWORD AND LOCATION BLANK START
-// function checkvalue() {
-//                    var searchkeyword = $.trim(document.getElementById('tags').value);
-//                    var searchplace = $.trim(document.getElementById('searchplace').value);
-//                    if (searchkeyword == "" && searchplace == "") {
-//                        return  false;
-//                    }
-//                }
-//                function check() {
-//    var keyword = $.trim(document.getElementById('tags1').value);
-//    var place = $.trim(document.getElementById('searchplace1').value);
-//    if (keyword == "" && place == "") {
-//        return false;
-//    }
-//}
-////CHECK SEARCH KEYWORD AND LOCATION BLANK END
+//CHECK SEARCH KEYWORD AND LOCATION BLANK START
+ function checkvalue() {
+                    var searchkeyword = $.trim(document.getElementById('tags').value);
+                    var searchplace = $.trim(document.getElementById('searchplace').value);
+                    if (searchkeyword == "" && searchplace == "") {
+                        return  false;
+                    }
+                }
+                function check() {
+    var keyword = $.trim(document.getElementById('tags1').value);
+    var place = $.trim(document.getElementById('searchplace1').value);
+    if (keyword == "" && place == "") {
+        return false;
+    }
+}
+//CHECK SEARCH KEYWORD AND LOCATION BLANK END
 //COPY-PASTE CODE START
   var _onPaste_StripFormatting_IEPaste = false;
                 function OnPaste_StripFormatting(elem, e) {
@@ -69,17 +65,6 @@ jQuery(document).ready(function ($) {
                 }
 //DELETE PDF CODE END
  function portfolio_form_submit(event) {
-
-
-//    var form = $("#freelancer_post_portfolio");
-//    if(form.valid() == true ){
-//     //$('#profilereg_ajax_load').show();
-//     alert(123);
-//     document.getElementById('profilereg_ajax_load').style.display = 'inline-block';
-//     
-//    }
-
-
                     var image_hidden_portfolio = document.getElementById("image_hidden_portfolio").value;
                     var portfolio_attachment = document.getElementById("portfolio_attachment").value;
                     var free_post_step = document.getElementById("free_step").value;
@@ -98,46 +83,33 @@ jQuery(document).ready(function ($) {
 
 
                     if (foundPresentpdf == false) {
-                      
                         $(".portfolio_image").html("Please select only pdf file.");
                         event.preventDefault();
                         return false;
                     } else
                     {
-
-                         $('#profilereg_ajax_load').show();
-
-                         
                         var fd = new FormData();
                         fd.append("image", $("#portfolio_attachment")[0].files[0]);
                         files = this.files;
                         fd.append('portfolio', portfolio);
                         fd.append('image_hidden_portfolio', image_hidden_portfolio);
                         $.ajax({
-                            url:  base_url + prourl,
+                            url:  base_url + "freelancer/freelancer_post_portfolio_insert",
                             type: "POST",
                             data: fd,
                             processData: false,
                             contentType: false,
                             success: function (data) {
-                               
                                 if (free_post_step == 7) {
-                                   
-                                    window.location =  base_url + "freelance-work/freelancer-details";
+                                    window.location =  base_url + "freelancer-work/freelancer-details";
                                 } else {
-                                    if(postid != ''){
-                                        
-                                    window.location =  base_url + "freelance-work/home/live-post";
-                                    
-                                }else{
-                                    window.location =  base_url + "freelance-work/home";
-                                }
+                                    window.location =  base_url + "freelancer-work/home";
                                 }
                             }
                         });
 
                     }
-                  
+
                     event.preventDefault();
                     return false;
                 }

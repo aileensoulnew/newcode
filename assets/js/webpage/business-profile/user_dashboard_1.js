@@ -110,7 +110,7 @@ function business_dashboard_post(slug) {
         data: '',
         dataType: "html",
         beforeSend: function () {
-            $(".business-all-post").prepend('<p style="text-align:center;"><img class="loader" src="' + base_url + 'assets/images/loading.gif"/></p>');
+            $(".business-all-post").prepend('<p style="text-align:center;"><img class="loader" src="' + base_url + 'images/loading.gif"/></p>');
         },
         success: function (data) {
             $('.loader').remove();
@@ -134,7 +134,7 @@ function GetBusPhotos() {
         url: base_url + "business_userprofile/bus_user_photos",
         data: 'bus_slug=' + slug,
         beforeSend: function () {
-            $(".bus_photos").html('<p style="text-align:center;"><img class="loader" src="' + base_url + 'assets/images/loading.gif"/></p>');
+            $(".bus_photos").html('<p style="text-align:center;"><img class="loader" src="' + base_url + 'images/loading.gif"/></p>');
         },
         success: function (data) {
 //            alert(data);
@@ -150,7 +150,7 @@ function GetBusVideos() {
         url: base_url + "business_userprofile/bus_user_videos",
         data: 'bus_slug=' + slug,
         beforeSend: function () {
-            $(".bus_videos").html('<p style="text-align:center;"><img class="loader" src="' + base_url + 'assets/images/loading.gif"/></p>');
+            $(".bus_videos").html('<p style="text-align:center;"><img class="loader" src="' + base_url + 'images/loading.gif"/></p>');
         },
         success: function (data) {
             $('.loader').remove();
@@ -165,7 +165,7 @@ function GetBusAudios() {
         url: base_url + "business_userprofile/bus_user_audio",
         data: 'bus_slug=' + slug,
         beforeSend: function () {
-            $(".bus_audios").html('<p style="text-align:center;"><img class="loader" src="' + base_url + 'assets/images/loading.gif"/></p>');
+            $(".bus_audios").html('<p style="text-align:center;"><img class="loader" src="' + base_url + 'images/loading.gif"/></p>');
         },
         success: function (data) {
             $('.loader').remove();
@@ -180,7 +180,7 @@ function GetBusPdf() {
         url: base_url + "business_userprofile/bus_user_pdf",
         data: 'bus_slug=' + slug,
         beforeSend: function () {
-            $(".bus_pdf").html('<p style="text-align:center;"><img class="loader" src="' + base_url + 'assets/images/loading.gif"/></p>');
+            $(".bus_pdf").html('<p style="text-align:center;"><img class="loader" src="' + base_url + 'images/loading.gif"/></p>');
         },
         success: function (data) {
             $('.loader').remove();
@@ -1191,11 +1191,6 @@ function followuser_two(clicked_id)
         data: 'follow_to=' + clicked_id,
         success: function (data) {
             $('.' + 'fr' + clicked_id).html(data);
-            if (data.notification.notification_count != 0) {
-                var notification_count = data.notification.notification_count;
-                var to_id = data.notification.to_id;
-                show_header_notification(notification_count, to_id);
-            }
         }
     });
 }
@@ -1771,14 +1766,8 @@ function contact_person(clicked_id) {
         type: 'POST',
         url: base_url + "business_profile/contact_person",
         data: 'toid=' + clicked_id,
-        dataType: 'json',
         success: function (data) {
             $('#contact_per').html(data);
-            if (data.co_notification.co_notification_count != 0) {
-                var co_notification_count = data.co_notification.co_notification_count;
-                var co_to_id = data.co_notification.co_to_id;
-                show_contact_notification(co_notification_count, co_to_id);
-            }
         }
     });
 }

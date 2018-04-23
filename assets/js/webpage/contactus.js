@@ -183,21 +183,18 @@ $(document).ready(function () {
             },
             success: function (response)
             {
-                if (response == "ok") { 
-
-                    $('.biderror .mes').html("<div class='pop_content'>Thank you for being awesome user. We really appreciate the time you took to help us.</div>");
-                     $('#bidmodal').modal('show');
+                if (response == "ok") {
 
                     $("#contact_name").val('');
                     $("#contactlast_name").val('');
                     $("#contact_email").val('');
                     $("#contact_subject").val('');
                     $("#contact_message").val('');
-                    
+
+                    $.fancybox.open('<div class="alert alert-danger contactus"> <i class="fa fa-info-circle" aria-hidden="true"></i> &nbsp; ' + 'Your message send successfully' + ' !</div>');
                 } else {
 
-                    $('.biderror .mes').html("<div class='pop_content'>Your contact not send successfully.</div>");
-                     $('#bidmodal').modal('show');
+                    $.fancybox.open('<div class="alert alert-danger contactus"> <i class="fa fa-info-circle" aria-hidden="true"></i> &nbsp; ' + 'your conatct not send successfully' + ' !</div>');
                 }
             }
         });
@@ -205,9 +202,5 @@ $(document).ready(function () {
     }
 });
 
-$( document ).on( 'keydown', function ( e ) {
-                     if ( e.keyCode === 27 ) {
-                   $('#bidmodal').modal('hide');
-                  }
-               });  
+
 

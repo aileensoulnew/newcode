@@ -124,7 +124,7 @@ function business_search_post(pagenum) {
                         success: function (response)
                         {
                             if (response.data == "ok") {
-                                $("#btn1").html('<img src="' + base_url + 'assets/images/btn-ajax-loader.gif" /> &nbsp; Login');
+                                $("#btn1").html('<img src="' + base_url + 'images/btn-ajax-loader.gif" /> &nbsp; Login');
                                 if (response.is_bussiness == '1') {
                                     window.location = base_url + "search/ajax_business_user_login_search?page=" + pagenum + "&skills=" + keyword + "&searchplace=" + keyword1;
                                 }
@@ -168,7 +168,7 @@ function business_search_post(pagenum) {
                         email_reg: {
                             required: true,
                             email: true,
-//                            lowercase: /^[0-9a-z\s\r\n@!#\$\^%&*()+=_\-\[\]\\\';,\.\/\{\}\|\":<>\?]+$/,
+                            lowercase: /^[0-9a-z\s\r\n@!#\$\^%&*()+=_\-\[\]\\\';,\.\/\{\}\|\":<>\?]+$/,
                             remote: {
                                 url: base_url +'registration/check_email',
                                 type: "post",
@@ -320,7 +320,7 @@ function business_search_post(pagenum) {
                         success: function (response)
                         {
                             if (response == "ok") {
-                                $("#btn-register").html('<img src="' + base_url + 'assets/images/btn-ajax-loader.gif" /> &nbsp; Sign Up ...');
+                                $("#btn-register").html('<img src="<?php echo base_url() ?>images/btn-ajax-loader.gif" /> &nbsp; Sign Up ...');
 //                                window.location = "<?php echo base_url() ?>business-profile/dashboard/" + slug;
                                 window.location = "<?php echo base_url() ?>business-profile/";
                             } else {
@@ -353,47 +353,8 @@ function business_search_post(pagenum) {
                             required: "Email Address Is Required.",
                         }
                     },
-                     submitHandler: submitforgotForm
                 });
-function submitforgotForm()
- {
-
-    var email_login = $("#forgot_email").val();
-
-    var post_data = {
-        'forgot_email': email_login,
-//            csrf_token_name: csrf_hash
-    }
-    $.ajax({
-        type: 'POST',
-        url: base_url + 'profile/forgot_live',
-        data: post_data,
-        dataType: "json",
-        beforeSend: function ()
-        {
-            $("#error").fadeOut();
-//            $("#forgotbuton").html('Your credential has been send in your register email id');
-        },
-        success: function (response)
-        {
-            if (response.data == "success") {
-                //  alert("login");
-                $("#forgotbuton").html(response.message);
-                setTimeout(function () {
-                    $('#forgotPassword').modal('hide');
-                    $('#login').modal('show');
-                    $("#forgotbuton").html('');
-                    document.getElementById("forgot_email").value = "";
-                }, 5000); // milliseconds
-                //window.location = base_url + "job/home/live-post";
-            } else {
-                $("#forgotbuton").html(response.message);
-
-            }
-        }
-    });
-    return false;
-}            /* validation */
+                /* validation */
 
             });
         

@@ -5,6 +5,7 @@ function checkvalue() {
         return false;
     }
 }
+
 function check() {
     var keyword = $.trim(document.getElementById('tags1').value);
     var place = $.trim(document.getElementById('searchplace1').value);
@@ -12,10 +13,15 @@ function check() {
         return false;
     }
 }
+
 $(document).ready(function () {
     business_userlist();
+
     $(window).scroll(function () {
-        if ($(window).scrollTop() >= ($(document).height() - $(window).height()) * 0.7) {
+        //if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+//        if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
+        if ($(window).scrollTop() >= ($(document).height() - $(window).height())*0.7){
+
             var page = $(".page_number:last").val();
             var total_record = $(".total_record").val();
             var perpage_record = $(".perpage_record").val();
@@ -26,6 +32,7 @@ $(document).ready(function () {
                 if (mod_page > 0) {
                     available_page = available_page + 1;
                 }
+                //if ($(".page_number:last").val() <= $(".total_record").val()) {
                 if (parseInt(page) <= parseInt(available_page)) {
                     var pagenum = parseInt($(".page_number:last").val()) + 1;
                     business_userlist(pagenum);
@@ -37,6 +44,11 @@ $(document).ready(function () {
 var isProcessing = false;
 function business_userlist(pagenum) {
     if (isProcessing) {
+        /*
+         *This won't go past this condition while
+         *isProcessing is true.
+         *You could even display a message.
+         **/
         return;
     }
     isProcessing = true;
@@ -47,6 +59,7 @@ function business_userlist(pagenum) {
         dataType: "html",
         beforeSend: function () {
             if (pagenum == 'undefined') {
+                //  $(".contact-frnd-post").prepend('<p style="text-align:center;"><img class="loader" src="' + base_url + 'images/loading.gif"/></p>');
             } else {
                 $('#loader').show();
             }
@@ -57,6 +70,8 @@ function business_userlist(pagenum) {
         success: function (data) {
             $('.loader').remove();
             $('.contact-frnd-post').append(data);
+
+            // second header class add for scroll
             var nb = $('.post-design-box').length;
             if (nb == 0) {
                 $("#dropdownclass").addClass("no-post-h2");
@@ -67,9 +82,12 @@ function business_userlist(pagenum) {
         }
     });
 }
+
 $(document).ready(function () {
     $('html,body').animate({scrollTop: 330}, 500);
 });
+
+
 function followuser(clicked_id)
 {
     $.ajax({
@@ -79,28 +97,27 @@ function followuser(clicked_id)
         data: 'follow_to=' + clicked_id,
         success: function (data) {
             $('.' + 'fruser' + clicked_id).html(data.follow);
-            $('.left_box_following_count').html(data.count);
-            if (data.notification.notification_count != 0) {
-                var notification_count = data.notification.notification_count;
-                var to_id = data.notification.to_id;
-                show_header_notification(notification_count,to_id);
-            }
-
+            $('#countfollow').html(data.count);
         }
     });
 }
 
 function unfollowuser(clicked_id)
 {
+
     $.ajax({
         type: 'POST',
+        //url: '<?php echo base_url() . "business_profile/unfollow" ?>',
         url: base_url + "business_profile/unfollow",
+
         dataType: 'json',
+
         data: 'follow_to=' + clicked_id,
         success: function (data) {
+
             $('.' + 'fruser' + clicked_id).html(data.follow);
-            //$('#countfollow').html(data.count);
-            $('.left_box_following_count').html(data.count);
+            $('#countfollow').html(data.count);
+
         }
     });
 }

@@ -47,14 +47,12 @@ $(document).ready(function () {
           $.ajax({
            type: 'POST',
            url: base_url + 'blog/comment_insert',
-           data: 'blog_id=' +blog_id+ '&name=' +name+ '&email=' + email+ '&message=' + encodeURIComponent(message),         
+           data: 'blog_id=' +blog_id+ '&name=' +name+ '&email=' + email+ '&message=' + message,         
    
-           success: function (data) { 
-               if(data == 1) 
-               { 
-                $('.biderror .mes').html("<div class='pop_content'>Thank you for your valuable comment.</div>");
-                $('#bidmodal').modal('show');
-
+           success: function (data) {
+               if (data == 1) 
+               {
+                  $.fancybox.open('<div class="message"><h2>Thank you for your valuable feedback</h2></div>');
                   $('#name').val(''); 
                   $('#email').val(''); 
                   $('#message').val(''); 

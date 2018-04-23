@@ -126,23 +126,13 @@ $(document).ready(function () {
                     $("#feedback_subject").val('');
                     $("#feedback_message").val('');
 
-                    $('.biderror .mes').html("<div class='pop_content'>Dear Valuable User , You recently gave us some really helpful <br> comments about our service.we hope that this will help us<br> better. We really appreciate the time you took to <br> help us.thanks for being awesome User..!!</div>");
-                     $('#bidmodal').modal('show');
+                    $.fancybox.open('<div class="alert alert-danger feedback"> <i class="fa fa-info-circle" aria-hidden="true"></i> &nbsp; ' + 'Your feedback send successfully' + ' !</div>');
 
                 } else {
-
-                     $('.biderror .mes').html("<div class='pop_content'>Your feedback not send successfully.</div>");
-                     $('#bidmodal').modal('show');
+                    $.fancybox.open('<div class="alert alert-danger feedback"> <i class="fa fa-info-circle" aria-hidden="true"></i> &nbsp; ' + 'your feedback not send successfully' + ' !</div>');
                 }
             }
         });
         return false;
     }
 });
-
-
-$( document ).on( 'keydown', function ( e ) {
-                     if ( e.keyCode === 27 ) {
-                   $('#bidmodal').modal('hide');
-                  }
-               });  

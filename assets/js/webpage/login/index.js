@@ -34,7 +34,7 @@ $(document).ready(function () {
         }
         $.ajax({
             type: 'POST',
-            url: base_url + 'login/check_login',
+            url: base_url + 'registration/check_login',
             data: post_data,
             dataType: "json",
             beforeSend: function ()
@@ -46,7 +46,7 @@ $(document).ready(function () {
             {
                 if (response.data == "ok") {
                     $(".btn1").html('<img src= ' + base_url + 'images/btn-ajax-loader.gif" /> &nbsp; Login');
-                    window.location = base_url + "profiles/" + user_slug;
+                    window.location = base_url + "dashboard";
                 } else if (response.data == "password") {
                     $("#errorpass").html('<label for="email_login" class="error">Please enter a valid password.</label>');
                     document.getElementById("password_login").classList.add('error');
@@ -146,58 +146,23 @@ window.onclick = function (event) {
 }
 // forgot password script end 
 
-// $(document).ready(function () { 
-//     /* validation */
-//     $("#forgot_password").validate({
-//         rules: {
-//             forgot_email: {
-//                 required: true,
-//                 email: true,
-//             }
-//         },
-//         messages: {
-//             forgot_email: {
-//                 required: "Email Address Is Required.",
-//             }
-//         },
-
-//         submitHandler: submitforgotForm
-
-//     });
-
-// function submitforgotForm()
-// { alert("hii55");
-
-//     var email_login = $("#forgot_email").val();
-
-//     var post_data = {
-//         'forgot_email': email_login,
-//     }
-//     $.ajax({
-//         type: 'POST',
-//         url: base_url + 'profile/forgot_live',
-//         data: post_data,
-//         dataType: "json",
-//         beforeSend: function ()
-//         {
-//             $("#error").fadeOut();
-//         },
-//         success: function (response)
-//         { 
-//             if (response.data == "success") {
-//                 $("#forgotbuton").html(response.message);
-//                 setTimeout(function () {
-//                     $('#forgotPassword').modal('hide');
-//                 }, 5000); 
-//             } else {
-//                 $("#forgotbuton").html(response.message);
-//             }
-//         }
-//     });
-//     return false;
-// }            /* validation */
-
-// });
+$(document).ready(function () { 
+    /* validation */
+    $("#forgot_password").validate({
+        rules: {
+            forgot_email: {
+                required: true,
+                email: true,
+            }
+        },
+        messages: {
+            forgot_email: {
+                required: "Email Address Is Required.",
+            }
+        },
+    });
+    /* validation */
+});
 
 $(document).on('keydown', function (e) {
     if (e.keyCode === 27) {

@@ -19,7 +19,7 @@ $(document).ready(function () {
     $(window).scroll(function () {
         //if ($(window).scrollTop() == $(document).height() - $(window).height()) {
 //        if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
-        if ($(window).scrollTop() >= ($(document).height() - $(window).height()) * 0.7) {
+if ($(window).scrollTop() >= ($(document).height() - $(window).height())*0.7){
 
             var page = $(".page_number:last").val();
             var total_record = $(".total_record").val();
@@ -78,7 +78,6 @@ function business_contacts(slug, pagenum) {
                 $("#dropdownclass").removeClass("no-post-h2");
             }
             isProcessing = false;
-            check_no_contact_list();
         }
     });
 }
@@ -110,7 +109,8 @@ function business_contacts_header(slug, pagenum) {
         },
         success: function (data) {
             $('.loader').remove();
-            $('.contact-frnd-post').append(data);
+            $('.contact-frnd-post').html(data);
+
             // second header class add for scroll
             var nb = $('.post-design-box').length;
             if (nb == 0) {
@@ -132,17 +132,8 @@ function followuser_two(clicked_id)
         type: 'POST',
         url: base_url + "business_profile/follow_two",
         data: 'follow_to=' + clicked_id,
-        dataType: 'json',
         success: function (data) {
-            $('.' + 'fr' + clicked_id).html(data.follow_html);
-            $('#' + 'countfollow').html('(' + data.following_count + ')');
-            $('#' + 'countfollower').html('(' + data.follower_count + ')');
-            //$('.' + 'fr' + clicked_id).html(data);
-            if (data.notification.notification_count != 0) {
-                var notification_count = data.notification.notification_count;
-                var to_id = data.notification.to_id;
-                show_header_notification(notification_count, to_id);
-            }
+            $('.' + 'fr' + clicked_id).html(data);
         }
     });
 }
@@ -155,13 +146,8 @@ function unfollowuser_two(clicked_id)
         type: 'POST',
         url: base_url + "business_profile/unfollow_two",
         data: 'follow_to=' + clicked_id,
-        dataType: 'json',
         success: function (data) {
-            $('.' + 'fr' + clicked_id).html(data.unfollow_html);
-            $('#' + 'countfollow').html('(' + data.unfollowing_count + ')');
-            $('#' + 'countfollower').html('(' + data.unfollower_count + ')');
-            //$('.' + 'fr' + clicked_id).html(data);
-            check_no_contact_list();
+            $('.' + 'fr' + clicked_id).html(data);
         }
     });
 }
@@ -182,14 +168,8 @@ function contact_person_menu(clicked_id) {
         type: 'POST',
         url: base_url + "business_profile/contact_person_menu",
         data: 'toid=' + clicked_id,
-        dataType: 'json',
         success: function (data) {
-            $('#' + 'statuschange' + clicked_id).html(data.return_html);
-            if (data.co_notification.co_notification_count != 0) {
-                var co_notification_count = data.co_notification.co_notification_count;
-                var co_to_id = data.co_notification.co_to_id;
-                show_contact_notification(co_notification_count, co_to_id);
-            }
+            $('#' + 'statuschange' + clicked_id).html(data);
         }
     });
 }
@@ -203,11 +183,11 @@ function removecontactuser(clicked_id) {
         dataType: 'json',
         data: 'contact_id=' + clicked_id + '&showdata=' + showdata,
         success: function (data) {
-
-            $('#' + 'statuschange' + clicked_id).html(data.contactdata);
-            //$('#' + 'removecontact' + clicked_id).fadeOut(2000);
+            
+//          $('#' + 'statuschange' + clicked_id).html(data.contactdata);
+            $('#' + 'removecontact' + clicked_id).fadeOut(2000);
             if (data.notfound == 1) {
-                if (data.notcount == 0) {
+                if (data.notcount == 0) { 
                     $('.contact-frnd-post').html(data.nomsg);
                 } else {
                     $('#' + 'removecontact' + clicked_id).fadeOut(2000);
@@ -236,11 +216,17 @@ $(document).on('keydown', function (e) {
     }
 });
 
+
+
+
 function contact_person_query(clicked_id, status) {
+
+
     $.ajax({
         type: 'POST',
         //url: '<?php echo base_url() . "business_profile/contact_person_query" ?>',
         url: base_url + "business_profile/contact_person_query",
+
         data: 'toid=' + clicked_id + '&status=' + status,
         success: function (data) { //alert(data);
             // return data;
@@ -248,6 +234,12 @@ function contact_person_query(clicked_id, status) {
         }
     });
 }
+
+
+
+
+
+
 
 function contact_person_model(clicked_id, status, data) {
 
@@ -273,7 +265,13 @@ function contact_person_model(clicked_id, status, data) {
         $('#query').modal('show');
 
     }
+
+
+
 }
+
+
+
 
 function contact_person(clicked_id) {
 
@@ -283,24 +281,11 @@ function contact_person(clicked_id) {
         url: base_url + "business_profile/contact_person",
 
         data: 'toid=' + clicked_id,
-        dataType: 'json',
         success: function (data) {
             //   alert(data);
             $('#contact_per').html(data);
-            if (data.co_notification.co_notification_count != 0) {
-                var co_notification_count = data.co_notification.co_notification_count;
-                var co_to_id = data.co_notification.co_to_id;
-                show_contact_notification(co_notification_count, co_to_id);
-            }
 
         }
     });
 }
 
-function check_no_contact_list() {
-    //var numberPost = $('[id^="removepost"]').length;
-    var numberList = $('.job-contact-frnd').length;
-    if (numberList == 0) {
-        $('.contact-frnd-post').html(no_business_contact_html);
-    }
-}

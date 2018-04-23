@@ -1,4 +1,5 @@
 
+
 //VALIDATION FOR PROFILE PIC START
 //$(document).ready(function () {
 //    $("#userimage").validate({
@@ -52,8 +53,8 @@ $(document).ready(function () {
 
     $(window).scroll(function () {
         //if ($(window).scrollTop() == $(document).height() - $(window).height()) {
-        // if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
-        if ($(window).scrollTop() >= ($(document).height() - $(window).height()) * 0.7) {
+       // if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
+        if ($(window).scrollTop() >= ($(document).height() - $(window).height())*0.7){
             var page = $(".page_number:last").val();
             var total_record = $(".total_record").val();
             var perpage_record = $(".perpage_record").val();
@@ -94,24 +95,24 @@ function freelancerwork_applied(pagenum)
         data: {total_record: $("#total_record").val()},
         dataType: "html",
         beforeSend: function () {
-           document.getElementById("loader").style.display = "block";
+            if (pagenum == 'undefined') {
+                $(".contact-frnd-post").prepend('<p style="text-align:center;"><img class="loader" src="' + base_url + 'images/loading.gif"/></p>');
+            } else {
+                $('#loader').show();
+            }
         },
         complete: function () {
-           document.getElementById("loader").style.display = "none";
+            $('#loader').hide();
         },
         success: function (data) {
-            $('.job-contact-frnd1').append(data);
+            $('.loader').remove();
+            $('.contact-frnd-post').append(data);
             // second header class add for scroll
             var nb = $('.post-design-box').length;
             if (nb == 0) {
                 $("#dropdownclass").addClass("no-post-h2");
             } else {
                 $("#dropdownclass").removeClass("no-post-h2");
-            }
-            var numItems = $('.job-contact-frnd1 .all-job-box').length;
-            // return false;
-            if (numItems == 0) {
-                $('.job-contact-frnd1').addClass('cust-border');
             }
             isProcessing = false;
         }
@@ -129,16 +130,13 @@ function divClicked() {
     editableText.focus();
     editableText.blur(editableTextBlurred);
 }
-function capitalize(s) {
-    return s[0].toUpperCase() + s.slice(1);
-}
 function editableTextBlurred() {
     var html = $(this).val();
     var viewableText = $("<a>");
     if (html.match(/^\s*$/) || html == '') {
-        html = "Designation";
+        html = "Current Work";
     }
-    viewableText.html(capitalize(html));
+    viewableText.html(html);
     $(this).replaceWith(viewableText);
     // setup the click event for this new div
     viewableText.click(divClicked);
@@ -152,39 +150,24 @@ function editableTextBlurred() {
 }
 $(document).ready(function () {
     $("a.designation").click(divClicked);
-
 });
-
-//$(window).on('load', function () {
-//     var time = 400;
-//      setTimeout(function() { 
-//      var numItems = $('.job-contact-frnd1 .all-job-box').length;
-//     // return false;
-//      if(numItems == 0){
-//          $('.job-contact-frnd1').addClass('cust-border');
-//      }
-//      },time);
-//     
-// });
-
-
 //DESIGNATION END
-////CHECK SEARCH KEYWORD AND LOCATION BLANK START
-//function checkvalue() {
-//    var searchkeyword = $.trim(document.getElementById('tags').value);
-//    var searchplace = $.trim(document.getElementById('searchplace').value);
-//    if (searchkeyword == "" && searchplace == "") {
-//        return false;
-//    }
-//}
-//function check() {
-//    var keyword = $.trim(document.getElementById('tags1').value);
-//    var place = $.trim(document.getElementById('searchplace1').value);
-//    if (keyword == "" && place == "") {
-//        return false;
-//    }
-//}
-////CHECK SEARCH KEYWORD AND LOCATION BLANK END
+//CHECK SEARCH KEYWORD AND LOCATION BLANK START
+function checkvalue() {
+    var searchkeyword = $.trim(document.getElementById('tags').value);
+    var searchplace = $.trim(document.getElementById('searchplace').value);
+    if (searchkeyword == "" && searchplace == "") {
+        return false;
+    }
+}
+function check() {
+    var keyword = $.trim(document.getElementById('tags1').value);
+    var place = $.trim(document.getElementById('searchplace1').value);
+    if (keyword == "" && place == "") {
+        return false;
+    }
+}
+//CHECK SEARCH KEYWORD AND LOCATION BLANK END
 
 //function readURL(input) {
 //    if (input.files && input.files[0]) {
@@ -222,14 +205,14 @@ function remove_post(abc)
         url: base_url + "freelancer/freelancer_delete_apply",
         data: 'app_id=' + abc,
         success: function (data) {
-            $('#' + 'removeapply' + abc).html(data);
-            $('#' + 'removeapply' + abc).remove();
-            var numItems = $('.job-contact-frnd1 .all-job-box').length;
+            $('#' + 'removeapply' + abc).html(data).removeClass();
+            $('#' + 'removeapply' + abc).parent();
+            var numItems = $('.contact-frnd-post .job-contact-frnd').length;
             if (numItems == '0') {
-                var nodataHtml = '<div class="art-img-nn"><div class="art_no_post_img"><img src="../assets/img/free-no1.png"></div><div class="art_no_post_text">No Applied projects Found.</div></div>';
+               var nodataHtml = '<div class="art-img-nn"><div class="art_no_post_img"><img src="../img/free-no1.png"></div><div class="art_no_post_text">No Applied projects Found.</div></div>';
 
-                //  var nodataHtml = "<div class='text-center rio'><h4 class='page-heading  product-listing' style='border:0px;margin-bottom: 11px;'>No Saved Freelancer Found.</h4></div>";
-                $('.job-contact-frnd1').html(nodataHtml);
+              //  var nodataHtml = "<div class='text-center rio'><h4 class='page-heading  product-listing' style='border:0px;margin-bottom: 11px;'>No Saved Freelancer Found.</h4></div>";
+                $('.contact-frnd-post').html(nodataHtml);
             }
         }
     });

@@ -1,8 +1,5 @@
 //CODE FOR RESPONES OF AJAX COME FROM CONTROLLER AND LAZY LOADER START
 $(document).ready(function () {
-//    if(otherfiled){
-//      $('#otherfiled').modal('show');
-//    }
     freelancerhire_home();
 
     $(window).scroll(function () {
@@ -44,7 +41,7 @@ function freelancerhire_home(pagenum)
     isProcessing = true;
     $.ajax({
         type: 'POST',
-        url: base_url + "freelancer_hire/ajax_recommen_candidate?page=" + pagenum,
+        url: base_url + "freelancer/ajax_recommen_candidate?page=" + pagenum,
         data: {total_record:$("#total_record").val()},
         dataType: "html",
         beforeSend: function () {
@@ -96,7 +93,7 @@ function save_user(abc)
     var saveid = document.getElementById("hideenuser" + abc);
     $.ajax({
         type: 'POST',
-        url: base_url + "freelancer_hire/save_user1",
+        url: base_url + "freelancer/save_user1",
         data: 'user_id=' + abc + '&save_id=' + saveid.value,
         success: function (data) {
             $('.' + 'saveduser' + abc).html(data).addClass('saved');
@@ -127,4 +124,4 @@ $(document).ready(function () {
     }
 });
 //SCRIPT FOR NO POST ADD CLASS DESIGNER RELATED HEADER2 END            
-$(".alert").delay(3200).fadeOut(300);
+

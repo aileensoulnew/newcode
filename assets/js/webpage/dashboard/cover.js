@@ -108,8 +108,8 @@ function profile_pic(event){
 
 
                  beforeSend: function () {
-                        //$(".art_photos").html('<p style="text-align:center;"><img src = "<?php echo base_url('assets/images/loading.gif?ver='.time()) ?>" class = "loader" /></p>');
-                        $(".user_profile").html('<p style="text-align:center;"><img src = "'+ base_url + 'assets/images/loading.gif" class = "loader" /></p>');
+                        //$(".art_photos").html('<p style="text-align:center;"><img src = "<?php echo base_url('images/loading.gif?ver='.time()) ?>" class = "loader" /></p>');
+                        $(".user_profile").html('<p style="text-align:center;"><img src = "'+ base_url + 'images/loading.gif" class = "loader" /></p>');
                     },
                 success: function (data) { 
                   $('#bidmodal-2').modal('hide');
@@ -166,7 +166,7 @@ function showDiv() {
 
            $.ajax({
                             url: base_url + "dashboard/ajaxpro",
-                            //url: "<?php echo base_url() ?>artist/ajaxpro",
+                            //url: "<?php echo base_url() ?>artistic/ajaxpro",
                             type: "POST",
                             data: {"image": resp},
                             success: function (data) { 
@@ -208,15 +208,15 @@ function showDiv() {
         fd.append("image", $("#upload")[0].files[0]);
         files = this.files;
         size = files[0].size;
-        if (!files[0].name.match(/.(jpg|jpeg|png|gif)$/i)){ 
-            picpopup();
-            document.getElementById('row1').style.display = "none";
-            document.getElementById('row2').style.display = "block";
-            $("#upload").val('');
-            return false;
-        }
+if (!files[0].name.match(/.(jpg|jpeg|png|gif)$/i)){ 
+    picpopup();
+    document.getElementById('row1').style.display = "none";
+    document.getElementById('row2').style.display = "block";
+   $("#upload").val('');
+    return false;
+  }
 
-        if (size > 10485760)
+  if (size > 10485760)
         {
             alert("Allowed file size exceeded. (Max. 10 MB)")
             document.getElementById('row1').style.display = "none";
@@ -226,7 +226,7 @@ function showDiv() {
         $.ajax({
 
             url: base_url + "dashboard/image",
-            //url: "<?php echo base_url(); ?>artist/image",
+            //url: "<?php echo base_url(); ?>artistic/image",
             type: "POST",
             data: fd,
             processData: false,

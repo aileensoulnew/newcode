@@ -1,16 +1,5 @@
 
 $(document).ready(function () {
-
-     $('.ajax_load').hide();
-     
-     var name = [];
-    $("#basicinfo").find("select").each(function (i) {
-        name[i] = $(this).attr('id');
-        if ($(this).val() != '') {
-            $(this).addClass("color-black-custom");
-        }
-    });
-     
     $('#country').on('change', function () {
         var countryID = $(this).val();
         
@@ -21,8 +10,6 @@ $(document).ready(function () {
                 data: 'country_id=' + countryID,
                 success: function (html) {
                     $('#state').html(html);
-                    $('#state').removeClass("color-black-custom");
-                    $('#city').removeClass("color-black-custom");
                     $('#city').html('<option value="">Select state first</option>');
                 }
             });
@@ -40,32 +27,16 @@ $(document).ready(function () {
                 url: base_url + "job_profile/ajax_data",
                 data: 'state_id=' + stateID,
                 success: function (html) {
-                    
                     $('#city').html(html);
-                     $('#city').removeClass("color-black-custom");
                 }
             });
         } else {
-            
             $('#city').html('<option value="">Select state first</option>');
         }
     });
 });
 
 //validation for edit email formate form
-
-
-function reg_loader(){
-
-      var form = $("#basicinfo");
-    if(form.valid() == true ){
-
-     document.getElementById('profilereg_ajax_load').style.display = 'inline-block';
-        
-     //$('#profilereg_ajax_load').show();
-    }
-
-}
 
 jQuery.validator.addMethod("noSpace", function (value, element) {
     return value == '' || value.trim().length != 0;
@@ -178,7 +149,7 @@ $(document).ready(function () {
             },
 
         },
- 
+
     });
 });
 
@@ -186,15 +157,15 @@ $(document).ready(function () {
 
 $(".alert").delay(3200).fadeOut(300);
 
-//jQuery(document).ready(function ($) {
-//
-//// site preloader -- also uncomment the div in the header and the css style for #preloader
-//    $(window).load(function () {
-//        $('#preloader').fadeOut('slow', function () {
-//            $(this).remove();
-//        });
-//    });
-//});
+jQuery(document).ready(function ($) {
+
+// site preloader -- also uncomment the div in the header and the css style for #preloader
+    $(window).load(function () {
+        $('#preloader').fadeOut('slow', function () {
+            $(this).remove();
+        });
+    });
+});
 
 
 function comlogo(event) {
@@ -228,21 +199,18 @@ function comlogo(event) {
 //DELETE LOGO START
 function delete_logo(id, logo) {
 
-    $('.biderror .mes').html('<div class="message"><div class="pop_content">Are you sure you want to Remove this Logo?<div class="model_ok_cancel"><a class="okbtn" id="delete"  href="javascript:void(0);" data-dismiss="modal">Ok</a><a class="cnclbtn" href="javascript:void(0);" data-dismiss="modal">Cancel</a></div></div></div>');
-    $('#bidmodal').modal('show');
-    //$.fancybox.open('<div class="message"><h2>Are you sure you want to Remove this Logo?</h2><a id="delete" class="mesg_link btn" >OK</a><button data-fancybox-close="" class="btn">Cancel</button></div>');
+    $.fancybox.open('<div class="message"><h2>Are you sure you want to Remove this Logo?</h2><a id="delete" class="mesg_link btn" >OK</a><button data-fancybox-close="" class="btn">Cancel</button></div>');
 
     $('.message #delete').on('click', function () {
         $.ajax({
             type: 'POST',
-            url: base_url + "recruiter/delete_logo",
+            url: '<?php echo base_url() . "recruiter/delete_logo" ?>',
             data: 'id=' + id + '&logo=' + logo,
             success: function (data) {
 
                 if (data == 1)
                 {
-                    //$.fancybox.close();
-                    $('#bidmodal').modal('hide');
+                    $.fancybox.close();
                     $('#logo_remove a').remove();
                     $('#logo_remove img').remove();
                     $('#logo').remove();

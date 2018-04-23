@@ -36,34 +36,25 @@ function job_search(pagenum)
         return;
     }
     isProcessing = true;
-    
     $.ajax({
         type: 'POST',
          url: base_url + "job/ajax_job_search?page=" + pagenum + "&skill="  + encodeURIComponent(skill) + "&place=" + place,
-         //url: base_url + searchurl,
         data: {total_record:$("#total_record").val()},
         dataType: "html",
-        beforeSend: function () { 
+        beforeSend: function () {
             if (pagenum == 'undefined') {
-                $(".job-contact-frnd1").prepend('');
-            } else { 
+                $(".job-contact-frnd ").prepend('<p style="text-align:center;"><img class="loader" src="' + base_url + 'images/loading.gif"/></p>');
+            } else {
                 $('#loader').show();
             }
         },
         complete: function () {
             $('#loader').hide();
         },
-        success: function (data) { 
+        success: function (data) {
 
-            //$('.loader').remove();
-            $('.job-contact-frnd1').append(data);
-             //display border for no projects available start
-            var numItems = $('.job-contact-frnd1 .all-job-box').length;
-            // return false;
-            if (numItems == 0) {
-                // $('.job-contact-frnd1').addClass('cust-border');
-            }
-            //display border for no projects available end
+            $('.loader').remove();
+            $('.job-contact-frnd ').append(data);
             // second header class add for scroll
             var nb = $('.post-design-box').length;
             if (nb == 0) {
@@ -95,7 +86,7 @@ function job_search(pagenum)
 //Save Post Start
 function savepopup(id) {
        save_post(id);
-       $('.biderror .mes').html("<div class='pop_content'>Jobpost successfully saved.");
+       $('.biderror .mes').html("<div class='pop_content'>Your post is successfully saved.");
        $('#bidmodal').modal('show');
    }
 
@@ -115,7 +106,7 @@ function savepopup(id) {
 
 //Apply Post Start
 function applypopup(postid, userid) {
-       $('.biderror .mes').html("<div class='pop_content'>Are you sure want to apply this jobpost?<div class='model_ok_cancel'><a class='okbtn' id=" + postid + " onClick='apply_post(" + postid + "," + userid + ")' href='javascript:void(0);' data-dismiss='modal'>Yes</a><a class='cnclbtn' href='javascript:void(0);' data-dismiss='modal'>No</a></div></div>");
+       $('.biderror .mes').html("<div class='pop_content'>Are you sure want to apply this post?<div class='model_ok_cancel'><a class='okbtn' id=" + postid + " onClick='apply_post(" + postid + "," + userid + ")' href='javascript:void(0);' data-dismiss='modal'>Yes</a><a class='cnclbtn' href='javascript:void(0);' data-dismiss='modal'>No</a></div></div>");
        $('#bidmodal').modal('show');
    }
  function apply_post(abc, xyz) {
@@ -127,20 +118,12 @@ function applypopup(postid, userid) {
            type: 'POST',
            url: base_url +'job/job_apply_post',         
            data: 'post_id=' + abc + '&allpost=' + alldata + '&userid=' + user,
-           dataType: 'json',
            success: function (data) {
-             
                $('.savedpost' + abc).hide();
-               $('.applypost' + abc).html(data.status);
+               $('.applypost' + abc).html(data);
                $('.applypost' + abc).attr('disabled', 'disabled');
                $('.applypost' + abc).attr('onclick', 'myFunction()');
                $('.applypost' + abc).addClass('applied');
-               
-               if (data.notification.notification_count != 0) {
-                                                var notification_count = data.notification.notification_count;
-                                                var to_id = data.notification.to_id;
-                                                show_header_notification(notification_count, to_id);
-                                            }
            }
        });
    }

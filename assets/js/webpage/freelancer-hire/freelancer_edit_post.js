@@ -20,7 +20,6 @@ $(function () {
                 source: function (request, response) {
                     // delegate back to autocomplete, but extract the last term
                     $.getJSON(base_url + "general/get_skill", {term: extractLast(request.term)}, response);
-                    $("#ui-id-1").addClass("autoposition");
                 },
                 focus: function () {
                     // prevent value inserted on focus
@@ -37,7 +36,7 @@ $(function () {
                         this.value = terms.split(", ");
                     }//if end
                     else {
-                        if (terms.length <= 15) {
+                        if (terms.length <= 20) {
                             // remove the current input
                             terms.pop();
                             // add the selected item
@@ -180,16 +179,7 @@ $(document).ready(function () {
             },
             state: {
                 required: true,
-            },
-            rating:{
-                required: true,
-            },
-            // rate:{
-            //     required: true,
-            // },
-            // currency:{
-            //     required: true,
-            // }
+            }
 
         },
 
@@ -199,10 +189,10 @@ $(document).ready(function () {
                 required: "Project name is required.",
             },
             skills: {
-                required: "Skill is required.",
+                required: "Skill is required",
             },
             fields_req: {
-                required: "Please select field of requirement.",
+                required: "Please select field of requirement",
             },
 
             post_desc: {
@@ -213,20 +203,11 @@ $(document).ready(function () {
             },
 
             country: {
-                required: "Please select country."
+                required: "Please select country"
             },
             state: {
-                required: "Please select state."
-            },
-            rating:{
-                required: "Work type is required.",
-            },
-            // rate:{
-            //     required: "Rate is required.",
-            // },
-            // currency:{
-            //     required: "Currency is required.",
-            // }
+                required: "Please select state"
+            }
         }
     });
 });
@@ -235,11 +216,11 @@ $(document).ready(function () {
 $(document).ready(function () {
     $('#country').on('change', function () {
         var countryID = $(this).val();
-        //  alert(countryID);
+        alert(countryID);
         if (countryID) {
             $.ajax({
                 type: 'POST',
-                url: base_url + "freelancer_hire/ajax_dataforcity",
+                url: '<?php echo base_url() . "freelancer/ajax_dataforcity"; ?>',
                 data: 'country_id=' + countryID,
                 success: function (html) {
                     $('#state').html(html);
@@ -253,15 +234,13 @@ $(document).ready(function () {
     });
 
     $('#state').on('change', function () {
-
         var stateID = $(this).val();
         if (stateID) {
             $.ajax({
                 type: 'POST',
-                url: base_url + "freelancer_hire/ajax_dataforcity",
+                url: '<?php echo base_url() . "freelancer/ajax_dataforcity"; ?>',
                 data: 'state_id=' + stateID,
                 success: function (html) {
-
                     $('#city').html(html);
                 }
             });
@@ -272,78 +251,61 @@ $(document).ready(function () {
 });
 // CODE FOR COUNTRY,STATE, CITY CODE END
 
-
+////SELECT2 AUTOCOMPLETE START FOR SKILL
+//$('#skills').select2({
+//    placeholder: 'Find Your Skills',
+//    ajax: {
+//        url: base_url + "freelancer/keyskill",
+//        dataType: 'json',
+//        delay: 250,
+//        processResults: function (data) {
+//            return {
+//                results: data
+//            };
+//        },
+//        cache: true
+//    }
+//});
+////SELECT2 AUTOCOMPLETE FOR SKILL END
 
 // SCRIPT FOR ADD OTHER FIELD  START
 $(document).on('change', '.field_other', function (event) {
-    $("#other_field").removeClass("keyskill_border_active");
-    $('#field_error').remove();
+
     var item = $(this);
     var other_field = (item.val());
 
     if (other_field == 15) {
         item.val('');
-        $('#bidmodal2').modal('show');
-        //   $.fancybox.open('<div class="message"><h2>Add Field</h2><input type="text" name="other_field" id="other_field"><a id="field" class="btn">OK</a></div>');
-        $('.message #field').off('click').on('click', function () {
-            $("#other_field").removeClass("keyskill_border_active");
-            $('#field_error').remove();
-            var x = $.trim(document.getElementById("other_field").value);
-            if (x == '') {
-                $("#other_field").addClass("keyskill_border_active");
-                $('<span class="error" id="field_error" style="float: right;color: red; font-size: 11px;">Empty Field  is not valid</span>').insertAfter('#other_field');
-                return false;
-            } else {
-                var $textbox = $('.message').find('input[type="text"]'),
-                        textVal = $textbox.val();
-                $.ajax({
-                    type: 'POST',
-                    url: base_url + "freelancer_hire/freelancer_hire_other_field",
-                    dataType: 'json',
-                    data: 'other_field=' + textVal,
-                    success: function (response) {
+        $.fancybox.open('<div class="message"><h2>Add Field</h2><input type="text" name="other_field" id="other_field"><a id="field" class="btn">OK</a></div>');
+        $('.message #field').on('click', function () {
+            var $textbox = $('.message').find('input[type="text"]'),
+                    textVal = $textbox.val();
+            $.ajax({
+                type: 'POST',
+                url: base_url + "freelancer/freelancer_hire_other_field",
+                dataType: 'json',
+                data: 'other_field=' + textVal,
+                success: function (response) {
 
-                        if (response.select == 0)
-                        {
-//                        $.fancybox.open('<div class="message"><h2>Written field already available in Field Selection</h2><button data-fancybox-close="" class="btn">OK</button></div>');
-                            $("#other_field").addClass("keyskill_border_active");
-                            $('<span class="error" id="field_error" style="float: right;color: red; font-size: 11px;">Written field already available in Field Selection</span>').insertAfter('#other_field');
-                        } else if (response.select == 1)
-                        {
-                            $("#other_field").addClass("keyskill_border_active");
-                            $('<span class="error" id="field_error" style="float: right;color: red; font-size: 11px;">Empty Field  is not valid</span>').insertAfter('#other_field');
-//                        $.fancybox.open('<div class="message"><h2>Empty Field  is not valid</h2><button data-fancybox-close="" class="btn">OK</button></div>');
-                        } else
-                        {
-                            // $.fancybox.close();
-                            $('#bidmodal2').modal('hide');
-                            $('#other_field').val('');
-                            $("#other_field").removeClass("keyskill_border_active");
-                            $("#field_error").removeClass("error");
-                            var ss = document.querySelectorAll("label[for]");
-                            var i;
-                            for (i = 0; i < ss.length; i++) {
-                                var zz = ss[i].getAttribute('for');
-                                if (zz == 'fields_req') {
-                                    ss[i].remove();
-                                }
-                            }
-                            $("#fields_req").removeClass("error");
-                            $('.field_other').html(response.select);
-                        }
+                    if (response.select == 0)
+                    {
+                        $.fancybox.open('<div class="message"><h2>Written field already available in Field Selection</h2><button data-fancybox-close="" class="btn">OK</button></div>');
+                    } else if (response.select == 1)
+                    {
+                        $.fancybox.open('<div class="message"><h2>Empty Field  is not valid</h2><button data-fancybox-close="" class="btn">OK</button></div>');
+                    } else
+                    {
+                        $.fancybox.close();
+
+                        $('.field_other').html(response.select);
                     }
-                });
-            }
+                }
+            });
+
         });
     }
 
 });
-function remove_validation() {
-
-    $("#other_field").removeClass("keyskill_border_active");
-    $('#field_error').remove();
-
-}
 //SCRIPT FOR ADD OTHER FILED END
 //SCRIPT FOR DATE PICKER START
 $(function () {
@@ -367,25 +329,10 @@ $(function () {
         //startDate: today,
 
     });
-    $(".day").attr('tabindex', 8);
-    $(".month").attr('tabindex', 9);
-    $(".year").attr('tabindex', 10);
+    $(".day").attr('tabindex', 12);
+    $(".month").attr('tabindex', 13);
+    $(".year").attr('tabindex', 14);
 
 });
 //SCRIPT FOR DATE PIACKER END
 
-//CODE FOR DISABLE ARROW UP AND MOUSE SCROLLING FOR RATE START
-$('form').on('focus', 'input[type=number]', function (e) {
-    $(this).on('mousewheel.disableScroll', function (e) {
-        e.preventDefault()
-    })
-})
-$('form').on('blur', 'input[type=number]', function (e) {
-    $(this).off('mousewheel.disableScroll')
-})
-$('input').bind('keydown', function (e) {
-    if (e.keyCode == '38' || e.keyCode == '40') {
-        e.preventDefault();
-    }
-});
-//CODE FOR DISABLE ARROW UP AND MOUSE SCROLLING FOR RATE START

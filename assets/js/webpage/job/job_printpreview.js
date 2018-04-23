@@ -123,13 +123,6 @@ $( document ).ready(function() {
         evt.currentTarget.className += " active";
     }
 //Tabing In Education And Graduation End
-$('document').ready(function(){
-   $('.tabcontent1').hide(); 
-   $('.tabcontent1').first().show(); 
-});
- 
+
 
    $(".alert").delay(3200).fadeOut(300);
-   
-   
-   

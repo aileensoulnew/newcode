@@ -16,33 +16,24 @@ function check() {
 }
 // CHECK SEARCH KEYWORD AND LOCATION BLANK END
 
-//SHAORTLIST USER START
-function shortlistpopup(id) {
-    short_user(id);
-    $('.biderror .mes').html("<div class='pop_content'>Freelancer successfully Shortlisted.");
+//SAVE USER START
+function savepopup(id) {
+    save_user(id);
+    $('.biderror .mes').html("<div class='pop_content'>Freelancer successfully saved.");
     $('#bidmodal').modal('show');
 }
-function short_user(abc) {
-
-//    var saveid = document.getElementById("hideenuser" + abc);
-//    alert(saveid.value);
-    var postid = document.getElementById("hideenpostid");
+function save_user(abc) {
+    var saveid = document.getElementById("hideenuser" + abc);
     $.ajax({
         type: 'POST',
-        url:  base_url + "freelancer_hire/shortlist_user",
-        data: 'user_id=' + abc  + '&post_id=' + postid.value,
-        dataType: 'json',
+        url:  base_url + "freelancer/save_user1",
+        data: 'user_id=' + abc + '&save_id=' + saveid.value,
         success: function (data) {
-            $('.' + 'saveduser' + abc).html(data.status).addClass('saved');
-            if (data.notification.notification_count != 0) {
-                            var notification_count = data.notification.notification_count;
-                            var to_id = data.notification.to_id;
-                            show_header_notification(notification_count, to_id);
-                        }
+            $('.' + 'saveduser' + abc).html(data).addClass('saved');
         }
     });
 }
-//SHAORTLIST USER END
+//SAVE USER END
 
 //INVITE USER START
  // function inviteuserpopup(abc){

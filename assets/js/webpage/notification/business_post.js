@@ -1,67 +1,64 @@
-$(document).ready(function () {
-    ajax_business_home_post(post_id);
-});
-$('#file-1').on('click', function () {
-    var a = document.getElementById('test-upload-product').value;
-    var b = document.getElementById('test-upload-des').value;
-    document.getElementById("artpostform").reset();
-    document.getElementById('test-upload-product').value = a;
-    document.getElementById('test-upload-des').value = b;
-});
+$(function () {
+    $("#tags").autocomplete({
+        source: function (request, response) {
+            var matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex(request.term), "i");
+            response($.grep(data, function (item) {
+                return matcher.test(item.label);
+            }));
+        }
+        ,
+        minLength: 1,
+        select: function (event, ui) {
+            event.preventDefault();
+            $("#tags").val(ui.item.label);
+            $("#selected-tag").val(ui.item.label);
+            // window.location.href = ui.item.value;
+        }
+        ,
+        focus: function (event, ui) {
+            event.preventDefault();
+            $("#tags").val(ui.item.label);
+        }
+    });
+}
+);
+$(function () {
+    
+    $("#searchplace").autocomplete({
+        source: function (request, response) {
+            var matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex(request.term), "i");
+            response($.grep(data1, function (item) {
+                return matcher.test(item.label);
+            }));
+        }
+        ,
+        minLength: 1,
+        select: function (event, ui) {
+            event.preventDefault();
+            $("#searchplace").val(ui.item.label);
+            $("#selected-tag").val(ui.item.label);
+            // window.location.href = ui.item.value;
+        }
+        ,
+        focus: function (event, ui) {
+            event.preventDefault();
+            $("#searchplace").val(ui.item.label);
+        }
+    });
+}
+);
+$('#content').on('change keyup keydown paste cut', 'textarea', function () {
+    $(this).height(0).height(this.scrollHeight);
+}).find('textarea').change();
 
 function checkvalue() {
-    var searchkeyword = $.trim(document.getElementById('tags').value);
-    var searchplace = $.trim(document.getElementById('searchplace').value);
+    var searchkeyword = document.getElementById('tags').value;
+    var searchplace = document.getElementById('searchplace').value;
     if (searchkeyword == "" && searchplace == "") {
         return false;
     }
 }
 
-function check() {
-    var keyword = $.trim(document.getElementById('tags1').value);
-    var place = $.trim(document.getElementById('searchplace1').value);
-    if (keyword == "" && place == "") {
-        return false;
-    }
-}
-
-var isProcessing = false;
-function ajax_business_home_post(post_id) {
-    if (isProcessing) {
-        return;
-    }
-    isProcessing = true;
-    $.ajax({
-        type: 'POST',
-        //url: base_url + "notification/ajax_business_home_post?post_id=" + post_id,
-        url: base_url + "notification/ajax_business_home_post/" + post_id,
-        data: {total_record: $("#total_record").val()},
-        dataType: "html",
-        beforeSend: function () {  
-        },
-        complete: function () {
-        },
-        success: function (data) { 
-            $('.business-all-post').append(data);
-            var nb = $('.post-design-box').length;
-            if (nb == 0) {
-                $("#dropdownclass").addClass("no-post-h2");
-            } else {
-                $("#dropdownclass").removeClass("no-post-h2");
-            }
-            isProcessing = false;
-           // check_no_post_data();
-            $('video, audio').mediaelementplayer();
-        }
-    });
-}
-
-$('#content').on('change keyup keydown paste cut', 'textarea', function () {
-    $(this).height(0).height(this.scrollHeight);
-}).find('textarea').change();
-
-
-/* POST LIKE SCRIPT START */
 function post_like(clicked_id)
 {
     $.ajax({
@@ -74,7 +71,7 @@ function post_like(clicked_id)
             $('.likeusername' + clicked_id).html(data.likeuser);
             $('.comment_like_count' + clicked_id).html(data.like_user_count);
             $('.likeduserlist' + clicked_id).hide();
-            if (data.like_user_total_count == '0') {
+            if (data.like_user_count == '0') {
                 document.getElementById('likeusername' + clicked_id).style.display = "none";
             } else {
                 document.getElementById('likeusername' + clicked_id).style.display = "block";
@@ -83,23 +80,16 @@ function post_like(clicked_id)
         }
     });
 }
-/* POST LIKE SCRIPT END */
-
-/* COMMENT INSERT SCRIPT START */
-
 function insert_comment(clicked_id)
 {
     $("#post_comment" + clicked_id).click(function () {
         $(this).prop("contentEditable", true);
         $(this).html("");
     });
-
     var sel = $("#post_comment" + clicked_id);
     var txt = sel.html();
     txt = txt.replace(/&nbsp;/gi, " ");
     txt = txt.replace(/<br>$/, '');
-    txt = txt.replace(/&gt;/gi, ">");
-    txt = txt.replace(/div/gi, "p");
     if (txt == '' || txt == '<br>') {
         return false;
     }
@@ -109,10 +99,8 @@ function insert_comment(clicked_id)
     }
     txt = txt.replace(/&/g, "%26");
     $('#post_comment' + clicked_id).html("");
-
     var x = document.getElementById('threecomment' + clicked_id);
     var y = document.getElementById('fourcomment' + clicked_id);
-
     if (x.style.display === 'block' && y.style.display === 'none') {
         $.ajax({
             type: 'POST',
@@ -143,25 +131,19 @@ function insert_comment(clicked_id)
         });
     }
 }
-
-/* COMMENT INSERT SCRIPT END */
-
-/* INSERT COMMENT USING ENTER START */
+// insert comment using enter 
 function entercomment(clicked_id)
 {
     $("#post_comment" + clicked_id).click(function () {
         $(this).prop("contentEditable", true);
     });
     $('#post_comment' + clicked_id).keypress(function (e) {
-
         if (e.keyCode == 13 && !e.shiftKey) {
             e.preventDefault();
             var sel = $("#post_comment" + clicked_id);
             var txt = sel.html();
             txt = txt.replace(/&nbsp;/gi, " ");
             txt = txt.replace(/<br>$/, '');
-            txt = txt.replace(/&gt;/gi, ">");
-            txt = txt.replace(/div/gi, "p");
             if (txt == '' || txt == '<br>') {
                 return false;
             }
@@ -171,18 +153,16 @@ function entercomment(clicked_id)
             }
             txt = txt.replace(/&/g, "%26");
             $('#post_comment' + clicked_id).html("");
-
             if (window.preventDuplicateKeyPresses)
                 return;
-
             window.preventDuplicateKeyPresses = true;
             window.setTimeout(function () {
                 window.preventDuplicateKeyPresses = false;
             }, 500);
+            // khyati chnages  start
 
             var x = document.getElementById('threecomment' + clicked_id);
             var y = document.getElementById('fourcomment' + clicked_id);
-
             if (x.style.display === 'block' && y.style.display === 'none') {
                 $.ajax({
                     type: 'POST',
@@ -212,22 +192,22 @@ function entercomment(clicked_id)
                     }
                 });
             }
+// khyati chnages end
         }
     });
     $(".scroll").click(function (event) {
         event.preventDefault();
         $('html,body').animate({scrollTop: $(this.hash).offset().top}, 1200);
     });
-
 }
-/* INSERT COMMENT USING ENTER END */
 
-/* HIDE AND SHOW DATA START */
+//comment insert script end 
+// hide and show data start
+
 function commentall(clicked_id) {
     var x = document.getElementById('threecomment' + clicked_id);
     var y = document.getElementById('fourcomment' + clicked_id);
     var z = document.getElementById('insertcount' + clicked_id);
-
     $('.post-design-commnet-box').show();
     if (x.style.display === 'block' && y.style.display === 'none') {
         x.style.display = 'none';
@@ -237,72 +217,43 @@ function commentall(clicked_id) {
             type: 'POST',
             url: base_url + "business_profile/fourcomment",
             data: 'bus_post_id=' + clicked_id,
-            //alert(data);
             success: function (data) {
                 $('#' + 'fourcomment' + clicked_id).html(data);
             }
         });
     }
 }
-/* HIDE AND SHOW DATA END */
 
-/* COMMENT LIKE SCRIPT START */
+// hide and show data end
+// comment like script start 
+
 function comment_like(clicked_id)
 {
     $.ajax({
         type: 'POST',
-        url: base_url + "business_profile/check_post_comment_available",
+        url: base_url + "business_profile/like_comment",
         data: 'post_id=' + clicked_id,
         success: function (data) {
-            if (data == 1) {
-                $.ajax({
-                    type: 'POST',
-                    url: base_url + "business_profile/like_comment",
-                    data: 'post_id=' + clicked_id,
-                    success: function (data) {
-                        $('#' + 'likecomment' + clicked_id).html(data);
-                    }
-                });
-            } else {
-                $('.mes').html('Sorry this content is now not available');
-                $('#bidmodal').modal('show');
-            }
+            $('#' + 'likecomment' + clicked_id).html(data);
         }
     });
 }
+
 
 function comment_like1(clicked_id)
 {
     $.ajax({
         type: 'POST',
-        url: base_url + "business_profile/check_post_comment_available",
+        url: base_url + "business_profile/like_comment1",
         data: 'post_id=' + clicked_id,
-        success: function (data1) {
-            if (data1 == 1) {
-                $.ajax({
-                    type: 'POST',
-                    url: base_url + "business_profile/like_comment1",
-                    data: 'post_id=' + clicked_id,
-                    dataType: 'json',
-                    success: function (data) {
-                        $('#' + 'likecomment1' + clicked_id).html(data.comment_html);
-                        if (data.notification.notification_count != 0) {
-                            var notification_count = data.notification.notification_count;
-                            var to_id = data.notification.to_id;
-                            show_header_notification(notification_count, to_id);
-                        }
-                    }
-                });
-            } else {
-                $('.mes').html('Sorry this content is now not available');
-                $('#bidmodal').modal('show');
-            }
+        success: function (data) {
+            $('#' + 'likecomment1' + clicked_id).html(data);
         }
     });
 }
-/* COMMENT LIKE SCRIPT END */
 
-/* COMMENT DELETE SCRIPT START */
+//comment like script end 
+
 function comment_delete(clicked_id) {
     $('.biderror .mes').html("<div class='pop_content'>Do you want to delete this comment?<div class='model_ok_cancel'><a class='okbtn' id=" + clicked_id + " onClick='comment_deleted(" + clicked_id + ")' href='javascript:void(0);' data-dismiss='modal'>Yes</a><a class='cnclbtn' href='javascript:void(0);' data-dismiss='modal'>No</a></div></div>");
     $('#bidmodal').modal('show');
@@ -326,6 +277,7 @@ function comment_deleted(clicked_id)
 
 function comment_deletetwo(clicked_id)
 {
+
     $('.biderror .mes').html("<div class='pop_content'>Do you want to delete this comment?<div class='model_ok_cancel'><a class='okbtn' id=" + clicked_id + " onClick='comment_deletedtwo(" + clicked_id + ")' href='javascript:void(0);' data-dismiss='modal'>Yes</a><a class='cnclbtn' href='javascript:void(0);' data-dismiss='modal'>No</a></div></div>");
     $('#bidmodal').modal('show');
 }
@@ -345,16 +297,16 @@ function comment_deletedtwo(clicked_id)
         }
     });
 }
-/* COMMENT DELETE SCRIPT END */
 
-/* COMMENT EDIT BOX START */
+//comment delete script end 
+// comment edit box start
+
 function comment_editbox(clicked_id) {
     document.getElementById('editcomment' + clicked_id).style.display = 'inline-block';
     document.getElementById('showcomment' + clicked_id).style.display = 'none';
     document.getElementById('editsubmit' + clicked_id).style.display = 'inline-block';
     document.getElementById('editcommentbox' + clicked_id).style.display = 'none';
     document.getElementById('editcancle' + clicked_id).style.display = 'block';
-
     $('.post-design-commnet-box').hide();
 }
 function comment_editcancle(clicked_id) {
@@ -363,7 +315,6 @@ function comment_editcancle(clicked_id) {
     document.getElementById('editcomment' + clicked_id).style.display = 'none';
     document.getElementById('showcomment' + clicked_id).style.display = 'block';
     document.getElementById('editsubmit' + clicked_id).style.display = 'none';
-
     $('.post-design-commnet-box').show();
 }
 function comment_editboxtwo(clicked_id) {
@@ -373,13 +324,11 @@ function comment_editboxtwo(clicked_id) {
     $('button[id^=editsubmittwo]').css('display', 'none');
     $('div[id^=editcommentboxtwo]').css('display', 'block');
     $('div[id^=editcancletwo]').css('display', 'none');
-
     document.getElementById('editcommenttwo' + clicked_id).style.display = 'inline-block';
     document.getElementById('showcommenttwo' + clicked_id).style.display = 'none';
     document.getElementById('editsubmittwo' + clicked_id).style.display = 'inline-block';
     document.getElementById('editcommentboxtwo' + clicked_id).style.display = 'none';
     document.getElementById('editcancletwo' + clicked_id).style.display = 'block';
-
     $('.post-design-commnet-box').hide();
 }
 function comment_editcancletwo(clicked_id) {
@@ -388,7 +337,6 @@ function comment_editcancletwo(clicked_id) {
     document.getElementById('editcommenttwo' + clicked_id).style.display = 'none';
     document.getElementById('showcommenttwo' + clicked_id).style.display = 'block';
     document.getElementById('editsubmittwo' + clicked_id).style.display = 'none';
-
     $('.post-design-commnet-box').show();
 }
 
@@ -398,17 +346,16 @@ function comment_editbox3(clicked_id) {
     document.getElementById('editsubmit3' + clicked_id).style.display = 'block';
     document.getElementById('editcommentbox3' + clicked_id).style.display = 'none';
     document.getElementById('editcancle3' + clicked_id).style.display = 'block';
-
     $('.post-design-commnet-box').hide();
 }
 
 function comment_editcancle3(clicked_id) {
+
     document.getElementById('editcommentbox3' + clicked_id).style.display = 'block';
     document.getElementById('editcancle3' + clicked_id).style.display = 'none';
     document.getElementById('editcomment3' + clicked_id).style.display = 'none';
     document.getElementById('showcomment3' + clicked_id).style.display = 'block';
     document.getElementById('editsubmit3' + clicked_id).style.display = 'none';
-
     $('.post-design-commnet-box').show();
 }
 
@@ -418,33 +365,31 @@ function comment_editbox4(clicked_id) {
     document.getElementById('editsubmit4' + clicked_id).style.display = 'block';
     document.getElementById('editcommentbox4' + clicked_id).style.display = 'none';
     document.getElementById('editcancle4' + clicked_id).style.display = 'block';
-
     $('.post-design-commnet-box').hide();
 }
+
 function comment_editcancle4(clicked_id) {
+
     document.getElementById('editcommentbox4' + clicked_id).style.display = 'block';
     document.getElementById('editcancle4' + clicked_id).style.display = 'none';
     document.getElementById('editcomment4' + clicked_id).style.display = 'none';
     document.getElementById('showcomment4' + clicked_id).style.display = 'block';
     document.getElementById('editsubmit4' + clicked_id).style.display = 'none';
-
     $('.post-design-commnet-box').show();
 }
-/* COMMENT EDIT BOX END */
 
-/* COMMENT EDIT INSERT START */
+//comment edit box end
+// comment edit insert start 
+
 function edit_comment(abc)
 {
     $("#editcomment" + abc).click(function () {
         $(this).prop("contentEditable", true);
     });
-
     var sel = $("#editcomment" + abc);
     var txt = sel.html();
     txt = txt.replace(/&nbsp;/gi, " ");
     txt = txt.replace(/<br>$/, '');
-    txt = txt.replace(/&gt;/gi, ">");
-    txt = txt.replace(/div/gi, "p");
     if (txt == '' || txt == '<br>') {
         return false;
     }
@@ -457,14 +402,12 @@ function edit_comment(abc)
         type: 'POST',
         url: base_url + "business_profile/edit_comment_insert",
         data: 'post_id=' + abc + '&comment=' + encodeURIComponent(txt),
-        success: function (data) { //alert('falguni');
-
+        success: function (data) {
             document.getElementById('editcomment' + abc).style.display = 'none';
             document.getElementById('showcomment' + abc).style.display = 'block';
             document.getElementById('editsubmit' + abc).style.display = 'none';
             document.getElementById('editcommentbox' + abc).style.display = 'block';
             document.getElementById('editcancle' + abc).style.display = 'none';
-
             $('#' + 'showcomment' + abc).html(data);
             $('.post-design-commnet-box').show();
         }
@@ -474,23 +417,52 @@ function edit_comment(abc)
         $('html,body').animate({scrollTop: $(this.hash).offset().top}, 1200);
     });
 }
-
 function commentedit(abc)
 {
+    $("#editcomment" + abc).click(function () {
+        $(this).prop("contentEditable", true);
+    });
     $('#editcomment' + abc).keypress(function (event) {
         if (event.which == 13 && event.shiftKey != 1) {
             event.preventDefault();
-            
+            var sel = $("#editcomment" + abc);
+            var txt = sel.html();
+            txt = txt.replace(/&nbsp;/gi, " ");
+            txt = txt.replace(/<br>$/, '');
+            if (txt == '' || txt == '<br>') {
+                return false;
+            }
+            if (/^\s+$/gi.test(txt))
+            {
+                return false;
+            }
+            txt = txt.replace(/&/g, "%26");
             if (window.preventDuplicateKeyPresses)
                 return;
             window.preventDuplicateKeyPresses = true;
             window.setTimeout(function () {
                 window.preventDuplicateKeyPresses = false;
             }, 500);
-            edit_comment(abc);
+            $.ajax({
+                type: 'POST',
+                url: base_url + "business_profile/edit_comment_insert",
+                data: 'post_id=' + abc + '&comment=' + encodeURIComponent(txt),
+                success: function (data) { //alert('falguni');
+                    document.getElementById('editcomment' + abc).style.display = 'none';
+                    document.getElementById('showcomment' + abc).style.display = 'block';
+                    document.getElementById('editsubmit' + abc).style.display = 'none';
+                    document.getElementById('editcommentbox' + abc).style.display = 'block';
+                    document.getElementById('editcancle' + abc).style.display = 'none';
+                    $('#' + 'showcomment' + abc).html(data);
+                    $('.post-design-commnet-box').show();
+                }
+            });
         }
     });
-    
+    $(".scroll").click(function (event) {
+        event.preventDefault();
+        $('html,body').animate({scrollTop: $(this.hash).offset().top}, 1200);
+    });
 }
 
 function edit_commenttwo(abc)
@@ -502,9 +474,6 @@ function edit_commenttwo(abc)
     var txt = sel.html();
     txt = txt.replace(/&nbsp;/gi, " ");
     txt = txt.replace(/<br>$/, '');
-    txt = txt.replace(/&gt;/gi, ">");
-    txt = txt.replace(/div/gi, "p");
-
     if (txt == '' || txt == '<br>') {
         return false;
     }
@@ -522,7 +491,6 @@ function edit_commenttwo(abc)
             document.getElementById('editcommenttwo' + abc).style.display = 'none';
             document.getElementById('showcommenttwo' + abc).style.display = 'block';
             document.getElementById('editsubmittwo' + abc).style.display = 'none';
-
             document.getElementById('editcommentboxtwo' + abc).style.display = 'block';
             document.getElementById('editcancletwo' + abc).style.display = 'none';
             $('#' + 'showcommenttwo' + abc).html(data);
@@ -537,23 +505,53 @@ function edit_commenttwo(abc)
 
 function commentedittwo(abc)
 {
+    $("#editcommenttwo" + abc).click(function () {
+        $(this).prop("contentEditable", true);
+    });
     $('#editcommenttwo' + abc).keypress(function (event) {
         if (event.which == 13 && event.shiftKey != 1) {
             event.preventDefault();
-
+            var sel = $("#editcommenttwo" + abc);
+            var txt = sel.html();
+            txt = txt.replace(/&nbsp;/gi, " ");
+            txt = txt.replace(/<br>$/, '');
+            if (txt == '' || txt == '<br>') {
+                return false;
+            }
+            if (/^\s+$/gi.test(txt))
+            {
+                return false;
+            }
+            txt = txt.replace(/&/g, "%26");
             if (window.preventDuplicateKeyPresses)
                 return;
-
             window.preventDuplicateKeyPresses = true;
             window.setTimeout(function () {
                 window.preventDuplicateKeyPresses = false;
             }, 500);
-
-            edit_commenttwo(abc);
+            $.ajax({
+                type: 'POST',
+                url: base_url + "business_profile/edit_comment_insert",
+                data: 'post_id=' + abc + '&comment=' + encodeURIComponent(txt),
+                success: function (data) {
+                    document.getElementById('editcommenttwo' + abc).style.display = 'none';
+                    document.getElementById('showcommenttwo' + abc).style.display = 'block';
+                    document.getElementById('editsubmittwo' + abc).style.display = 'none';
+                    document.getElementById('editcommentboxtwo' + abc).style.display = 'block';
+                    document.getElementById('editcancletwo' + abc).style.display = 'none';
+                    $('#' + 'showcommenttwo' + abc).html(data);
+                    $('.post-design-commnet-box').show();
+                }
+            });
         }
     });
-   
+    $(".scroll").click(function (event) {
+        event.preventDefault();
+        $('html,body').animate({scrollTop: $(this.hash).offset().top}, 1200);
+    });
 }
+
+
 function commentedit2(abc)
 {
     $(document).ready(function () {
@@ -584,6 +582,7 @@ function commentedit2(abc)
         });
     });
 }
+
 function edit_comment3(abc)
 {
     var post_comment_edit = document.getElementById("editcomment3" + abc);
@@ -591,22 +590,26 @@ function edit_comment3(abc)
         type: 'POST',
         url: base_url + "business_profile/edit_comment_insert",
         data: 'post_id=' + abc + '&comment=' + post_comment_edit.value,
-        success: function (data) {
+        success: function (data) { 
+
             document.getElementById('editcomment3' + abc).style.display = 'none';
             document.getElementById('showcomment3' + abc).style.display = 'block';
             document.getElementById('editsubmit3' + abc).style.display = 'none';
             document.getElementById('editcommentbox3' + abc).style.display = 'block';
             document.getElementById('editcancle3' + abc).style.display = 'none';
-
             $('#' + 'showcomment3' + abc).html(data);
             $('.post-design-commnet-box').show();
         }
     });
 }
+
+
 function commentedit3(abc)
 {
     $(document).ready(function () {
         $('#editcomment3' + abc).keypress(function (e) {
+
+
             if (e.keyCode == 13 && !e.shiftKey) {
                 var val = $('#editcomment3' + clicked_id).val();
                 e.preventDefault();
@@ -620,13 +623,13 @@ function commentedit3(abc)
                     type: 'POST',
                     url: base_url + "business_profile/edit_comment_insert",
                     data: 'post_id=' + abc + '&comment=' + val,
-                    success: function (data) {
+                    success: function (data) { //alert('falguni');
+
                         document.getElementById('editcomment3' + abc).style.display = 'none';
                         document.getElementById('showcomment3' + abc).style.display = 'block';
                         document.getElementById('editsubmit3' + abc).style.display = 'none';
                         document.getElementById('editcommentbox3' + abc).style.display = 'block';
                         document.getElementById('editcancle3' + abc).style.display = 'none';
-
                         $('#' + 'showcomment3' + abc).html(data);
                     }
                 });
@@ -634,24 +637,30 @@ function commentedit3(abc)
         });
     });
 }
+
+
+
 function edit_comment4(abc)
 {
+
     var post_comment_edit = document.getElementById("editcomment4" + abc);
     $.ajax({
         type: 'POST',
         url: base_url + "business_profile/edit_comment_insert",
         data: 'post_id=' + abc + '&comment=' + post_comment_edit.value,
         success: function (data) {
+
             document.getElementById('editcomment4' + abc).style.display = 'none';
             document.getElementById('showcomment4' + abc).style.display = 'block';
             document.getElementById('editsubmit4' + abc).style.display = 'none';
             document.getElementById('editcommentbox4' + abc).style.display = 'block';
             document.getElementById('editcancle4' + abc).style.display = 'none';
-
             $('#' + 'showcomment4' + abc).html(data);
         }
     });
+    //window.location.reload();
 }
+
 function commentedit4(abc)
 {
     $(document).ready(function () {
@@ -660,10 +669,8 @@ function commentedit4(abc)
             if (e.keyCode == 13 && !e.shiftKey) {
                 var val = $('#editcomment4' + clicked_id).val();
                 e.preventDefault();
-
                 if (window.preventDuplicateKeyPresses)
                     return;
-
                 window.preventDuplicateKeyPresses = true;
                 window.setTimeout(function () {
                     window.preventDuplicateKeyPresses = false;
@@ -672,13 +679,12 @@ function commentedit4(abc)
                     type: 'POST',
                     url: base_url + "business_profile/edit_comment_insert",
                     data: 'post_id=' + abc + '&comment=' + val,
-                    success: function (data) {
+                    success: function (data) { //alert('falguni');
                         document.getElementById('editcomment4' + abc).style.display = 'none';
                         document.getElementById('showcomment4' + abc).style.display = 'block';
                         document.getElementById('editsubmit4' + abc).style.display = 'none';
                         document.getElementById('editcommentbox4' + abc).style.display = 'block';
                         document.getElementById('editcancle4' + abc).style.display = 'none';
-
                         $('#' + 'showcomment4' + abc).html(data);
                     }
                 });
@@ -686,151 +692,10 @@ function commentedit4(abc)
         });
     });
 }
-/* COMMENT EDIT INSERT END */
-/* POST BOX 50 CHARACTER LIMITATION CHECK START */
-function check_length(my_form)
-{
-    maxLen = 50;
-    // max number of characters allowed
-    if (my_form.my_text.value.length > maxLen) {
-        // Alert message if maximum limit is reached. 
-        // If required Alert can be removed. 
-        var msg = "You have reached your maximum limit of characters allowed";
-        $("#test-upload-product").prop("readonly", true);
-//        document.getElementById("test-upload-product").readOnly = true;
-        $('.biderror .mes').html("<div class='pop_content'>" + msg + "</div>");
-        $('#posterrormodal').modal('show');
 
-        // Reached the Maximum length so trim the textarea
-        my_form.my_text.value = my_form.my_text.value.substring(0, maxLen);
-    } else {
-//        $("#test-upload-product").prop("readonly", false);
-        //document.getElementById("test-upload-product").readOnly = false;
-        // Maximum length not reached so update the value of my_text counter
-        my_form.text_num.value = maxLen - my_form.my_text.value.length;
-    }
-}
-
-
-function check_lengthedit(abc)
-{
-    maxLen = 50;
-    var product_name = document.getElementById("editpostname" + abc).value;
-    if (product_name.length > maxLen) {
-        text_num = maxLen - product_name.length;
-        var msg = "You have reached your maximum limit of characters allowed";
-        $("#test-upload-product").prop("readonly", true);
-
-        $("#editpostname" + abc).prop("readonly", true);
-        document.getElementById("editpostdesc" + abc).contentEditable = false;
-        document.getElementById("editpostsubmit" + abc).setAttribute("disabled", "disabled");
-
-
-        $('#postedit .mes').html("<div class='pop_content'>" + msg + "</div>");
-        $('#postedit').modal('show');
-        var substrval = product_name.substring(0, maxLen);
-        $('#editpostname' + abc).val(substrval);
-    } else {
-        text_num = maxLen - product_name.length;
-        $('#text_num_' + abc).val(parseInt(text_num));
-//        document.getElementById("text_num").value = text_num;
-    }
-}
-
-
-$('#postedit').on('click', function () {
-
-    $(".productpostname").prop("readonly", false);
-    $('.editable_text').attr('contentEditable', true);
-    $('.fr').attr('disabled', false);
-
-});
-/* POST BOX 50 CHARACTER LIMITATION CHECK END */
-/* SAVEPOST START */
-function save_post(abc)
-{
-    $.ajax({
-        type: 'POST',
-        url: base_url + "business_profile/business_profile_save",
-        data: 'business_profile_post_id=' + abc,
-        success: function (data) {
-            $('.' + 'savedpost' + abc).html(data);
-        }
-    });
-}
-/* SAVEPOST END */
-/* FOLLOW USER SCRIPT START */
-function followuser_two(clicked_id)
-{
-    $.ajax({
-        type: 'POST',
-        url: base_url + "business_profile/home_three_follow",
-        data: 'follow_to=' + clicked_id,
-        dataType: 'json',
-        success: function (data) {
-            $('.' + 'fr' + clicked_id).html(data.follow);
-            $('ul.home_three_follow_ul').append(data.third_user);
-
-            $('.left_box_following_count').html('(' + data.following_count + ')')
-            $.when($('.fad' + clicked_id).fadeOut(3000))
-                    .done(function () {
-                        $('.fad' + clicked_id).remove();
-                    });
-        }
-    });
-}
-
-function followclose(clicked_id)
-{
-    $.ajax({
-        type: 'POST',
-        url: base_url + "business_profile/business_home_follow_ignore",
-        data: 'follow_to=' + clicked_id,
-        success: function (data) {
-            if (data) {
-                $.ajax({
-                    type: 'POST',
-                    url: base_url + "business_profile/third_follow_ignore_user_data",
-                    dataType: 'html',
-                    success: function (data) {
-                        $('ul.home_three_follow_ul').append(data);
-                        $.when($('.fad' + clicked_id).fadeOut(3000))
-                                .done(function () {
-                                    $('.fad' + clicked_id).remove();
-                                });
-                    }
-                });
-            }
-        }
-    });
-}
-//function followclose(clicked_id)
-//{
-//    $.when($('.fad' + clicked_id).fadeOut(3000))
-//            .done(function () {
-//                business_home_follow_ignore(clicked_id);
-//                ajax_business_home_three_user_list();
-//            });
-//}
-
-function business_home_follow_ignore(clicked_id)
-{
-    $.ajax({
-        type: 'POST',
-        url: base_url + "business_profile/business_home_follow_ignore",
-        data: 'follow_to=' + clicked_id,
-        success: function (data) {
-            if (data) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-    });
-}
-/* FOLLOW USER SCRIPT END */
-
-// POPUP BOX FOR POST START 
+//comment edit insert script end 
+// like comment script end 
+// popup box for post start 
 
 // Get the modal
 var modal = document.getElementById('myModal');
@@ -853,12 +718,10 @@ window.onclick = function (event) {
     }
 }
 
-// POPUP BOX FOR POST START 
-// DROP DOWN SCRIPT START 
-
 /* When the user clicks on the button, 
  toggle between hiding and showing the dropdown content */
 function myFunction(clicked_id) {
+
     var dropDownClass = document.getElementById('myDropdown' + clicked_id).className;
     dropDownClass = dropDownClass.split(" ").pop(-1);
     if (dropDownClass != 'show') {
@@ -867,11 +730,15 @@ function myFunction(clicked_id) {
     } else {
         $('.dropdown-content1').removeClass('show');
     }
+
+
     $(document).on('keydown', function (e) {
         if (e.keyCode === 27) {
+
             document.getElementById('myDropdown' + clicked_id).classList.toggle("hide");
             $(".dropdown-content1").removeClass('show');
         }
+
     });
 }
 // Close the dropdown if the user clicks outside of it
@@ -888,15 +755,17 @@ window.onclick = function (event) {
     }
 }
 
-// DROP DOWN SCRIPT END 
-// MULTI IMAGE ADD POST START 
+// drop down script zalak end 
+// multi image add post khyati start 
 
+//alert("a");
 var $fileUpload = $("#files"),
         $list = $('#list'),
         thumbsArray = [],
         maxUpload = 5;
 // READ FILE + CREATE IMAGE
 function read(f) {
+    //alert("aa");
     return function (e) {
         var base64 = e.target.result;
         var $img = $('<img/>', {
@@ -914,6 +783,7 @@ function read(f) {
 }
 // HANDLE FILE/S UPLOAD
 function handleFileSelect(e) {
+    //alert("aaa");
     e.preventDefault();
     // Needed?
     var files = e.target.files;
@@ -933,9 +803,12 @@ function handleFileSelect(e) {
     }
 }
 $fileUpload.change(function (e) {
+    alert("aaaa");
     handleFileSelect(e);
-});
+}
+);
 $list.on('click', '.remove_thumb', function () {
+    //alert("aaaaa");
     var $removeBtns = $('.remove_thumb');
     // Get all of them in collection
     var idx = $removeBtns.index(this);
@@ -945,28 +818,150 @@ $list.on('click', '.remove_thumb', function () {
     thumbsArray.splice(idx, 1);
     // Remove from array
 });
+// multi image add post khyati end 
 
+
+function check_length(my_form)
+{
+    maxLen = 50;
+    // max number of characters allowed
+    if (my_form.my_text.value.length > maxLen) {
+        // Alert message if maximum limit is reached. 
+        // If required Alert can be removed. 
+        var msg = "You have reached your maximum limit of characters allowed";
+        //alert(msg);
+
+        $('.biderror .mes').html("<div class='pop_content'>" + msg + "</div>");
+        $('#bidmodal').modal('show');
+        // Reached the Maximum length so trim the textarea
+        my_form.my_text.value = my_form.my_text.value.substring(0, maxLen);
+    } else {
+        // Maximum length not reached so update the value of my_text counter
+        my_form.text_num.value = maxLen - my_form.my_text.value.length;
+    }
+}
+//
+
+function editpost(abc)
+{
+    $("#myDropdown" + abc).removeClass('show');
+    document.getElementById('editpostdata' + abc).style.display = 'none';
+    document.getElementById('editpostbox' + abc).style.display = 'block';
+//        document.getElementById('editpostdetails' + abc).style.display = 'none';
+    document.getElementById('editpostdetailbox' + abc).style.display = 'block';
+    document.getElementById('editpostsubmit' + abc).style.display = 'block';
+    document.getElementById('khyatii' + abc).style.display = 'none';
+    document.getElementById('khyati' + abc).style.display = 'none';
+}
+
+
+function edit_postinsert(abc)
+{
+    var editpostname = document.getElementById("editpostname" + abc);
+    var $field = $('#editpostdesc' + abc);
+    var editpostdetails = $('#editpostdesc' + abc).html();
+    editpostdetails = editpostdetails.replace(/&/g, "%26");
+
+    if (editpostname.value == '' && editpostdetails == '') {
+        $('.biderror .mes').html("<div class='pop_content'>You must either fill title or description.");
+        $('#bidmodal').modal('show');
+        document.getElementById('editpostdata' + abc).style.display = 'block';
+        document.getElementById('editpostbox' + abc).style.display = 'none';
+        document.getElementById('editpostdetailbox' + abc).style.display = 'none';
+        document.getElementById('editpostsubmit' + abc).style.display = 'none';
+    } else {
+        $.ajax({
+            type: 'POST',
+            url: base_url + "business_profile/edit_post_insert",
+            data: 'business_profile_post_id=' + abc + '&product_name=' + editpostname.value + '&product_description=' + editpostdetails,
+            dataType: "json",
+            success: function (data) {
+                document.getElementById('editpostdata' + abc).style.display = 'block';
+                document.getElementById('editpostbox' + abc).style.display = 'none';
+                document.getElementById('editpostdetailbox' + abc).style.display = 'none';
+                document.getElementById('editpostsubmit' + abc).style.display = 'none';
+                document.getElementById('khyati' + abc).style.display = 'block';
+                $('#' + 'editpostdata' + abc).html(data.title);
+                $('#' + 'khyati' + abc).html(data.description);
+            }
+        });
+    }
+}
+
+// edit post end 
+// savepost start 
+
+function save_post(abc)
+{
+    $.ajax({
+        type: 'POST',
+        url: base_url + "business_profile/business_profile_save",
+        data: 'business_profile_post_id=' + abc,
+        success: function (data) {
+            $('.' + 'savedpost' + abc).html(data);
+        }
+    });
+}
+
+// save post end 
+// remove save post start 
+
+// remove save post end 
+// remove particular user post start 
+
+function del_particular_userpost(abc)
+{
+    $.ajax({
+        type: 'POST',
+        url: base_url + "business_profile/del_particular_userpost",
+        data: 'business_profile_post_id=' + abc,
+        success: function (data) {
+            $('#' + 'removepost' + abc).html(data);
+            $('#' + 'removepost' + abc).remove;
+        }
+    });
+}
+
+// remove particular user post end 
+// follow user script start 
+
+function followuser(clicked_id)
+{
+    $.ajax({
+        type: 'POST',
+        url: base_url + "business_profile/follow",
+        data: 'follow_to=' + clicked_id,
+        success: function (data) {
+            $('.' + 'fr' + clicked_id).html(data);
+            $("#fad" + clicked_id).fadeOut(6000);
+        }
+    });
+}
+
+function followclose(clicked_id)
+{
+    $("#fad" + clicked_id).fadeOut(4000);
+}
 
 $('#file-fr').fileinput({
     language: 'fr',
     uploadUrl: '#',
-    allowedFileExtensions: ['jpg', 'JPG', 'jpeg', 'JPEG', 'PNG', 'png', 'gif', 'GIF', 'psd', 'PSD', 'bmp', 'BMP', 'tiff', 'TIFF', 'iff', 'IFF', 'xbm', 'XBM', 'webp', 'WebP', 'HEIF', 'heif', 'BAT', 'bat', 'BPG', 'bpg', 'SVG', 'svg', 'mp4', 'mp3', 'pdf']
+    allowedFileExtensions: ['jpg', 'png', 'gif']
 });
 $('#file-es').fileinput({
     language: 'es',
     uploadUrl: '#',
-    allowedFileExtensions: ['jpg', 'JPG', 'jpeg', 'JPEG', 'PNG', 'png', 'gif', 'GIF', 'psd', 'PSD', 'bmp', 'BMP', 'tiff', 'TIFF', 'iff', 'IFF', 'xbm', 'XBM', 'webp', 'WebP', 'HEIF', 'heif', 'BAT', 'bat', 'BPG', 'bpg', 'SVG', 'svg', 'mp4', 'mp3', 'pdf']
+    allowedFileExtensions: ['jpg', 'png', 'gif']
 });
 $("#file-0").fileinput({
-    'allowedFileExtensions': ['jpg', 'JPG', 'jpeg', 'JPEG', 'PNG', 'png', 'gif', 'GIF', 'psd', 'PSD', 'bmp', 'BMP', 'tiff', 'TIFF', 'iff', 'IFF', 'xbm', 'XBM', 'webp', 'WebP', 'HEIF', 'heif', 'BAT', 'bat', 'BPG', 'bpg', 'SVG', 'svg', 'mp4', 'mp3', 'pdf']
+    'allowedFileExtensions': ['jpg', 'png', 'gif']
 });
 $("#file-1").fileinput({
     uploadUrl: '#', // you must set a valid URL here else you will get an error
-    allowedFileExtensions: ['jpg', 'JPG', 'jpeg', 'JPEG', 'PNG', 'png', 'gif', 'GIF', 'psd', 'PSD', 'bmp', 'BMP', 'tiff', 'TIFF', 'iff', 'IFF', 'xbm', 'XBM', 'webp', 'WebP', 'HEIF', 'heif', 'BAT', 'bat', 'BPG', 'bpg', 'SVG', 'svg', 'mp4', 'mp3', 'pdf'],
+    allowedFileExtensions: ['jpg', 'png', 'gif'],
     overwriteInitial: false,
-    maxFileSize: 1000000,
+    maxFileSize: 1000,
     maxFilesNum: 10,
-    //allowedFileTypes: ['image','video', 'flash'],
     slugCallback: function (filename) {
         return filename.replace('(', '_').replace(']', '_');
     }
@@ -1015,7 +1010,7 @@ $(".btn-info").on('click', function () {
 $(document).ready(function () {
     $("#test-upload").fileinput({
         'showPreview': false,
-        'allowedFileExtensions': ['jpg', 'JPG', 'jpeg', 'JPEG', 'PNG', 'png', 'gif', 'GIF', 'psd', 'PSD', 'bmp', 'BMP', 'tiff', 'TIFF', 'iff', 'IFF', 'xbm', 'XBM', 'webp', 'WebP', 'HEIF', 'heif', 'BAT', 'bat', 'BPG', 'bpg', 'SVG', 'svg', 'mp4', 'mp3', 'pdf'],
+        'allowedFileExtensions': ['jpg', 'png', 'gif'],
         'elErrorContainer': '#errorBlock'
     });
     $("#kv-explorer").fileinput({
@@ -1040,58 +1035,64 @@ $(document).ready(function () {
             ,
         ]
     });
+
 });
+// insert post zalak script end 
+// post insert developing script start 
 
-// MULTI IMAGE ADD POST START 
-// POST DEVELOPING SCRIPT START 
-
+$(document).ready(function ($jquery) {
+});
 function imgval(event) {
+
     var fileInput = document.getElementById("file-1").files;
     var product_name = document.getElementById("test-upload-product").value;
-    var product_trim = product_name.trim();
     var product_description = document.getElementById("test-upload-des").value;
-    var des_trim = product_description.trim();
     var product_fileInput = document.getElementById("file-1").value;
-    if (product_fileInput == '' && product_trim == '' && des_trim == '')
+    if (product_fileInput == '' && product_name == '' && product_description == '')
     {
+
         $('#post .mes').html("<div class='pop_content'>This post appears to be blank. Please write or attach (photos, videos, audios, pdf) to post.");
         $('#post').modal('show');
+        // window.location='';
+
         $(document).on('keydown', function (e) {
             if (e.keyCode === 27) {
-                $('#posterrormodal').modal('hide');
+                $('#bidmodal').modal('hide');
                 $('.modal-post').show();
             }
         });
         event.preventDefault();
         return false;
     } else {
+
         for (var i = 0; i < fileInput.length; i++)
         {
             var vname = fileInput[i].name;
             var vfirstname = fileInput[0].name;
             var ext = vfirstname.split('.').pop();
             var ext1 = vname.split('.').pop();
-            var allowedExtensions = ['jpg', 'JPG', 'jpeg', 'JPEG', 'PNG', 'png', 'gif', 'GIF', 'psd', 'PSD', 'bmp', 'BMP', 'tiff', 'TIFF', 'iff', 'IFF', 'xbm', 'XBM', 'webp', 'WebP', 'HEIF', 'heif', 'BAT', 'bat', 'BPG', 'bpg', 'SVG', 'svg'];
-            var allowesvideo = ['mp4', 'webm', 'mov', 'MP4'];
+            var allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+            var allowesvideo = ['mp4', 'webm'];
             var allowesaudio = ['mp3'];
             var allowespdf = ['pdf'];
-
             var foundPresent = $.inArray(ext, allowedExtensions) > -1;
             var foundPresentvideo = $.inArray(ext, allowesvideo) > -1;
             var foundPresentaudio = $.inArray(ext, allowesaudio) > -1;
             var foundPresentpdf = $.inArray(ext, allowespdf) > -1;
-
             if (foundPresent == true)
             {
                 var foundPresent1 = $.inArray(ext1, allowedExtensions) > -1;
                 if (foundPresent1 == true && fileInput.length <= 10) {
                 } else {
                     $('.biderror .mes').html("<div class='pop_content'>You can only upload one type of file at a time...either photo or video or audio or pdf.");
-                    $('#posterrormodal').modal('show');
+                    $('#bidmodal').modal('show');
                     setInterval('window.location.reload()', 10000);
+                    // window.location='';
+
                     $(document).on('keydown', function (e) {
                         if (e.keyCode === 27) {
-                            $('#posterrormodal').modal('hide');
+                            //$( "#bidmodal" ).hide();
+                            $('#bidmodal').modal('hide');
                             $('.modal-post').show();
                         }
                     });
@@ -1104,12 +1105,12 @@ function imgval(event) {
                 if (foundPresent1 == true && fileInput.length == 1) {
                 } else {
                     $('.biderror .mes').html("<div class='pop_content'>You can only upload one type of file at a time...either photo or video or audio or pdf.");
-                    $('#posterrormodal').modal('show');
+                    $('#bidmodal').modal('show');
                     setInterval('window.location.reload()', 10000);
-
                     $(document).on('keydown', function (e) {
                         if (e.keyCode === 27) {
-                            $('#posterrormodal').modal('hide');
+                            //$( "#bidmodal" ).hide();
+                            $('#bidmodal').modal('hide');
                             $('.modal-post').show();
                         }
                     });
@@ -1120,31 +1121,14 @@ function imgval(event) {
             {
                 var foundPresent1 = $.inArray(ext1, allowesaudio) > -1;
                 if (foundPresent1 == true && fileInput.length == 1) {
-
-                    if (product_name == '') {
-                        $('.biderror .mes').html("<div class='pop_content'>You have to add audio title.");
-                        $('#posterrormodal').modal('show');
-                        //setInterval('window.location.reload()', 10000);
-
-                        $(document).on('keydown', function (e) {
-                            if (e.keyCode === 27) {
-                                //$( "#bidmodal" ).hide();
-                                $('#posterrormodal').modal('hide');
-                                $('.modal-post').show();
-                            }
-                        });
-                        event.preventDefault();
-                        return false;
-                    }
-
                 } else {
                     $('.biderror .mes').html("<div class='pop_content'>You can only upload one type of file at a time...either photo or video or audio or pdf.");
-                    $('#posterrormodal').modal('show');
+                    $('#bidmodal').modal('show');
                     setInterval('window.location.reload()', 10000);
-
                     $(document).on('keydown', function (e) {
                         if (e.keyCode === 27) {
-                            $('#posterrormodal').modal('hide');
+                            //$( "#bidmodal" ).hide();
+                            $('#bidmodal').modal('hide');
                             $('.modal-post').show();
                         }
                     });
@@ -1158,12 +1142,12 @@ function imgval(event) {
 
                     if (product_name == '') {
                         $('.biderror .mes').html("<div class='pop_content'>You have to add pdf title.");
-                        $('#posterrormodal').modal('show');
+                        $('#bidmodal').modal('show');
                         setInterval('window.location.reload()', 10000);
-
                         $(document).on('keydown', function (e) {
                             if (e.keyCode === 27) {
-                                $('#posterrormodal').modal('hide');
+                                //$( "#bidmodal" ).hide();
+                                $('#bidmodal').modal('hide');
                                 $('.modal-post').show();
                             }
                         });
@@ -1171,19 +1155,14 @@ function imgval(event) {
                         return false;
                     }
                 } else {
-                    if (fileInput.length > 10) {
-                        $('.biderror .mes').html("<div class='pop_content'>You can not upload more than 10 files at a time.");
-                    } else {
-                        $('.biderror .mes').html("<div class='pop_content'>You can only upload one type of file at a time...either photo or video or audio or pdf.");
-                    }
-                    $('#posterrormodal').modal('show');
+                    $('.biderror .mes').html("<div class='pop_content'>You can only upload one type of file at a time...either photo or video or audio or pdf.");
+                    $('#bidmodal').modal('show');
                     setInterval('window.location.reload()', 10000);
-
                     $(document).on('keydown', function (e) {
                         if (e.keyCode === 27) {
-                            $('#posterrormodal').modal('hide');
+                            //$( "#bidmodal" ).hide();
+                            $('#bidmodal').modal('hide');
                             $('.modal-post').show();
-
                         }
                     });
                     event.preventDefault();
@@ -1192,14 +1171,13 @@ function imgval(event) {
             } else if (foundPresentvideo == false) {
 
                 $('.biderror .mes').html("<div class='pop_content'>This File Format is not supported Please Try to Upload MP4 or WebM files..");
-                $('#posterrormodal').modal('show');
+                $('#bidmodal').modal('show');
                 setInterval('window.location.reload()', 10000);
-
                 $(document).on('keydown', function (e) {
                     if (e.keyCode === 27) {
-                        $('#posterrormodal').modal('hide');
+                        //$( "#bidmodal" ).hide();
+                        $('#bidmodal').modal('hide');
                         $('.modal-post').show();
-
                     }
                 });
                 event.preventDefault();
@@ -1208,6 +1186,7 @@ function imgval(event) {
         }
     }
 }
+
 //This script is used for "This post appears to be blank. Please write or attach (photos, videos, audios, pdf) to post." comment click close then post add popup open start
 $(document).ready(function () {
     $('#post').on('click', function () {
@@ -1215,16 +1194,14 @@ $(document).ready(function () {
     });
 });
 //This script is used for "This post appears to be blank. Please write or attach (photos, videos, audios, pdf) to post." comment click close then post add popup open end  
-
-// POST DEVELOPING SCRIPT END 
-
+// post insert developing code end  
 function contentedit(clicked_id) {
     $("#post_comment" + clicked_id).click(function () {
         $(this).prop("contentEditable", true);
         $(this).html("");
     });
-    $("#post_comment" + clicked_id).keypress(function (event) {
-        if (event.which == 13 && event.shiftKey != 1) {
+    $("#post_comment" + clicked_id).keypress(function (event) { 
+        if (event.which == 13 && event.shiftKey != 1) { 
             event.preventDefault();
             var sel = $("#post_comment" + clicked_id);
             var txt = sel.html();
@@ -1239,7 +1216,7 @@ function contentedit(clicked_id) {
             }
             txt = txt.replace(/&/g, "%26");
             $('#post_comment' + clicked_id).html("");
-
+        
             var x = document.getElementById('threecomment' + clicked_id);
             var y = document.getElementById('fourcomment' + clicked_id);
             if (x.style.display === 'block' && y.style.display === 'none') {
@@ -1280,7 +1257,6 @@ function contentedit(clicked_id) {
     });
 }
 
-
 function likeuserlist(post_id) {
     $.ajax({
         type: 'POST',
@@ -1300,51 +1276,17 @@ function remove_post(abc)
 {
     $.ajax({
         type: 'POST',
-        url: base_url + "business_profile/business_profile_deleteforpost",
-        dataType: 'json',
+        url: base_url + "business_profile/business_profile_deletepost",
         data: 'business_profile_post_id=' + abc,
+        dataType: "json",
         success: function (data) {
-            $('#' + 'removepost' + abc).remove();
-//            if (data.notcount == 'count') {
-//                $('.' + 'nofoundpost').html(data.notfound);
-//            }
-            var nb = $('.post-design-box').length;
-            if (nb == 0) {
-                $("#dropdownclass").addClass("no-post-h2");
-            } else {
-                $("#dropdownclass").removeClass("no-post-h2");
-            }
-
-//            var total_post = $('.post-design-box').length;
-//            if (total_post == 0) {
-//                $('.art_no_post_avl').show();
-//            }
-
-            check_no_post_data();
+            $('#' + 'removepost' + abc).html(data.notfound);
         }
     });
 }
 
-// remove particular user post start 
 
-function del_particular_userpost(abc)
-{
-    $.ajax({
-        type: 'POST',
-        url: base_url + "business_profile/del_particular_userpost",
-        dataType: 'json',
-        data: 'business_profile_post_id=' + abc,
-        success: function (data) {
-            $('#' + 'removepost' + abc).remove();
-            /*if (data.notcount == 'count') {
-             $('.' + 'nofoundpost').html(data.notfound);
-             }*/
-            check_no_post_data();
-        }
-    });
-}
 
-// remove particular user post end 
 // post delete login user script start 
 
 function user_postdelete(clicked_id)
@@ -1355,7 +1297,6 @@ function user_postdelete(clicked_id)
 
 // post delete login user end 
 // post delete particular login user script start 
-
 function user_postdeleteparticular(clicked_id)
 {
     $('.biderror .mes').html("<div class='pop_content'>Do you want to delete this post from your profile?.<div class='model_ok_cancel'><a class='okbtn' id=" + clicked_id + " onClick='del_particular_userpost(" + clicked_id + ")' href='javascript:void(0);' data-dismiss='modal'>Yes</a><a class='cnclbtn' href='javascript:void(0);' data-dismiss='modal'>No</a></div></div>");
@@ -1366,24 +1307,16 @@ function user_postdeleteparticular(clicked_id)
 // This  script use for close dropdown in every post 
 
 $('body').on("click", "*", function (e) {
-    //var classNames = $(e.target).attr("class").toString().split(' ').pop();
-    var classNames = $(e.target).prop("class").toString().split(' ').pop();
+    var classNames = $(e.target).attr("class").toString().split(' ').pop();
     if (classNames != 'fa-ellipsis-v') {
         $('div[id^=myDropdown]').hide().removeClass('show');
     }
-});
 
-$('body').on('touchstart', function (e) {
-    //var classNames = $(e.target).attr("class").toString().split(' ').pop();
-    var classNames = $(e.target).prop("class").toString().split(' ').pop();
-    if (classNames != 'fa-ellipsis-v') {
-        $('div[id^=myDropdown]').hide().removeClass('show');
-    }
 });
-
 // This  script use for close dropdown in every post 
 
 $(".like_ripple").click(function (e) {
+
     // Remove any old one
     $(".ripple").remove();
     // Setup
@@ -1399,6 +1332,7 @@ $(".like_ripple").click(function (e) {
     } else {
         buttonWidth = buttonHeight;
     }
+
     // Get the center of the element
     var x = e.pageX - posX - buttonWidth / 2;
     var y = e.pageY - posY - buttonHeight / 2;
@@ -1410,6 +1344,12 @@ $(".like_ripple").click(function (e) {
         left: x + 'px'
     }).addClass("rippleEffect");
 });
+//
+
+$(document).ready(function () {
+    $('.alert-danger1').delay(3000).hide('700');
+});
+
 
 
 $(document).ready(function () {
@@ -1424,11 +1364,15 @@ $(document).ready(function () {
 $(document).on('keydown', function (e) {
     if (e.keyCode === 27) {
         if ($('.modal-post').show()) {
+
             $(document).on('keydown', function (e) {
                 if (e.keyCode === 27) {
+                    //$( "#bidmodal" ).hide();
                     $('.modal-post').hide();
                 }
             });
+
+
         }
         document.getElementById('myModal').style.display = "none";
     }
@@ -1437,6 +1381,7 @@ $(document).on('keydown', function (e) {
 
 // Get the modal
 var modal = document.getElementById('myModal');
+
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function (event) {
     if (event.target == modal) {
@@ -1444,9 +1389,29 @@ window.onclick = function (event) {
     }
 }
 
+//
+jQuery(document).mouseup(function (e) {
+    var container1 = $("#myModal");
+    container1.show();
+    if (container1.show())
+    {
+        jQuery(document).mouseup(function (e) {
+            var container = $("#postpopup_close");
+            if (!container.is(e.target)
+                    && container.has(e.target).length === 0)
+            {
+                container1.hide();
+            }
+        });
+    }
+});
+
+
 
 var _onPaste_StripFormatting_IEPaste = false;
+
 function OnPaste_StripFormatting(elem, e) {
+
     if (e.originalEvent && e.originalEvent.clipboardData && e.originalEvent.clipboardData.getData) {
         e.preventDefault();
         var text = e.originalEvent.clipboardData.getData('text/plain');
@@ -1464,11 +1429,14 @@ function OnPaste_StripFormatting(elem, e) {
         }
         _onPaste_StripFormatting_IEPaste = false;
     }
+
 }
+
 
 
 // pop up open & close aarati code start 
 jQuery(document).mouseup(function (e) {
+
     var container1 = $("#myModal");
     jQuery(document).mouseup(function (e)
     {
@@ -1480,29 +1448,21 @@ jQuery(document).mouseup(function (e) {
             container1.hide();
         }
     });
+
 });
+
 // pop up open & close aarati code end
 
 // all popup close close using esc start 
-
 
 $(document).on('keydown', function (e) {
     if (e.keyCode === 27) {
         //$( "#bidmodal" ).hide();
         $('#likeusermodal').modal('hide');
-        $("#test-upload-product").prop("readonly", false);
     }
 });
-
-$('.posterror-modal-close').on('click', function () {
-//    $('#myModal').modal('show');
-    document.getElementById('myModal').style.display = 'block';
-    $("#test-upload-product").prop("readonly", false);
-
-});
-
-
 // all popup close close using esc end
+//<khyati chnages 24-4 start
 
 function khdiv(abc) {
     $.ajax({
@@ -1511,7 +1471,6 @@ function khdiv(abc) {
         data: 'business_profile_post_id=' + abc,
         dataType: "json",
         success: function (data) {
-
             document.getElementById('editpostdata' + abc).style.display = 'block';
             document.getElementById('editpostbox' + abc).style.display = 'none';
             document.getElementById('editpostdetailbox' + abc).style.display = 'none';
@@ -1520,243 +1479,7 @@ function khdiv(abc) {
             document.getElementById('khyatii' + abc).style.display = 'block';
             $('#' + 'editpostdata' + abc).html(data.title);
             $('#' + 'khyatii' + abc).html(data.description);
-
         }
     });
 }
-
 // edit post start 
-
-function editpost(abc)
-{
-//    $("#myDropdown" + abc).removeClass('show');
-//    document.getElementById('editpostdata' + abc).style.display = 'none';
-//    document.getElementById('editpostbox' + abc).style.display = 'block';
-//    document.getElementById('editpostdetailbox' + abc).style.display = 'block';
-//    document.getElementById('editpostsubmit' + abc).style.display = 'block';
-//    document.getElementById('khyatii' + abc).style.display = 'none';
-//    document.getElementById('khyati' + abc).style.display = 'none';
-
-    var editposttitle = $('#editpostdata' + abc + ' a').html();
-    var editpostdesc = $('#khyati' + abc).html();
-    $("#myDropdown" + abc).removeClass('show');
-    document.getElementById('editpostdata' + abc).style.display = 'none';
-    document.getElementById('editpostbox' + abc).style.display = 'block';
-    //    document.getElementById('editpostdetails' + abc).style.display = 'none';
-    document.getElementById('editpostdetailbox' + abc).style.display = 'block';
-    document.getElementById('editpostsubmit' + abc).style.display = 'block';
-    document.getElementById('khyatii' + abc).style.display = 'none';
-    document.getElementById('khyati' + abc).style.display = 'none';
-
-    editposttitle = editposttitle.trim();
-    editpostdesc = editpostdesc.trim();
-    $('#editpostname' + abc).val(editposttitle);
-    $('#editpostdesc' + abc).html(editpostdesc);
-
-    var input = $("#editpostdesc" + abc);
-    var len = input.text().length;
-    input.text().focus();
-    input.text().setSelectionRange(len, len);
-}
-
-function edit_postinsert(abc)
-{
-    var editpostname = document.getElementById("editpostname" + abc);
-    var $field = $('#editpostdesc' + abc);
-    var editpostdetails = $('#editpostdesc' + abc).html();
-    editpostdetails = editpostdetails.replace(/&/g, "%26");
-    editpostdetails = editpostdetails.replace(/&gt;/gi, ">");
-    editpostdetails = editpostdetails.replace(/&nbsp;/gi, " ");
-    editpostdetails = editpostdetails.replace(/div/gi, "p");
-
-    if (editpostname.value == '' && editpostdetails == '') {
-        $('.biderror .mes').html("<div class='pop_content'>You must either fill title or description.");
-        $('#bidmodal').modal('show');
-
-        document.getElementById('editpostdata' + abc).style.display = 'block';
-        document.getElementById('editpostbox' + abc).style.display = 'none';
-        document.getElementById('khyati' + abc).style.display = 'block';
-        document.getElementById('editpostdetailbox' + abc).style.display = 'none';
-        document.getElementById('editpostsubmit' + abc).style.display = 'none';
-    } else {
-        $.ajax({
-            type: 'POST',
-            url: base_url + "business_profile/edit_post_insert",
-            data: 'business_profile_post_id=' + abc + '&product_name=' + editpostname.value + '&product_description=' + editpostdetails,
-            dataType: "json",
-            success: function (data) {
-                document.getElementById('editpostdata' + abc).style.display = 'block';
-                document.getElementById('editpostbox' + abc).style.display = 'none';
-                document.getElementById('editpostdetailbox' + abc).style.display = 'none';
-                document.getElementById('editpostsubmit' + abc).style.display = 'none';
-                document.getElementById('khyati' + abc).style.display = 'block';
-                $('#' + 'editpostdata' + abc).html(data.title);
-                $('#' + 'khyati' + abc).html(data.description);
-                $('#' + 'postname' + abc).html(data.postname);
-
-            }
-        });
-    }
-}
-
-// edit post end 
-
-jQuery(document).ready(function ($) {
-//    var bar = $('#bar');
-//    var percent = $('#percent');
-    var bar = $('.progress-bar');
-    var percent = $('.sr-only');
-    var options = {
-        beforeSend: function () {
-            // Replace this with your loading gif image
-            document.getElementById("progress_div").style.display = "block";
-            var percentVal = '0%';
-            bar.width(percentVal)
-            percent.html(percentVal);
-            document.getElementById("myModal").style.display = "none";
-        },
-        uploadProgress: function (event, position, total, percentComplete) {
-            var percentVal = percentComplete + '%';
-            bar.width(percentVal)
-            percent.html(percentVal);
-        },
-        success: function () {
-//            var percentVal = '100%';
-//            bar.width(percentVal)
-//            percent.html(percentVal);
-        },
-        complete: function (response) {
-
-            var percentVal = '100%';
-            bar.width(percentVal)
-            percent.html(percentVal);
-
-            $('.art_no_post_avl').hide();
-            // Output AJAX response to the div container
-            document.getElementById('test-upload-product').value = '';
-            document.getElementById('test-upload-des').value = '';
-            document.getElementById('file-1').value = '';
-            $("input[name='text_num']").val(50);
-            $(".file-preview-frame").hide();
-            document.getElementById("progress_div").style.display = "none";
-            $('.business-all-post').find('.post-design-box:first').parent().remove();
-            $(".business-all-post").prepend(response.responseText);
-            // second header class add for scroll
-            var nb = $('.post-design-box').length;
-            if (nb == 0) {
-                $("#dropdownclass").addClass("no-post-h2");
-            } else {
-                document.getElementById("art_no_post_avl").style.display = "none";
-                $("#dropdownclass").removeClass("no-post-h2");
-            }
-            $('html, body').animate({scrollTop: $(".upload-image-messages").offset().top - 100}, 150);
-            check_no_post_data();
-        }
-    };
-    // Submit the form
-    $(".upload-image-form").ajaxForm(options);
-    return false;
-});
-
-
-// 180 words more than script start 
-
-function seemorediv(abc) {
-    document.getElementById('seemore' + abc).style.display = 'block';
-    document.getElementById('lessmore' + abc).style.display = 'none';
-}
-
-// 180 words more than script end
-//$(window).load(function () {
-$(window).on('load', function () {
-    var nb = $('.post-design-box').length;
-    if (nb == 0) {
-        $("#dropdownclass").addClass("no-post-h2");
-    }
-});
-
-
-$(document).on('keydown', function (e) {
-    if (e.keyCode === 27) {
-        $('#postedit').modal('hide');
-    }
-});
-$(document).keydown(function (e) {
-    if (!e)
-        e = window.event;
-    if (e.keyCode == 27 || e.charCode == 27) {
-        $('.modal').modal('hide');
-    }
-});
-
-
-function cursorpointer(abc) {
-
-    elem = document.getElementById('editpostdesc' + abc);
-    elem.focus();
-    setEndOfContenteditable(elem);
-}
-
-function setEndOfContenteditable(contentEditableElement)
-{
-    var range, selection;
-    if (document.createRange)//Firefox, Chrome, Opera, Safari, IE 9+
-    {
-        range = document.createRange();//Create a range (a range is a like the selection but invisible)
-        range.selectNodeContents(contentEditableElement);//Select the entire contents of the element with the range
-        range.collapse(false);//collapse the range to the end point. false means collapse to end rather than the start
-        selection = window.getSelection();//get the selection object (allows you to change selection)
-        selection.removeAllRanges();//remove any selections already made
-        selection.addRange(range);//make the range you have just created the visible selection
-    } else if (document.selection)//IE 8 and lower
-    {
-        range = document.body.createTextRange();//Create a range (a range is a like the selection but invisible)
-        range.moveToElementText(contentEditableElement);//Select the entire contents of the element with the range
-        range.collapse(false);//collapse the range to the end point. false means collapse to end rather than the start
-        range.select();//Select the range (make it the visible selection
-    }
-}
-
-function check_no_post_data() {
-    var numberPost = $('[id^="removepost"]').length;
-    if (numberPost == 0) {
-        $('.business-all-post').html(no_business_post_html);
-    }
-
-}
-
-
-// video user show list
-
- function count_videouser(file_id, post_id){ 
-
-  var vid = document.getElementById("show_video" + file_id);
-
-      if (vid.paused) {
-         vid.play(); 
-          $.ajax({
-            type: 'POST',
-            url: base_url + "business_profile/showuser",
-            data: 'post_id=' + post_id + '&file_id=' + file_id,
-            dataType: "html",
-            success: function (data) { 
-              $('#' + 'viewvideouser' + post_id).html(data);       
-            }
-        });
-       }
-    else {
-      vid.pause(); 
-    }
- }
-
-function playtime(file_id, post_id){
-               $.ajax({
-                        type: 'POST',
-                        url: base_url + "business_profile/showuser",
-                        data: 'post_id=' + post_id + '&file_id=' + file_id,
-                        dataType: "html",
-                        success: function (data) { 
-                          $('#' + 'viewvideouser' + post_id).html(data);       
-                        }
-                    });
-}

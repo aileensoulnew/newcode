@@ -48,24 +48,19 @@ function freelancerwork_save(pagenum)
         data: {total_record: $("#total_record").val()},
         dataType: "html",
         beforeSend: function () {
-            document.getElementById("loader").style.display = "block";
+            if (pagenum == 'undefined') {
+                $(".contact-frnd-post").prepend('<p style="text-align:center;"><img class="loader" src="' + base_url + 'images/loading.gif"/></p>');
+            } else {
+                $('#loader').show();
+            }
         },
         complete: function () {
-            document.getElementById("loader").style.display = "none";
+            $('#loader').hide();
         },
         success: function (data) {
-           
-            $('.job-contact-frnd1').append(data);
+            $('.loader').remove();
+            $('.contact-frnd-post').append(data);
             // second header class add for scroll
-            
-                   //display border for no projects available start
-            var numItems = $('.job-contact-frnd1 .all-job-box').length;
-            // return false;
-            if (numItems == 0) {
-                $('.job-contact-frnd1').addClass('cust-border');
-            }
-            //display border for no projects available end
-            
             var nb = $('.post-design-box').length;
             if (nb == 0) {
                 $("#dropdownclass").addClass("no-post-h2");
@@ -88,16 +83,13 @@ function divClicked() {
     editableText.focus();
     editableText.blur(editableTextBlurred);
 }
-function capitalize(s){
-    return s[0].toUpperCase() + s.slice(1);
-}
 function editableTextBlurred() {
     var html = $(this).val();
     var viewableText = $("<a>");
     if (html.match(/^\s*$/) || html == '') {
-        html = "Designation";
+        html = "Current Work";
     }
-    viewableText.html(capitalize(html));
+    viewableText.html(html);
     $(this).replaceWith(viewableText);
     // setup the click event for this new div
     viewableText.click(divClicked);
@@ -125,12 +117,11 @@ function remove_post(abc)
         data: 'app_id=' + abc + '&para=' + savepara,
         success: function (data) {
             $('#' + 'postdata' + abc).html(data);
-            $('#' + 'postdata' + abc).remove();
-            var numItems = $('.job-contact-frnd1 .all-job-box').length;
+            $('#' + 'postdata' + abc).parent().removeClass();
+            var numItems = $('.contact-frnd-post .job-contact-frnd').length;
             if (numItems == '0') {
-                var nodataHtml = '<div class="art-img-nn"><div class="art_no_post_img"><img src="../assets/img/free-no1.png"></div><div class="art_no_post_text"> No Saved Projects Found.</div></div>';
-                $('.job-contact-frnd1').html(nodataHtml);
-                 $('.job-contact-frnd1').addClass('cust-border');
+                var nodataHtml = '<div class="art-img-nn"><div class="art_no_post_img"><img src="../img/free-no1.png"></div><div class="art_no_post_text"> No Saved Projects Found.</div></div>';
+                $('.contact-frnd-post').html(nodataHtml);
             }
         }
     });
@@ -142,22 +133,22 @@ function removepopup(id) {
 //REMOVE SAVE POST END
 
 
-////CHECK SEARCH KEYWORD AND LOCATION BLANK START
-//function checkvalue() {
-//    var searchkeyword = $.trim(document.getElementById('tags').value);
-//    var searchplace = $.trim(document.getElementById('searchplace').value);
-//    if (searchkeyword == "" && searchplace == "") {
-//        return  false;
-//    }
-//}
-//function check() {
-//    var keyword = $.trim(document.getElementById('tags1').value);
-//    var place = $.trim(document.getElementById('searchplace1').value);
-//    if (keyword == "" && place == "") {
-//        return false;
-//    }
-//}
-////CHECK SEARCH KEYWORD AND LOCATION BLANK END
+//CHECK SEARCH KEYWORD AND LOCATION BLANK START
+function checkvalue() {
+    var searchkeyword = $.trim(document.getElementById('tags').value);
+    var searchplace = $.trim(document.getElementById('searchplace').value);
+    if (searchkeyword == "" && searchplace == "") {
+        return  false;
+    }
+}
+function check() {
+    var keyword = $.trim(document.getElementById('tags1').value);
+    var place = $.trim(document.getElementById('searchplace1').value);
+    if (keyword == "" && place == "") {
+        return false;
+    }
+}
+//CHECK SEARCH KEYWORD AND LOCATION BLANK END
 
 
 function picpopup() {

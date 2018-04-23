@@ -5,6 +5,7 @@ function checkvalue() {
         return false;
     }
 }
+
 function check() {
     var keyword = $.trim(document.getElementById('tags1').value);
     var place = $.trim(document.getElementById('searchplace1').value);
@@ -12,6 +13,8 @@ function check() {
         return false;
     }
 }
+
+/* FOLLOW USER START */
 function followuser_two(clicked_id)
 {
     $.ajax({
@@ -20,14 +23,12 @@ function followuser_two(clicked_id)
         data: 'follow_to=' + clicked_id,
         success: function (data) {
             $('.' + 'fr' + clicked_id).html(data);
-            if (data.notification.notification_count != 0) {
-                var notification_count = data.notification.notification_count;
-                var to_id = data.notification.to_id;
-                show_header_notification(notification_count, to_id);
-            }
         }
     });
 }
+/* FOLLOW USER END */
+
+/* UNFOLLOW USER START */
 function unfollowuser_two(clicked_id)
 {
     $.ajax({
@@ -39,96 +40,107 @@ function unfollowuser_two(clicked_id)
         }
     });
 }
-function contact_person_query(clicked_id, status) {
-    $.ajax({
-        type: 'POST',
-        url: base_url + "business_profile/contact_person_query",
-        data: 'toid=' + clicked_id + '&status=' + status,
-        success: function (data) {
-            contact_person_model(clicked_id, status, data);
-        }
-    });
-}
-function contact_person_model(clicked_id, status, data) {
-    if (data == 1) {
-        if (status == 'pending') {
-            $('.biderror .mes').html("<div class='pop_content'> Do you want to cancel  contact request?<div class='model_ok_cancel'><a class='okbtn' id=" + clicked_id + " onClick='contact_person(" + clicked_id + ")' href='javascript:void(0);' data-dismiss='modal'>Yes</a><a class='cnclbtn' href='javascript:void(0);' data-dismiss='modal'>No</a></div></div>");
-            $('#bidmodal').modal('show');
-        } else if (status == 'confirm') {
-            $('.biderror .mes').html("<div class='pop_content'> Do you want to remove this user from your contact list?<div class='model_ok_cancel'><a class='okbtn' id=" + clicked_id + " onClick='contact_person(" + clicked_id + ")' href='javascript:void(0);' data-dismiss='modal'>Yes</a><a class='cnclbtn' href='javascript:void(0);' data-dismiss='modal'>No</a></div></div>");
-            $('#bidmodal').modal('show');
-        } else {
-            contact_person(clicked_id);
-        }
-    } else {
-        $('#query .mes').html("<div class='pop_content'>Sorry, we can't process this request at this time.");
-        $('#query').modal('show');
-    }
-}
-function contact_person(clicked_id) {
-    $.ajax({
-        type: 'POST',
-        url: base_url + "business_profile/contact_person",
-        data: 'toid=' + clicked_id,
-        dataType: 'json',
-        success: function (data) {
-            $('#contact_per').html(data);
-            if (data.co_notification.co_notification_count != 0) {
-                var co_notification_count = data.co_notification.co_notification_count;
-                var co_to_id = data.co_notification.co_to_id;
-                show_contact_notification(co_notification_count, co_to_id);
-            }
-        }
-    });
-}
+/* UNFOLLOW USER END */
+
+// contact person script start 
+function contact_person_query(clicked_id, status) { 
+
+   
+                        $.ajax({
+                            type: 'POST',
+                            //url: '<?php echo base_url() . "business_profile/contact_person_query" ?>',
+                            url: base_url + "business_profile/contact_person_query",
+
+                            data: 'toid=' + clicked_id + '&status=' + status,
+                            success: function (data) { //alert(data);
+                              // return data;
+                               contact_person_model(clicked_id, status, data);
+                            }
+                        });
+                    }
+
+                    
+
+
+
+
+
+                    function contact_person_model(clicked_id, status, data) {
+
+                        if(data == 1){
+
+                            if (status == 'pending') {
+
+                            $('.biderror .mes').html("<div class='pop_content'> Do you want to cancel  contact request?<div class='model_ok_cancel'><a class='okbtn' id=" + clicked_id + " onClick='contact_person(" + clicked_id + ")' href='javascript:void(0);' data-dismiss='modal'>Yes</a><a class='cnclbtn' href='javascript:void(0);' data-dismiss='modal'>No</a></div></div>");
+                            $('#bidmodal').modal('show');
+
+                        } else if (status == 'confirm') {
+
+                            $('.biderror .mes').html("<div class='pop_content'> Do you want to remove this user from your contact list?<div class='model_ok_cancel'><a class='okbtn' id=" + clicked_id + " onClick='contact_person(" + clicked_id + ")' href='javascript:void(0);' data-dismiss='modal'>Yes</a><a class='cnclbtn' href='javascript:void(0);' data-dismiss='modal'>No</a></div></div>");
+                            $('#bidmodal').modal('show');
+
+                        }else{ 
+                           contact_person(clicked_id); 
+                        }
+
+                }else{
+
+                      $('#query .mes').html("<div class='pop_content'>Sorry, we can't process this request at this time.");
+                      $('#query').modal('show');
+                            
+                }
+                        
+                       
+
+                    }
+  
+
+
+
+                    function contact_person(clicked_id) {
+                        
+                        $.ajax({
+                            type: 'POST',
+                            //url: '<?php echo base_url() . "business_profile/contact_person" ?>',
+                            url: base_url + "business_profile/contact_person",
+
+                            data: 'toid=' + clicked_id,
+                            success: function (data) {
+                                //   alert(data);
+                                $('#contact_per').html(data);
+
+                            }
+                        });
+                    }
+
 $(document).on('keydown', function (e) {
-    if (e.keyCode === 27) {
-        $('#query').modal('hide');
-    }
-});
+                if (e.keyCode === 27) {
+                //$( "#bidmodal" ).hide();
+                $('#query').modal('hide');
+                //$('.modal-post').show();
+                }
+                });
+
+//For blocks or images of size, you can use $(document).ready
 $(document).ready(function () {
     $('.blocks').jMosaic({items_type: "li", margin: 0});
     $('.pictures').jMosaic({min_row_height: 150, margin: 3, is_first_big: true});
 });
-$(window).resize(function () {
+
+//If this image without attribute WIDTH or HEIGH, you can use $(window).load
+$(window).load(function () {
+    //$('.pictures').jMosaic({min_row_height: 150, margin: 3, is_first_big: true});
 });
+
+//You can update on $(window).resize
+$(window).resize(function () {
+    //$('.pictures').jMosaic({min_row_height: 150, margin: 3, is_first_big: true});
+    //$('.blocks').jMosaic({items_type: "li", margin: 0});
+});
+
+//For Scroll page at perticular position js Start
 $(document).ready(function () {
+    //  $(document).load().scrollTop(1000);
     $('html,body').animate({
         scrollTop: 330}, 500);
 });
-
-
- // video user show list
-
- function count_videouser(file_id, post_id){ 
-
-  var vid = document.getElementById("show_video" + file_id);
-
-      if (vid.paused) {
-         vid.play(); 
-          $.ajax({
-            type: 'POST',
-            url: base_url + "business_profile/showuser",
-            data: 'post_id=' + post_id + '&file_id=' + file_id,
-            dataType: "html",
-            success: function (data) { 
-              $('#' + 'viewvideouser' + post_id).html(data);       
-            }
-        });
-       }
-    else {
-      vid.pause(); 
-    }
- }
-
-function playtime(file_id, post_id){
-               $.ajax({
-                        type: 'POST',
-                        url: base_url + "business_profile/showuser",
-                        data: 'post_id=' + post_id + '&file_id=' + file_id,
-                        dataType: "html",
-                        success: function (data) { 
-                          $('#' + 'viewvideouser' + post_id).html(data);       
-                        }
-                    });
-}

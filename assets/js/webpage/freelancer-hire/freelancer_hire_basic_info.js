@@ -95,9 +95,6 @@ $(document).ready(function () {
 //FORM FILL UP VALIDATION END
 //CODE FOR PRELOADER START
 jQuery(document).ready(function ($) {
-
-    $('.ajax_load').hide();
-
     // site preloader -- also uncomment the div in the header and the css style for #preloader
     $(window).load(function () {
         $('#preloader').fadeOut('slow', function () {
@@ -106,12 +103,4 @@ jQuery(document).ready(function ($) {
     });
 });
 //CODE FOR PRELOADER END
-function validate(){
 
-     var form = $("#basic_info");
-    if(form.valid() == true ){
-     //$('#profilereg_ajax_load').show();
-     document.getElementById('profilereg_ajax_load').style.display = 'inline-block';
-     
-    }
-}

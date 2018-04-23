@@ -95,7 +95,7 @@ function home_profile(clicked_id, searchkeyword, searchplace) {
 
             } else if (clicked_id == 5)
             {
-                window.location = base_url + "profiles/" + user_slug;
+                window.location = base_url + "dashboard";
             } else if (clicked_id == 6)
             {
                 window.location = base_url + "profile";
@@ -262,17 +262,10 @@ jQuery.validator.addMethod("isValid", function (value, element) {
     var todaydate_new_one = new Date(todaydate_new).getTime();
 
 
-    if (lastdata_new_one >= todaydate_new_one) {
-        $('.day').removeClass('error');
-        $('.month').removeClass('error');
-        $('.year').removeClass('error');
-        return true;
-    } else {
-        $('.day').addClass('error');
-        $('.month').addClass('error');
-        $('.year').addClass('error');
-        return false;
-    }
+    $('.day').addClass('error');
+    $('.month').addClass('error');
+    $('.year').addClass('error');
+
     return lastdata_new_one >= todaydate_new_one;
 
 
@@ -280,7 +273,6 @@ jQuery.validator.addMethod("isValid", function (value, element) {
 
 $.validator.addMethod("required1", function (value, element, regexpr) {
     //return value == '' || value.trim().length != 0; 
-   
     if (!value)
     {
         $('.day').addClass('error');
@@ -289,9 +281,6 @@ $.validator.addMethod("required1", function (value, element, regexpr) {
         return false;
     } else
     {
-        $('.day').removeClass('error');
-        $('.month').removeClass('error');
-        $('.year').removeClass('error');
         return true;
     }
 
@@ -301,10 +290,10 @@ $.validator.addMethod("required1", function (value, element, regexpr) {
 
 //date validation end
 
-//jQuery.noConflict();
-//
-//(function ($) {
-//    $(document).ready(function () {
+jQuery.noConflict();
+
+(function ($) {
+    $(document).ready(function () {
 
         $("#basicinfo").validate({
             //ignore: [],
@@ -315,9 +304,7 @@ $.validator.addMethod("required1", function (value, element, regexpr) {
                 post_name: {
 
                     required: true,
-                    regx: /^[-@./#&+,\w\s]*[a-zA-Z][a-zA-Z0-9]*/,
-                    minlength: 10,
-                    maxlength: 100
+                    regx: /^[-@./#&+,\w\s]*[a-zA-Z][a-zA-Z0-9]*/
 
                 },
                 skills: {
@@ -469,15 +456,20 @@ $.validator.addMethod("required1", function (value, element, regexpr) {
         });
 
 
-//    });
-//})(jQuery);
+    });
+})(jQuery);
 
 
+jQuery.noConflict();
+
+(function ($) {
+
+// alert(data);
 
 
 // EDUCATION AUTOCOMPLETE DATA START
 
-    
+    $(function () {
         function split(val) {
             return val.split(/,\s*/);
         }
@@ -525,104 +517,129 @@ $.validator.addMethod("required1", function (value, element, regexpr) {
 
 
                 });
-    
+    });
 
 // EDUCATION AUTOCOMPLETE DATA END
 
 
-//jQuery.noConflict();
-//
-//(function ($) {
-//
-//// alert(data);
-//
-//
-//    $(function () {
-//        // alert('hi');
-//        $("#searchplace").autocomplete({
-//            source: function (request, response) {
-//                var matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex(request.term), "i");
-//                response($.grep(data1, function (item) {
-//                    return matcher.test(item.label);
-//                }));
-//            },
-//            minLength: 1,
-//            select: function (event, ui) {
-//                event.preventDefault();
-//                $("#searchplace").val(ui.item.label);
-//                $("#selected-tag").val(ui.item.label);
-//                // window.location.href = ui.item.value;
-//            }
-//            ,
-//            focus: function (event, ui) {
-//                event.preventDefault();
-//                $("#searchplace").val(ui.item.label);
-//            }
-//        });
-//    });
-//})(jQuery);
+    $(function () {
+        // alert('hi');
+        $("#tags").autocomplete({
+            source: function (request, response) {
+                var matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex(request.term), "i");
+                response($.grep(data, function (item) {
+                    return matcher.test(item.label);
+                }));
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                event.preventDefault();
+                $("#tags").val(ui.item.label);
+                $("#selected-tag").val(ui.item.label);
+                // window.location.href = ui.item.value;
+            }
+            ,
+            focus: function (event, ui) {
+                event.preventDefault();
+                $("#tags").val(ui.item.label);
+            }
+        });
+    });
+})(jQuery);
 
-//jQuery.noConflict();
-//
-//(function ($) {
-//
-//// alert(data);
-//
-//
-//    $(function () {
-//        // alert('hi');
-//        $("#tags1").autocomplete({
-//            source: function (request, response) {
-//                var matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex(request.term), "i");
-//                response($.grep(data, function (item) {
-//                    return matcher.test(item.label);
-//                }));
-//            },
-//            minLength: 1,
-//            select: function (event, ui) {
-//                event.preventDefault();
-//                $("#tags1").val(ui.item.label);
-//                $("#selected-tag").val(ui.item.label);
-//                // window.location.href = ui.item.value;
-//            }
-//            ,
-//            focus: function (event, ui) {
-//                event.preventDefault();
-//                $("#tags1").val(ui.item.label);
-//            }
-//        });
-//    });
-//})(jQuery);
-//
-//
-//jQuery.noConflict();
-//
-//(function ($) {
-//
-//    $(function () {
-//        // alert('hi');
-//        $("#searchplace1").autocomplete({
-//            source: function (request, response) {
-//                var matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex(request.term), "i");
-//                response($.grep(data1, function (item) {
-//                    return matcher.test(item.label);
-//                }));
-//            },
-//            minLength: 1,
-//            select: function (event, ui) {
-//                event.preventDefault();
-//                $("#searchplace1").val(ui.item.label);
-//                $("#selected-tag").val(ui.item.label);
-//                // window.location.href = ui.item.value;
-//            }
-//            ,
-//            focus: function (event, ui) {
-//                event.preventDefault();
-//                $("#searchplace1").val(ui.item.label);
-//            }
-//        });
-//    });
-//})(jQuery);
+jQuery.noConflict();
+
+(function ($) {
+
+// alert(data);
+
+
+    $(function () {
+        // alert('hi');
+        $("#searchplace").autocomplete({
+            source: function (request, response) {
+                var matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex(request.term), "i");
+                response($.grep(data1, function (item) {
+                    return matcher.test(item.label);
+                }));
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                event.preventDefault();
+                $("#searchplace").val(ui.item.label);
+                $("#selected-tag").val(ui.item.label);
+                // window.location.href = ui.item.value;
+            }
+            ,
+            focus: function (event, ui) {
+                event.preventDefault();
+                $("#searchplace").val(ui.item.label);
+            }
+        });
+    });
+})(jQuery);
+
+jQuery.noConflict();
+
+(function ($) {
+
+// alert(data);
+
+
+    $(function () {
+        // alert('hi');
+        $("#tags1").autocomplete({
+            source: function (request, response) {
+                var matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex(request.term), "i");
+                response($.grep(data, function (item) {
+                    return matcher.test(item.label);
+                }));
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                event.preventDefault();
+                $("#tags1").val(ui.item.label);
+                $("#selected-tag").val(ui.item.label);
+                // window.location.href = ui.item.value;
+            }
+            ,
+            focus: function (event, ui) {
+                event.preventDefault();
+                $("#tags1").val(ui.item.label);
+            }
+        });
+    });
+})(jQuery);
+
+
+jQuery.noConflict();
+
+(function ($) {
+
+    $(function () {
+        // alert('hi');
+        $("#searchplace1").autocomplete({
+            source: function (request, response) {
+                var matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex(request.term), "i");
+                response($.grep(data1, function (item) {
+                    return matcher.test(item.label);
+                }));
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                event.preventDefault();
+                $("#searchplace1").val(ui.item.label);
+                $("#selected-tag").val(ui.item.label);
+                // window.location.href = ui.item.value;
+            }
+            ,
+            focus: function (event, ui) {
+                event.preventDefault();
+                $("#searchplace1").val(ui.item.label);
+            }
+        });
+    });
+})(jQuery);
 
 
 $(function () {
@@ -770,65 +787,46 @@ var span = document.getElementsByClassName("close")[0];
 //}
 
 var $ = jQuery.noConflict();
-//OTHER INDUSTRY INSERT START
+//Click on University other option process Start 
 $(document).on('change', '#industry', function (event) {
-   // alert(industry);
-   
-      var item=$(this);
-      var industry=(item.val());
-     
-      if(industry == 288)
-      {
-       
-            item.val('');
 
-            $('.biderror .mes').html('<div class="message"><h2>Add Industry</h2><input type="text" name="other_indu" id="other_indu"><a id="indus" class="btn">OK</a></div>');
-            $('#bidmodal').modal('show');
-            //$.fancybox.open('<div class="message" style="width:300px;"><h2>Add Industry</h2><input type="text" name="other_indu" id="other_indu"><a id="indus" class="btn">OK</a></div>');
-   
-             $('.message #indus').on('click', function () {
+    //alert(111);
+    var item = $(this);
+    var uni = (item.val());
+    if (uni == 288)
+    {
 
-                $("#other_indu").removeClass("keyskill_border_active");
-                $('#field_error').remove();
-var x = $.trim(document.getElementById("other_indu").value);
-            if (x == '') {
-                $("#other_indu").addClass("keyskill_border_active");
-                $('<span class="error" id="field_error" style="float: right;color: red; font-size: 11px;">Empty Field  is not valid</span>').insertAfter('#other_indu');
-                return false;
-            } else {
-      var $textbox = $('.message').find('input[type="text"]'),
-      textVal  = $textbox.val();
-      $.ajax({
-                          type: 'POST',
-                          url: base_url + 'recruiter/recruiter_other_industry',
-                          data: 'other_industry=' + textVal,
-                          success: function (response) {
-                      
-                               if(response == 0)
-                              {
-                                $("#other_indu").addClass("keyskill_border_active");
-                                $('<span class="error" id="field_error" style="float: right;color: red; font-size: 11px;">Written industry already available in industry Selection</span>').insertAfter('#other_indu');
-                              }
-                              else if(response == 1)
-                              {
-                               
-                                $("#other_indu").addClass("keyskill_border_active");
-                                $('<span class="error" id="field_error" style="float: right;color: red; font-size: 11px;">Empty industry  is not valid</span>').insertAfter('#other_indu');
-                              }  
-                              else
-                              {
-                                   //$.fancybox.close();
-                                   $('#bidmodal').modal('hide');
-                                   $('#industry').html(response);
-                              }
-                          }
-                      });
-                  }
-                  });
-      }
-     
-   });
-//OTHER INDUSTRY INSERT END
+        $.fancybox.open('<div class="message"><h2>Add Industry</h2><input type="text" name="other_indu" id="other_indu"><a id="indus" class="btn">OK</a></div>');
+
+        $('.message #indus').on('click', function () {
+            var $textbox = $('.message').find('input[type="text"]'),
+                    textVal = $textbox.val();
+            $.ajax({
+                type: 'POST',
+                url: base_url + "recruiter/recruiter_other_industry",
+                dataType: 'json',
+                data: 'other_industry=' + textVal,
+                success: function (response) {
+
+                    if (response.select == 0)
+                    {
+                        $.fancybox.open('<div class="message"><h2>Written industry already available in industry Selection</h2><button data-fancybox-close="" class="btn">OK</button></div>');
+                    } else if (response.select == 1)
+                    {
+                        $.fancybox.open('<div class="message"><h2>Empty industry is not valid</h2><button data-fancybox-close="" class="btn">OK</button></div>');
+                    } else
+                    {
+                        $.fancybox.close();
+                        $('#industry').html(response.select1);
+                        $('#industry').html(response.select);
+                    }
+                }
+            });
+
+        });
+    }
+
+});
 
 
 
@@ -858,20 +856,8 @@ $(function () {
         //startDate: today,
 
     });
- $(".day").attr('tabindex', 11);
-    $(".month").attr('tabindex', 12);
-    $(".year").attr('tabindex', 13);
+
 });
 
 
-//all popup close close using esc start 
-$(document).ready(function () {
- $( document ).on( 'keydown', function ( e ) {
-    if ( e.keyCode === 27 ) {
-        $('#bidmodal').modal('hide');
-       // $.fancybox.close();
-        $( "#dropdown-content_hover" ).hide();
-    }
-   });  
-});
-//all popup close close using esc end 
+

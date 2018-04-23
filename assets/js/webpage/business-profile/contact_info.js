@@ -5,6 +5,15 @@ function checkvalue() {
         return false;
     }
 }
+
+// end of business search auto fill 
+
+//validation for edit email formate form
+// jQuery.validator.addMethod("noSpace", function(value, element) {
+//       return value == '' || value.trim().length != 0;  
+//     }, "No space please and don't leave it empty");
+
+
 $.validator.addMethod("regx1", function (value, element, regexpr) {
     return regexpr.test(value);
 }, "Only numbers are allowed.");
@@ -17,8 +26,10 @@ $(document).ready(function () {
             contactname: {
                 required: true,
                 regx: /^[a-zA-Z\s]*[a-zA-Z]/
+                        //noSpace: true
             },
             contactmobile: {
+                //regx1:/^\d+(\.\d+)?$/
                 required: true,
                 number: true,
                 minlength: 8,
@@ -54,7 +65,9 @@ $(document).ready(function () {
         },
     });
 });
+// footer end 
 $(".alert").delay(3200).fadeOut(300);
+
 function check() {
     var keyword = $.trim(document.getElementById('tags1').value);
     var place = $.trim(document.getElementById('searchplace1').value);
@@ -62,6 +75,7 @@ function check() {
         return false;
     }
 }
+
 $(document).ready(function () {
     var input1 = $("#contactname");
     var len = input1.val().length;

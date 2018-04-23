@@ -101,24 +101,17 @@ function job_apply(pagenum)
         beforeSend: function () {
             if (pagenum == 'undefined') {
 
-                $(".job-contact-frnd1").prepend('');
+                $(".job-contact-frnd").prepend('<p style="text-align:center;"><img class="loader" src="' + base_url + 'images/loading.gif"/></p>');
             } else {
-                $('.loader').show();
+                $('#loader').show();
             }
         },
         complete: function () {
-            $('.loader').hide();
+            $('#loader').hide();
         },
         success: function (data) {
-            //$('.loader').remove();
-            $('.job-contact-frnd1').append(data);
-             //display border for no projects available start
-            var numItems = $('.job-contact-frnd1 .all-job-box').length;
-            // return false;
-            if (numItems == 0) {
-                $('.job-contact-frnd1').addClass('cust-border');
-            }
-            //display border for no projects available end
+            $('.loader').remove();
+            $('.job-contact-frnd').append(data);
             // second header class add for scroll
             var nb = $('.post-design-box').length;
             if (nb == 0) {
@@ -135,12 +128,11 @@ function job_apply(pagenum)
  //Remove Post Start
 function removepopup(id) {
        $('.biderror .mes').html("<div class='pop_content'>Do you want to remove this job?<div class='model_ok_cancel'><a class='okbtn' id=" + id + " onClick='remove_post(" + id + ")' href='javascript:void(0);' data-dismiss='modal'>Yes</a><a class='cnclbtn' href='javascript:void(0);' data-dismiss='modal'>No</a></div></div>");
-       $('#bidmodal').modal('show');
+       $('#bidmodal').modal('show').fadeIn("slow");
    }
 
     function remove_post(abc)
    {
-    
        $.ajax({
            type: 'POST',
            url: base_url +'job/job_delete_apply',
@@ -148,12 +140,11 @@ function removepopup(id) {
            success: function (data) {
                $('#' + 'removeapply' + abc).html(data);
                $('#' + 'removeapply' + abc).removeClass();
-               var numItems = $('.job-contact-frnd1 .all-job-box').length;
+               var numItems = $('.contact-frnd-post .job-contact-frnd .profile-job-post-detail').length;
                if (numItems == '0') {
           
-                   var nodataHtml = "<div class='art-img-nn'><div class='art_no_post_img'><img src='"+ base_url + "assets/img/job-no.png'/></div><div class='art_no_post_text'>No Applied Job Available</div></div>";
-                   $('.job-contact-frnd1').html(nodataHtml);
-                   $('.job-contact-frnd1').addClass('cust-border');
+                   var nodataHtml = "<div class='art-img-nn'><div class='art_no_post_img'><img src='"+ base_url + "img/job-no.png'/></div><div class='art_no_post_text'>No  Applied Post Available</div></div>";
+                   $('.contact-frnd-post').html(nodataHtml);
                }
            }
        });

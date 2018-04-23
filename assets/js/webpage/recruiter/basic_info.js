@@ -4,24 +4,12 @@
 //   return value == '' || value.trim().length != 0;  
 // }, "No space please and don't leave it empty");
 
-//$(document).on("click", '.mylink', function(event) { 
-//    alert("new link clic ked!");
-//});
 
-//$("#next").click(function(){ alert("kkk");
-//            $("#basicinfo").submit();
-//            return false;
-//        });
-        
-        
 $.validator.addMethod("regx", function (value, element, regexpr) {
     return regexpr.test(value);
 }, "Number, space and special character are not allowed.");
 
 $(document).ready(function () {
-
-
-     $('.ajax_load').hide();
 
     $("#basicinfo").validate({
 
@@ -99,16 +87,6 @@ $(document).ready(function () {
 });
 
 
-function reg_loader(){
-
-      var form = $("#basicinfo");
-    if(form.valid() == true ){
-    // $('#profilereg_ajax_load').show();
-     document.getElementById('profilereg_ajax_load').style.display = 'inline-block';
-    
-    }
-
-}
 
 jQuery(document).ready(function ($) {
 

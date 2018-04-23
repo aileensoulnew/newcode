@@ -43,28 +43,23 @@ function freelancerapply_search(pagenum)
     isProcessing = true;
     $.ajax({
         type: 'POST',
-//        url: base_url + "search/ajax_freelancer_post_search?page=" + pagenum + "&skill="  + encodeURIComponent(skill) + "&place=" + place + "&button=" + button ,
-        url: base_url + "search/ajax_freelancer_post_search?page=" + pagenum + "&skill="  + encodeURIComponent(skill) + "&place=" + place ,
+        url: base_url + "search/ajax_freelancer_post_search?page=" + pagenum + "&skill="  + encodeURIComponent(skill) + "&place=" + place + "&button=" + button ,
         data: {total_record:$("#total_record").val()},
         dataType: "html",
         beforeSend: function () {
-           document.getElementById("loader").style.display = "block";
+            if (pagenum == 'undefined') {
+                $(".contact-frnd-post").prepend('<p style="text-align:center;"><img class="loader" src="' + base_url + 'images/loading.gif"/></p>');
+            } else {
+                $('#loader').show();
+            }
         },
         complete: function () {
-            document.getElementById("loader").style.display = "none";
+            $('#loader').hide();
         },
         success: function (data) {
-          
-            $('.job-contact-frnd1').append(data);
+            $('.loader').remove();
+            $('.contact-frnd-post').append(data);
             // second header class add for scroll
-             //display border for no projects available start
-            var numItems = $('.job-contact-frnd1 .all-job-box').length;
-            // return false;
-            // if (numItems == 0) {
-            //     // $('.job-contact-frnd1').addClass('cust-border');
-            // }
-            //display border for no projects available end
-            
             var nb = $('.post-design-box').length;
             if (nb == 0) {
                 $("#dropdownclass").addClass("no-post-h2");
@@ -78,22 +73,22 @@ function freelancerapply_search(pagenum)
 
 //CODE FOR RESPONES OF AJAX COME FROM CONTROLLER AND LAZY LOADER END
 
-////FUNCTION FOR CHECK VALUE OF SEARCH KEYWORD AND PLACE ARE BLANK START
-//function checkvalue() {
-//    var searchkeyword = $.trim(document.getElementById('tags').value);
-//    var searchplace = $.trim(document.getElementById('searchplace').value);
-//    if (searchkeyword == "" && searchplace == "") {
-//        return false;
-//    }
-//}
-//function check() {
-//    var keyword = $.trim(document.getElementById('tags1').value);
-//    var place = $.trim(document.getElementById('searchplace1').value);
-//    if (keyword == "" && place == "") {
-//        return false;
-//    }
-//}
-////FUNCTION FOR CHECK VALUE OF SEARCH KEYWORD AND PLACE ARE BLANK END
+//FUNCTION FOR CHECK VALUE OF SEARCH KEYWORD AND PLACE ARE BLANK START
+function checkvalue() {
+    var searchkeyword = $.trim(document.getElementById('tags').value);
+    var searchplace = $.trim(document.getElementById('searchplace').value);
+    if (searchkeyword == "" && searchplace == "") {
+        return false;
+    }
+}
+function check() {
+    var keyword = $.trim(document.getElementById('tags1').value);
+    var place = $.trim(document.getElementById('searchplace1').value);
+    if (keyword == "" && place == "") {
+        return false;
+    }
+}
+//FUNCTION FOR CHECK VALUE OF SEARCH KEYWORD AND PLACE ARE BLANK END
 //CODE FOR SAVE USER START
 function save_post(abc)
 {
@@ -121,20 +116,12 @@ function apply_post(abc, xyz) {
         type: 'POST',
         url:  base_url + "freelancer/apply_insert",
         data: 'post_id=' + abc + '&allpost=' + alldata + '&userid=' + user,
-        dataType:'json',
         success: function (data) {
-          
             $('.savedpost' + abc).hide();
-            $('.applypost' + abc).html(data.status);
+            $('.applypost' + abc).html(data);
             $('.applypost' + abc).attr('disabled', 'disabled');
             $('.applypost' + abc).attr('onclick', 'myFunction()');
             $('.applypost' + abc).addClass('applied');
-            
-            if (data.notification.notification_count != 0) {
-                            var notification_count = data.notification.notification_count;
-                            var to_id = data.notification.to_id;
-                            show_header_notification(notification_count, to_id);
-                        }
         }
     });
 }

@@ -1,24 +1,21 @@
-////CHECK SEARCH KEYWORD AND LOCATION BLANK START
-//function checkvalue() {
-//                    var searchkeyword = $.trim(document.getElementById('tags').value);
-//                    var searchplace = $.trim(document.getElementById('searchplace').value);
-//                    if (searchkeyword == "" && searchplace == "") {
-//                        return  false;
-//                    }
-//                }
-//                function check() {
-//    var keyword = $.trim(document.getElementById('tags1').value);
-//    var place = $.trim(document.getElementById('searchplace1').value);
-//    if (keyword == "" && place == "") {
-//        return false;
-//    }
-//}
-////CHECK SEARCH KEYWORD AND LOCATION BLANK END
+//CHECK SEARCH KEYWORD AND LOCATION BLANK START
+function checkvalue() {
+                    var searchkeyword = $.trim(document.getElementById('tags').value);
+                    var searchplace = $.trim(document.getElementById('searchplace').value);
+                    if (searchkeyword == "" && searchplace == "") {
+                        return  false;
+                    }
+                }
+                function check() {
+    var keyword = $.trim(document.getElementById('tags1').value);
+    var place = $.trim(document.getElementById('searchplace1').value);
+    if (keyword == "" && place == "") {
+        return false;
+    }
+}
+//CHECK SEARCH KEYWORD AND LOCATION BLANK END
 //FOR PREELOADER START
  jQuery(document).ready(function ($) {
-
-     $('.ajax_load').hide();
-     
                     $(window).load(function () {
                         $('#preloader').fadeOut('slow', function () {
                             $(this).remove();
@@ -26,18 +23,6 @@
                     });
                 });
 //FOR PREELOADER END
-
-function validate(){
-
-     var form = $("#freelancer_post_avability");
-    if(form.valid() == true ){
-     //$('#profilereg_ajax_load').show();
-     document.getElementById('profilereg_ajax_load').style.display = 'inline-block';
-     
-    }
-}
-
-
 //FORM FILL UP VALIDATION START
 $.validator.addMethod("regx", function(value, element, regexpr) {          
    if(!value) 

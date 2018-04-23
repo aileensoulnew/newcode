@@ -45,7 +45,7 @@ function business_following(slug_id, pagenum)
         dataType: "html",
         beforeSend: function () {
             if (pagenum == 'undefined') {
-                $(".contact-frnd-post").prepend('<p style="text-align:center;"><img class="loader" src="' + base_url + 'assets/images/loading.gif"/></p>');
+                $(".contact-frnd-post").prepend('<p style="text-align:center;"><img class="loader" src="' + base_url + 'images/loading.gif"/></p>');
             } else {
                 $('#loader').show();
             }
@@ -118,18 +118,13 @@ function followuser_two(clicked_id)
     $.ajax({
         type: 'POST',
         url: base_url + "business_profile/follow_two",
-        data: 'follow_to=' + clicked_id + '&profile_slug=' + slug_id,
-        dataType: 'json',
+        data: 'follow_to=' + clicked_id,
         success: function (data) {
-            $('.' + 'fr' + clicked_id).html(data.follow_html);
-            $('#' + 'countfollow').html('(' + data.following_count + ')');
-            $('#' + 'countfollower').html('(' + data.follower_count + ')');
-            // $('#' + 'frfollow' + clicked_id).html(data);
-            if (data.notification.notification_count != 0) {
-                var notification_count = data.notification.notification_count;
-                var to_id = data.notification.to_id;
-                show_header_notification(notification_count, to_id);
-            }
+            $('.' + 'follow_btn_' + clicked_id).html(data);
+            $('.' + 'follow_btn_' + clicked_id).removeClass('user_btn');
+            $('.' + 'follow_btn_' + clicked_id).addClass('user_btn_h');
+            $('#' + 'unfollow' + clicked_id).html('');
+            $('.' + 'fr' + clicked_id).html(data);
         }
     });
 }
@@ -141,62 +136,16 @@ function unfollowuser_two(clicked_id)
         type: 'POST',
         url: base_url + "business_profile/unfollow_two",
         data: 'follow_to=' + clicked_id,
-        dataType: 'json',
         success: function (data) {
-            $('.' + 'fr' + clicked_id).html(data.unfollow_html);
-            $('#' + 'countfollow').html('(' + data.unfollowing_count + ')');
-            $('#' + 'countfollower').html('(' + data.unfollower_count + ')');
-            //            $('#' + 'frfollow' + clicked_id).html(data);
-        }
-    });
-}
-// follow like script end 
-
-// follow user script start 
-function followuser_list_two(clicked_id)
-{
-    $.ajax({
-        type: 'POST',
-        url: base_url + "business_profile/follow_two",
-        data: 'follow_to=' + clicked_id + '&profile_slug=' + slug_id + '&is_listing=1',
-        dataType: 'json',
-        success: function (data) {
-            $('.' + 'follow_btn_' + clicked_id).html(data.follow_html);
-            $('#' + 'countfollow').html('(' + data.following_count + ')');
-            $('#' + 'countfollower').html('(' + data.follower_count + ')');
-            $('.' + 'follow_btn_' + clicked_id).removeClass('user_btn');
-            $('.' + 'follow_btn_' + clicked_id).addClass('user_btn_h');
-            $('#' + 'unfollow' + clicked_id).html('');
-            $('.' + 'fruser' + clicked_id).html(data.follow_html);
-            if (data.notification.notification_count != 0) {
-                var notification_count = data.notification.notification_count;
-                var to_id = data.notification.to_id;
-                show_header_notification(notification_count, to_id);
-            }
-        }
-    });
-}
-// follow like script end 
-// Unfollow user script start 
-function unfollowuser_list_two(clicked_id)
-{
-    $.ajax({
-        type: 'POST',
-        url: base_url + "business_profile/unfollow_two",
-        data: 'follow_to=' + clicked_id + '&profile_slug=' + slug_id + '&is_listing=1',
-        dataType: 'json',
-        success: function (data) {
-            $('.' + 'follow_btn_' + clicked_id).html(data.unfollow_html);
-            $('#' + 'countfollow').html('(' + data.unfollowing_count + ')');
-            $('#' + 'countfollower').html('(' + data.unfollower_count + ')');
+            $('.' + 'follow_btn_' + clicked_id).html(data);
             $('.' + 'follow_btn_' + clicked_id).removeClass('user_btn_h');
             $('.' + 'follow_btn_' + clicked_id).removeClass('user_btn_f');
             $('.' + 'follow_btn_' + clicked_id).addClass('user_btn_i');
+            $('.' + 'fr' + clicked_id).html(data);
         }
     });
 }
 // follow like script end 
-
 // Unfollow own userlist user script start 
 function unfollowuser_list(clicked_id)
 {
@@ -283,15 +232,9 @@ function contact_person(clicked_id) {
         url: base_url + "business_profile/contact_person",
 
         data: 'toid=' + clicked_id,
-        dataType: 'json',
         success: function (data) {
             //   alert(data);
             $('#contact_per').html(data);
-            if (data.co_notification.co_notification_count != 0) {
-                var co_notification_count = data.co_notification.co_notification_count;
-                var co_to_id = data.co_notification.co_to_id;
-                show_contact_notification(co_notification_count, co_to_id);
-            }
 
         }
     });

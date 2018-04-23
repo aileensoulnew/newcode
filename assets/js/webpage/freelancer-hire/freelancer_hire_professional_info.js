@@ -16,16 +16,16 @@ function check() {
 // CHECK SEARCH KEYWORD AND LOCATION BLANK END
 
 
-////CODE FOR PRELOADER START
-//jQuery(document).ready(function ($) {
-//    // site preloader -- also uncomment the div in the header and the css style for #preloader
-//    $(window).load(function () {
-//        $('#preloader').fadeOut('slow', function () {
-//            $(this).remove();
-//        });
-//    });
-//});
-////CODE FOR PRELOADER END  
+//CODE FOR PRELOADER START
+jQuery(document).ready(function ($) {
+    // site preloader -- also uncomment the div in the header and the css style for #preloader
+    $(window).load(function () {
+        $('#preloader').fadeOut('slow', function () {
+            $(this).remove();
+        });
+    });
+});
+//CODE FOR PRELOADER END  
 
 // FORM FILL UP VALIDATION START
 jQuery.validator.addMethod("noSpace", function (value, element) {
@@ -33,22 +33,13 @@ jQuery.validator.addMethod("noSpace", function (value, element) {
 }, "No space please and don't leave it empty");
 
 $.validator.addMethod("regx", function (value, element, regexpr) {
-    if(!value){
-    return true;
-}else{
-   
-     return regexpr.test(value);
-}
+    return regexpr.test(value);
 }, "Only space, only number and only special characters are not allow");
 $(document).ready(function () {
-
-     $('.ajax_load').hide();
-
-
     $("#professional_info1").validate({
         rules: {
             professional_info: {
-               // required: true,
+                required: true,
                 regx: /^["-@./#&+,\w\s]*[a-zA-Z][a-zA-Z0-9]*/ 
             },
         },
@@ -62,19 +53,6 @@ $(document).ready(function () {
 });
 //FORM FILL UP VALIDATION END  
 
-
-function validate(){
-
-     var form = $("#professional_info1");
-    if(form.valid() == true ){
-     //$('#profilereg_ajax_load').show();
-     document.getElementById('profilereg_ajax_load').style.display = 'inline-block';
-     
-    }
-}
-
-
-
 // FLASH MASSAGE DISPLAY TIMING START
 $(".alert").delay(3200).fadeOut(300);
 // FLASH MASSAGE DISPLAY TIMING END
@@ -82,7 +60,7 @@ $(".alert").delay(3200).fadeOut(300);
 //CODE FOR COPY-PASTE START
 var _onPaste_StripFormatting_IEPaste = false;
 function OnPaste_StripFormatting(elem, e) {
-   
+    alert(456);
     if (e.originalEvent && e.originalEvent.clipboardData && e.originalEvent.clipboardData.getData) {
         e.preventDefault();
         var text = e.originalEvent.clipboardData.getData('text/plain');

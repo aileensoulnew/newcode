@@ -1,10 +1,12 @@
 function checkvalue() {
+
     var searchkeyword = $.trim(document.getElementById('tags').value);
     var searchplace = $.trim(document.getElementById('searchplace').value);
     if (searchkeyword == "" && searchplace == "") {
         return false;
     }
 }
+// end of business search auto fill 
 function busSelectCheck(nameSelect)
 {
     var industriyal = document.getElementById("industriyal").value;
@@ -18,6 +20,7 @@ function busSelectCheck(nameSelect)
             $("#busDivCheck .half-width label").html('Other Business Type:<span style="color:red;" >*</span>');
         } else {
             document.getElementById("busDivCheck").style.display = "none";
+//            document.getElementById("bustype").style.display = "none";
             if (industriyal == 0 && business_type == 0) {
                 $("#busDivCheck .half-width label").text('');
                 $("#bustype-error").remove();
@@ -32,6 +35,7 @@ function busSelectCheck(nameSelect)
         $("#busDivCheck .half-width label").text('');
     }
 }
+
 function indSelectCheck(nameSelect)
 {
     if (nameSelect) {
@@ -65,6 +69,9 @@ $(document).ready(function () {
         }
     });
 });
+//validation for edit email formate form
+
+
 jQuery.validator.addMethod("noSpace", function (value, element) {
     return value == '' || value.trim().length != 0;
 }, "No space please and don't leave it empty");
@@ -76,41 +83,58 @@ $.validator.addMethod("regx", function (value, element, regexpr) {
     {
         return regexpr.test(value);
     }
+    // return regexpr.test(value);
 }, "Only space, only number and only special characters are not allow");
 $(document).ready(function () {
+
     $("#businessdis").validate({
+
         rules: {
+
             business_type: {
+
                 required: true,
             },
             industriyal: {
+
                 required: true,
             },
             subindustriyal: {
+
                 required: true,
             },
             business_details: {
+
                 required: true,
                 regx: /^[-@./#&+,\w\s]*[a-zA-Z][a-zA-Z0-9]*/
+                        //noSpace: true
+
             },
         },
         messages: {
+
             business_type: {
+
                 required: "Business type is required.",
             },
             industriyal: {
+
                 required: "Industrial is required.",
             },
             subindustriyal: {
+
                 required: "Subindustrial is required.",
             },
             business_details: {
+
                 required: "Business details is required.",
             },
         },
     });
 });
 $(".alert").delay(3200).fadeOut(300);
+
+
 function check() {
     var keyword = $.trim(document.getElementById('tags1').value);
     var place = $.trim(document.getElementById('searchplace1').value);

@@ -1,9 +1,5 @@
  //AJAX DATA LOAD BY LAZZY LOADER START
 $(document).ready(function () { 
-
-
-//     $('#register').modal('show');
-
     recommen_candidate_post();
     
     $(window).scroll(function () {
@@ -114,7 +110,7 @@ function recommen_candidate_post(pagenum) {
                     }
                     $.ajax({
                         type: 'POST',
-                        url: base_url + 'login/rec_check_login',
+                        url: base_url + 'registration/check_login',
                         data: post_data,
                         dataType: "json",
                         beforeSend: function ()
@@ -162,7 +158,7 @@ function recommen_candidate_post(pagenum) {
                         email_reg: {
                             required: true,
                             email: true,
-//                            lowercase: /^[0-9a-z\s\r\n@!#\$\^%&*()+=_\-\[\]\\\';,\.\/\{\}\|\":<>\?]+$/,
+                            lowercase: /^[0-9a-z\s\r\n@!#\$\^%&*()+=_\-\[\]\\\';,\.\/\{\}\|\":<>\?]+$/,
                             remote: {
                                 url: base_url +"registration/check_email",
                                 type: "post",
@@ -343,69 +339,20 @@ function recommen_candidate_post(pagenum) {
                             required: "Email address is required.",
                         }
                     },
-                    submitHandler: submitforgotForm
                 });
-
-function submitforgotForm()
- {
-
-    var email_login = $("#forgot_email").val();
-
-    var post_data = {
-        'forgot_email': email_login,
-//            csrf_token_name: csrf_hash
-    }
-    $.ajax({
-        type: 'POST',
-        url: base_url + 'profile/forgot_live',
-        data: post_data,
-        dataType: "json",
-        beforeSend: function ()
-        {
-            $("#error").fadeOut();
-//            $("#forgotbuton").html('Your credential has been send in your register email id');
-        },
-        success: function (response)
-        {
-            if (response.data == "success") {
-                //  alert("login");
-                $("#forgotbuton").html(response.message);
-                setTimeout(function () {
-                    $('#forgotPassword').modal('hide');
-                    $('#login').modal('show');
-                     $("#forgotbuton").html('');
-                    document.getElementById("forgot_email").value = "";
-                }, 5000); // milliseconds
-                //window.location = base_url + "job/home/live-post";
-            } else {
-                $("#forgotbuton").html(response.message);
-
-            }
-        }
-    });
-    return false;
-}            /* validation */
+                /* validation */
 
             });
 
         function login_profile() {
                 $('#login').modal('show');
-                $('#register').modal('hide');
-                $('body').addClass('modal-open');
             }
             function register_profile() {
                 $('#login').modal('hide');
                 $('#register').modal('show');
             }
             function forgot_profile() {
-                
-                $('#login').modal('hide');
                 $('#forgotPassword').modal('show');
-                $('body').addClass('modal-open-other');
-            }
-            function forgot_close(){
-               // $('#login').modal('show');
-                $('body').removeClass('modal-open-other');
             }
 
       $(document).on('click', '[data-toggle*=modal]', function () {

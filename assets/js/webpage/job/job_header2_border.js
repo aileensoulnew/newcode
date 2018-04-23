@@ -11,7 +11,7 @@
                        url: base_url +'job/deactivate',
                        data: 'id=' + clicked_id,
                          success: function (data) {
-                           window.location= base_url + "profiles/" + user_slug;
+                           window.location= base_url +"dashboard";
                                      
                                  }
                              });

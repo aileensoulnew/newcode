@@ -119,7 +119,7 @@ var matcher = new RegExp("^" + $.ui.autocomplete.escapeRegex(request.term), "i")
                             }
                         }
 
-function checkvalue(){ 
+function checkvalue(){
                                         //alert("hi");
                                         var searchkeyword = $.trim(document.getElementById('tags').value);
                                         var searchplace = $.trim(document.getElementById('searchplace').value);

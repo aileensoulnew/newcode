@@ -26,8 +26,12 @@ $(document).ready(function () {
     ajax_business_home_post();
     ajax_business_home_three_user_list()
 
+//    $(window).scroll(function () {
     $(window).on('scroll', function () {
+        //if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+//        if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
         if ($(window).scrollTop() >= ($(document).height() - $(window).height()) * 0.7) {
+
             var page = $(".page_number:last").val();
             var total_record = $(".total_record").val();
             var perpage_record = $(".perpage_record").val();
@@ -38,6 +42,7 @@ $(document).ready(function () {
                 if (mod_page > 0) {
                     available_page = available_page + 1;
                 }
+                //if ($(".page_number:last").val() <= $(".total_record").val()) {
                 if (parseInt(page) <= parseInt(available_page)) {
                     var pagenum = parseInt($(".page_number:last").val()) + 1;
                     ajax_business_home_post(pagenum);
@@ -49,6 +54,11 @@ $(document).ready(function () {
 var isProcessing = false;
 function ajax_business_home_post(pagenum) {
     if (isProcessing) {
+        /*
+         *This won't go past this condition while
+         *isProcessing is true.
+         *You could even display a message.
+         **/
         return;
     }
     isProcessing = true;
@@ -59,16 +69,19 @@ function ajax_business_home_post(pagenum) {
         dataType: "html",
         beforeSend: function () {
             if (pagenum == 'undefined') {
-                $(".business-all-post").prepend('<p style="text-align:center;"><img class="loader" src="' + base_url + 'images/loading.gif"/></p>');
+                // $(".business-all-post").prepend('<p style="text-align:center;"><img class="loader" src="' + base_url + 'images/loading.gif"/></p>');
             } else {
                 $('#loader').show();
             }
         },
         complete: function () {
+            $('#loader').hide();
         },
         success: function (data) {
-            $('#loader').remove();
+            $('.loader').remove();
             $('.business-all-post').append(data);
+
+            // second header class add for scroll
             var nb = $('.post-design-box').length;
             if (nb == 0) {
                 $("#dropdownclass").addClass("no-post-h2");
@@ -76,10 +89,8 @@ function ajax_business_home_post(pagenum) {
                 $("#dropdownclass").removeClass("no-post-h2");
             }
             isProcessing = false;
+
             check_no_post_data();
-
-            $('video, audio').mediaelementplayer();
-
         }
     });
 }
@@ -91,8 +102,10 @@ function ajax_business_home_three_user_list() {
         data: '',
         dataType: "html",
         beforeSend: function () {
+            $(".profile-boxProfileCard_follow").html('<p style="text-align:center;"><img class="loader" src="' + base_url + 'images/loading.gif"/></p>');
         },
         success: function (data) {
+            $('.loader').remove();
             $('.profile-boxProfileCard_follow').html(data);
             var liCount = $(data).find("li.follow_box_ul_li").length;
             if (liCount == 0) {
@@ -101,6 +114,8 @@ function ajax_business_home_three_user_list() {
         }
     });
 }
+
+
 
 $('#content').on('change keyup keydown paste cut', 'textarea', function () {
     $(this).height(0).height(this.scrollHeight);
@@ -112,38 +127,20 @@ function post_like(clicked_id)
 {
     $.ajax({
         type: 'POST',
-        url: base_url + "business_profile/check_post_available",
+        url: base_url + "business_profile/like_post",
         data: 'post_id=' + clicked_id,
+        dataType: 'json',
         success: function (data) {
-            if (data == 1) {
-                $.ajax({
-                    type: 'POST',
-                    url: base_url + "business_profile/like_post",
-                    data: 'post_id=' + clicked_id,
-                    dataType: 'json',
-                    success: function (data) {
-                        $('.' + 'likepost' + clicked_id).html(data.like);
-                        $('.likeusername' + clicked_id).html(data.likeuser);
-                        $('.comment_like_count' + clicked_id).html(data.like_user_count);
-                        $('.likeduserlist' + clicked_id).hide();
-                        if (data.like_user_total_count == '0') {
-                            document.getElementById('likeusername' + clicked_id).style.display = "none";
-                        } else {
-                            document.getElementById('likeusername' + clicked_id).style.display = "block";
-                        }
-                        $('#likeusername' + clicked_id).addClass('likeduserlist1');
-
-                        if (data.notification.notification_count != 0) {
-                            var notification_count = data.notification.notification_count;
-                            var to_id = data.notification.to_id;
-                            show_header_notification(notification_count, to_id);
-                        }
-                    }
-                });
+            $('.' + 'likepost' + clicked_id).html(data.like);
+            $('.likeusername' + clicked_id).html(data.likeuser);
+            $('.comment_like_count' + clicked_id).html(data.like_user_count);
+            $('.likeduserlist' + clicked_id).hide();
+            if (data.like_user_total_count == '0') {
+                document.getElementById('likeusername' + clicked_id).style.display = "none";
             } else {
-                $('.mes').html('Sorry this content is now not available');
-                $('#bidmodal').modal('show');
+                document.getElementById('likeusername' + clicked_id).style.display = "block";
             }
+            $('#likeusername' + clicked_id).addClass('likeduserlist1');
         }
     });
 }
@@ -153,81 +150,59 @@ function post_like(clicked_id)
 
 function insert_comment(clicked_id)
 {
-    $.ajax({
-        type: 'POST',
-        url: base_url + "business_profile/check_post_available",
-        data: 'post_id=' + clicked_id,
-        success: function (data) {
-            if (data == 1) {
-                $("#post_comment" + clicked_id).click(function () {
-                    $(this).prop("contentEditable", true);
-                    $(this).html("");
-                });
-
-                var sel = $("#post_comment" + clicked_id);
-                var txt = sel.html();
-                txt = txt.replace(/&nbsp;/gi, " ");
-                txt = txt.replace(/<br>$/, '');
-                txt = txt.replace(/&gt;/gi, ">");
-                txt = txt.replace(/div/gi, "p");
-                if (txt == '' || txt == '<br>') {
-                    return false;
-                }
-                if (/^\s+$/gi.test(txt))
-                {
-                    return false;
-                }
-                txt = txt.replace(/&/g, "%26");
-                $('#post_comment' + clicked_id).html("");
-
-                var x = document.getElementById('threecomment' + clicked_id);
-                var y = document.getElementById('fourcomment' + clicked_id);
-
-                if (x.style.display === 'block' && y.style.display === 'none') {
-                    $.ajax({
-                        type: 'POST',
-                        url: base_url + "business_profile/insert_commentthree",
-                        data: 'post_id=' + clicked_id + '&comment=' + encodeURIComponent(txt),
-                        dataType: "json",
-                        success: function (data) {
-                            $('textarea').each(function () {
-                                $(this).val('');
-                            });
-                            $('.insertcomment' + clicked_id).html(data.comment);
-                            $('.comment_count' + clicked_id).html(data.comment_count);
-                            if (data.notification.notification_count != 0) {
-                                var notification_count = data.notification.notification_count;
-                                var to_id = data.notification.to_id;
-                                show_header_notification(notification_count, to_id);
-                            }
-                        }
-                    });
-                } else {
-                    $.ajax({
-                        type: 'POST',
-                        url: base_url + "business_profile/insert_comment",
-                        data: 'post_id=' + clicked_id + '&comment=' + encodeURIComponent(txt),
-                        dataType: "json",
-                        success: function (data) {
-                            $('textarea').each(function () {
-                                $(this).val('');
-                            });
-                            $('#' + 'fourcomment' + clicked_id).html(data.comment);
-                            $('.comment_count' + clicked_id).html(data.comment_count);
-                            if (data.notification.notification_count != 0) {
-                                var notification_count = data.notification.notification_count;
-                                var to_id = data.notification.to_id;
-                                show_header_notification(notification_count, to_id);
-                            }
-                        }
-                    });
-                }
-            } else {
-                $('.mes').html('Sorry this content is now not available');
-                $('#bidmodal').modal('show');
-            }
-        }
+    $("#post_comment" + clicked_id).click(function () {
+        $(this).prop("contentEditable", true);
+        $(this).html("");
     });
+
+    var sel = $("#post_comment" + clicked_id);
+    var txt = sel.html();
+    txt = txt.replace(/&nbsp;/gi, " ");
+    txt = txt.replace(/<br>$/, '');
+    txt = txt.replace(/&gt;/gi, ">");
+    txt = txt.replace(/div/gi, "p");
+    if (txt == '' || txt == '<br>') {
+        return false;
+    }
+    if (/^\s+$/gi.test(txt))
+    {
+        return false;
+    }
+    txt = txt.replace(/&/g, "%26");
+    $('#post_comment' + clicked_id).html("");
+
+    var x = document.getElementById('threecomment' + clicked_id);
+    var y = document.getElementById('fourcomment' + clicked_id);
+
+    if (x.style.display === 'block' && y.style.display === 'none') {
+        $.ajax({
+            type: 'POST',
+            url: base_url + "business_profile/insert_commentthree",
+            data: 'post_id=' + clicked_id + '&comment=' + encodeURIComponent(txt),
+            dataType: "json",
+            success: function (data) {
+                $('textarea').each(function () {
+                    $(this).val('');
+                });
+                $('.insertcomment' + clicked_id).html(data.comment);
+                $('.comment_count' + clicked_id).html(data.comment_count);
+            }
+        });
+    } else {
+        $.ajax({
+            type: 'POST',
+            url: base_url + "business_profile/insert_comment",
+            data: 'post_id=' + clicked_id + '&comment=' + encodeURIComponent(txt),
+            dataType: "json",
+            success: function (data) {
+                $('textarea').each(function () {
+                    $(this).val('');
+                });
+                $('#' + 'fourcomment' + clicked_id).html(data.comment);
+                $('.comment_count' + clicked_id).html(data.comment_count);
+            }
+        });
+    }
 }
 
 /* COMMENT INSERT SCRIPT END */
@@ -235,98 +210,76 @@ function insert_comment(clicked_id)
 /* INSERT COMMENT USING ENTER START */
 function entercomment(clicked_id)
 {
-    $.ajax({
-        type: 'POST',
-        url: base_url + "business_profile/check_post_available",
-        data: 'post_id=' + clicked_id,
-        success: function (data) {
-            if (data == 1) {
-                $("#post_comment" + clicked_id).click(function () {
-                    $(this).prop("contentEditable", true);
-                });
-                $('#post_comment' + clicked_id).keypress(function (e) {
+    $("#post_comment" + clicked_id).click(function () {
+        $(this).prop("contentEditable", true);
+    });
+    $('#post_comment' + clicked_id).keypress(function (e) {
 
-                    if (e.keyCode == 13 && !e.shiftKey) {
-                        e.preventDefault();
-                        var sel = $("#post_comment" + clicked_id);
-                        var txt = sel.html();
-                        txt = txt.replace(/&nbsp;/gi, " ");
-                        txt = txt.replace(/<br>$/, '');
-                        txt = txt.replace(/&gt;/gi, ">");
-                        txt = txt.replace(/div/gi, "p");
-                        if (txt == '' || txt == '<br>') {
-                            return false;
-                        }
-                        if (/^\s+$/gi.test(txt))
-                        {
-                            return false;
-                        }
-                        txt = txt.replace(/&/g, "%26");
-                        $('#post_comment' + clicked_id).html("");
+        if (e.keyCode == 13 && !e.shiftKey) {
+            e.preventDefault();
+            var sel = $("#post_comment" + clicked_id);
+            var txt = sel.html();
+            txt = txt.replace(/&nbsp;/gi, " ");
+            txt = txt.replace(/<br>$/, '');
+            txt = txt.replace(/&gt;/gi, ">");
+            txt = txt.replace(/div/gi, "p");
+            if (txt == '' || txt == '<br>') {
+                return false;
+            }
+            if (/^\s+$/gi.test(txt))
+            {
+                return false;
+            }
+            txt = txt.replace(/&/g, "%26");
+            $('#post_comment' + clicked_id).html("");
 
-                        if (window.preventDuplicateKeyPresses)
-                            return;
+            if (window.preventDuplicateKeyPresses)
+                return;
 
-                        window.preventDuplicateKeyPresses = true;
-                        window.setTimeout(function () {
-                            window.preventDuplicateKeyPresses = false;
-                        }, 500);
+            window.preventDuplicateKeyPresses = true;
+            window.setTimeout(function () {
+                window.preventDuplicateKeyPresses = false;
+            }, 500);
 
-                        var x = document.getElementById('threecomment' + clicked_id);
-                        var y = document.getElementById('fourcomment' + clicked_id);
+            var x = document.getElementById('threecomment' + clicked_id);
+            var y = document.getElementById('fourcomment' + clicked_id);
 
-                        if (x.style.display === 'block' && y.style.display === 'none') {
-                            $.ajax({
-                                type: 'POST',
-                                url: base_url + "business_profile/insert_commentthree",
-                                data: 'post_id=' + clicked_id + '&comment=' + encodeURIComponent(txt),
-                                dataType: "json",
-                                success: function (data) {
-                                    $('textarea').each(function () {
-                                        $(this).val('');
-                                    });
-                                    $('.insertcomment' + clicked_id).html(data.comment);
-                                    $('.comment_count' + clicked_id).html(data.comment_count);
-                                    if (data.notification.notification_count != 0) {
-                                        var notification_count = data.notification.notification_count;
-                                        var to_id = data.notification.to_id;
-                                        show_header_notification(notification_count, to_id);
-                                    }
-                                }
-                            });
-                        } else {
-                            $.ajax({
-                                type: 'POST',
-                                url: base_url + "business_profile/insert_comment",
-                                data: 'post_id=' + clicked_id + '&comment=' + encodeURIComponent(txt),
-                                dataType: "json",
-                                success: function (data) {
-                                    $('textarea').each(function () {
-                                        $(this).val('');
-                                    });
-                                    $('#' + 'fourcomment' + clicked_id).html(data.comment);
-                                    $('.comment_count' + clicked_id).html(data.comment_count);
-                                    if (data.notification.notification_count != 0) {
-                                        var notification_count = data.notification.notification_count;
-                                        var to_id = data.notification.to_id;
-                                        show_header_notification(notification_count, to_id);
-                                    }
-                                }
-                            });
-                        }
+            if (x.style.display === 'block' && y.style.display === 'none') {
+                $.ajax({
+                    type: 'POST',
+                    url: base_url + "business_profile/insert_commentthree",
+                    data: 'post_id=' + clicked_id + '&comment=' + encodeURIComponent(txt),
+                    dataType: "json",
+                    success: function (data) {
+                        $('textarea').each(function () {
+                            $(this).val('');
+                        });
+                        $('.insertcomment' + clicked_id).html(data.comment);
+                        $('.comment_count' + clicked_id).html(data.comment_count);
                     }
                 });
-                $(".scroll").click(function (event) {
-                    event.preventDefault();
-                    $('html,body').animate({scrollTop: $(this.hash).offset().top}, 1200);
-                });
             } else {
-                $('.mes').html('Sorry this content is now not available');
-                $('#bidmodal').modal('show');
+                $.ajax({
+                    type: 'POST',
+                    url: base_url + "business_profile/insert_comment",
+                    data: 'post_id=' + clicked_id + '&comment=' + encodeURIComponent(txt),
+                    dataType: "json",
+                    success: function (data) {
+                        $('textarea').each(function () {
+                            $(this).val('');
+                        });
+                        $('#' + 'fourcomment' + clicked_id).html(data.comment);
+                        $('.comment_count' + clicked_id).html(data.comment_count);
+                    }
+                });
             }
-
         }
     });
+    $(".scroll").click(function (event) {
+        event.preventDefault();
+        $('html,body').animate({scrollTop: $(this.hash).offset().top}, 1200);
+    });
+
 }
 /* INSERT COMMENT USING ENTER END */
 
@@ -359,22 +312,10 @@ function comment_like(clicked_id)
 {
     $.ajax({
         type: 'POST',
-        url: base_url + "business_profile/check_post_comment_available",
+        url: base_url + "business_profile/like_comment",
         data: 'post_id=' + clicked_id,
         success: function (data) {
-            if (data == 1) {
-                $.ajax({
-                    type: 'POST',
-                    url: base_url + "business_profile/like_comment",
-                    data: 'post_id=' + clicked_id,
-                    success: function (data) {
-                        $('#' + 'likecomment' + clicked_id).html(data);
-                    }
-                });
-            } else {
-                $('.mes').html('Sorry this content is now not available');
-                $('#bidmodal').modal('show');
-            }
+            $('#' + 'likecomment' + clicked_id).html(data);
         }
     });
 }
@@ -383,50 +324,19 @@ function comment_like1(clicked_id)
 {
     $.ajax({
         type: 'POST',
-        url: base_url + "business_profile/check_post_comment_available",
+        url: base_url + "business_profile/like_comment1",
         data: 'post_id=' + clicked_id,
         success: function (data) {
-            if (data == 1) {
-                $.ajax({
-                    type: 'POST',
-                    url: base_url + "business_profile/like_comment1",
-                    data: 'post_id=' + clicked_id,
-                    dataType: 'json',
-                    success: function (data) {
-                        $('#' + 'likecomment1' + clicked_id).html(data.comment_html);
-                        if (data.notification.notification_count != 0) {
-                            var notification_count = data.notification.notification_count;
-                            var to_id = data.notification.to_id;
-                            show_header_notification(notification_count, to_id);
-                        }
-                    }
-                });
-            } else {
-                $('.mes').html('Sorry this content is now not available');
-                $('#bidmodal').modal('show');
-            }
+            $('#' + 'likecomment1' + clicked_id).html(data);
         }
     });
-
 }
 /* COMMENT LIKE SCRIPT END */
 
 /* COMMENT DELETE SCRIPT START */
 function comment_delete(clicked_id) {
-    $.ajax({
-        type: 'POST',
-        url: base_url + "business_profile/check_post_comment_available",
-        data: 'post_id=' + clicked_id,
-        success: function (data) {
-            if (data == 1) {
-                $('.biderror .mes').html("<div class='pop_content'>Do you want to delete this comment?<div class='model_ok_cancel'><a class='okbtn' id=" + clicked_id + " onClick='comment_deleted(" + clicked_id + ")' href='javascript:void(0);' data-dismiss='modal'>Yes</a><a class='cnclbtn' href='javascript:void(0);' data-dismiss='modal'>No</a></div></div>");
-                $('#bidmodal').modal('show');
-            } else {
-                $('.mes').html('This comment was already deleted.');
-                $('#bidmodal').modal('show');
-            }
-        }
-    });
+    $('.biderror .mes').html("<div class='pop_content'>Do you want to delete this comment?<div class='model_ok_cancel'><a class='okbtn' id=" + clicked_id + " onClick='comment_deleted(" + clicked_id + ")' href='javascript:void(0);' data-dismiss='modal'>Yes</a><a class='cnclbtn' href='javascript:void(0);' data-dismiss='modal'>No</a></div></div>");
+    $('#bidmodal').modal('show');
 }
 
 function comment_deleted(clicked_id)
@@ -447,21 +357,8 @@ function comment_deleted(clicked_id)
 
 function comment_deletetwo(clicked_id)
 {
-    $.ajax({
-        type: 'POST',
-        url: base_url + "business_profile/check_post_comment_available",
-        data: 'post_id=' + clicked_id,
-        success: function (data) {
-            if (data == 1) {
-                $('.biderror .mes').html("<div class='pop_content'>Do you want to delete this comment?<div class='model_ok_cancel'><a class='okbtn' id=" + clicked_id + " onClick='comment_deletedtwo(" + clicked_id + ")' href='javascript:void(0);' data-dismiss='modal'>Yes</a><a class='cnclbtn' href='javascript:void(0);' data-dismiss='modal'>No</a></div></div>");
-                $('#bidmodal').modal('show');
-            } else {
-                $('.mes').html('Sorry this content is now not available');
-                $('#bidmodal').modal('show');
-            }
-        }
-    });
-
+    $('.biderror .mes').html("<div class='pop_content'>Do you want to delete this comment?<div class='model_ok_cancel'><a class='okbtn' id=" + clicked_id + " onClick='comment_deletedtwo(" + clicked_id + ")' href='javascript:void(0);' data-dismiss='modal'>Yes</a><a class='cnclbtn' href='javascript:void(0);' data-dismiss='modal'>No</a></div></div>");
+    $('#bidmodal').modal('show');
 }
 
 function comment_deletedtwo(clicked_id)
@@ -483,28 +380,13 @@ function comment_deletedtwo(clicked_id)
 
 /* COMMENT EDIT BOX START */
 function comment_editbox(clicked_id) {
+    document.getElementById('editcomment' + clicked_id).style.display = 'inline-block';
+    document.getElementById('showcomment' + clicked_id).style.display = 'none';
+    document.getElementById('editsubmit' + clicked_id).style.display = 'inline-block';
+    document.getElementById('editcommentbox' + clicked_id).style.display = 'none';
+    document.getElementById('editcancle' + clicked_id).style.display = 'block';
 
-    $.ajax({
-        type: 'POST',
-        url: base_url + "business_profile/check_post_comment_available",
-        data: 'post_id=' + clicked_id,
-        success: function (data) {
-            if (data == 1) {
-                document.getElementById('editcomment' + clicked_id).style.display = 'inline-block';
-                document.getElementById('showcomment' + clicked_id).style.display = 'none';
-                document.getElementById('editsubmit' + clicked_id).style.display = 'inline-block';
-                document.getElementById('editcommentbox' + clicked_id).style.display = 'none';
-                document.getElementById('editcancle' + clicked_id).style.display = 'block';
-
-                $('.post-design-commnet-box').hide();
-                $('.hidebottomborder').find('.all-comment-comment-box:last').css('border-bottom', '0px');
-
-            } else {
-                $('.mes').html('Sorry this content is now not available');
-                $('#bidmodal').modal('show');
-            }
-        }
-    });
+    $('.post-design-commnet-box').hide();
 }
 function comment_editcancle(clicked_id) {
     document.getElementById('editcommentbox' + clicked_id).style.display = 'block';
@@ -513,40 +395,23 @@ function comment_editcancle(clicked_id) {
     document.getElementById('showcomment' + clicked_id).style.display = 'block';
     document.getElementById('editsubmit' + clicked_id).style.display = 'none';
 
-    $('.hidebottomborder').find('.all-comment-comment-box:last').css('border-bottom', '1px solid #d9d9d9');
-
     $('.post-design-commnet-box').show();
 }
 function comment_editboxtwo(clicked_id) {
 
-    $.ajax({
-        type: 'POST',
-        url: base_url + "business_profile/check_post_comment_available",
-        data: 'post_id=' + clicked_id,
-        success: function (data) {
-            if (data == 1) {
-                $('div[id^=editcommenttwo]').css('display', 'none');
-                $('div[id^=showcommenttwo]').css('display', 'block');
-                $('button[id^=editsubmittwo]').css('display', 'none');
-                $('div[id^=editcommentboxtwo]').css('display', 'block');
-                $('div[id^=editcancletwo]').css('display', 'none');
+    $('div[id^=editcommenttwo]').css('display', 'none');
+    $('div[id^=showcommenttwo]').css('display', 'block');
+    $('button[id^=editsubmittwo]').css('display', 'none');
+    $('div[id^=editcommentboxtwo]').css('display', 'block');
+    $('div[id^=editcancletwo]').css('display', 'none');
 
-                document.getElementById('editcommenttwo' + clicked_id).style.display = 'inline-block';
-                document.getElementById('showcommenttwo' + clicked_id).style.display = 'none';
-                document.getElementById('editsubmittwo' + clicked_id).style.display = 'inline-block';
-                document.getElementById('editcommentboxtwo' + clicked_id).style.display = 'none';
-                document.getElementById('editcancletwo' + clicked_id).style.display = 'block';
+    document.getElementById('editcommenttwo' + clicked_id).style.display = 'inline-block';
+    document.getElementById('showcommenttwo' + clicked_id).style.display = 'none';
+    document.getElementById('editsubmittwo' + clicked_id).style.display = 'inline-block';
+    document.getElementById('editcommentboxtwo' + clicked_id).style.display = 'none';
+    document.getElementById('editcancletwo' + clicked_id).style.display = 'block';
 
-                $('.post-design-commnet-box').hide();
-                $('.hidebottombordertwo').find('.all-comment-comment-box:last').css('border-bottom', '0px');
-                $('.hidebottomborder').find('.all-comment-comment-box:last').css('border-bottom', '0px');
-
-            } else {
-                $('.mes').html('Sorry this content is now not available');
-                $('#bidmodal').modal('show');
-            }
-        }
-    });
+    $('.post-design-commnet-box').hide();
 }
 function comment_editcancletwo(clicked_id) {
     document.getElementById('editcommentboxtwo' + clicked_id).style.display = 'block';
@@ -554,10 +419,6 @@ function comment_editcancletwo(clicked_id) {
     document.getElementById('editcommenttwo' + clicked_id).style.display = 'none';
     document.getElementById('showcommenttwo' + clicked_id).style.display = 'block';
     document.getElementById('editsubmittwo' + clicked_id).style.display = 'none';
-
-
-    $('.hidebottombordertwo').find('.all-comment-comment-box:last').css('border-bottom', '1px solid #d9d9d9');
-    $('.hidebottomborder').find('.all-comment-comment-box:last').css('border-bottom', '1px solid #d9d9d9');
 
     $('.post-design-commnet-box').show();
 }
@@ -647,9 +508,26 @@ function edit_comment(abc)
 
 function commentedit(abc)
 {
+    $("#editcomment" + abc).click(function () {
+        $(this).prop("contentEditable", true);
+    });
     $('#editcomment' + abc).keypress(function (event) {
         if (event.which == 13 && event.shiftKey != 1) {
             event.preventDefault();
+            var sel = $("#editcomment" + abc);
+            var txt = sel.html();
+            txt = txt.replace(/&nbsp;/gi, " ");
+            txt = txt.replace(/<br>$/, '');
+            txt = txt.replace(/&gt;/gi, ">");
+            txt = txt.replace(/div/gi, "p");
+            if (txt == '' || txt == '<br>') {
+                return false;
+            }
+            if (/^\s+$/gi.test(txt))
+            {
+                return false;
+            }
+            txt = txt.replace(/&/g, "%26");
 
             if (window.preventDuplicateKeyPresses)
                 return;
@@ -657,8 +535,25 @@ function commentedit(abc)
             window.setTimeout(function () {
                 window.preventDuplicateKeyPresses = false;
             }, 500);
-            edit_comment(abc);
+            $.ajax({
+                type: 'POST',
+                url: base_url + "business_profile/edit_comment_insert",
+                data: 'post_id=' + abc + '&comment=' + encodeURIComponent(txt),
+                success: function (data) { //alert('falguni');
+                    document.getElementById('editcomment' + abc).style.display = 'none';
+                    document.getElementById('showcomment' + abc).style.display = 'block';
+                    document.getElementById('editsubmit' + abc).style.display = 'none';
+                    document.getElementById('editcommentbox' + abc).style.display = 'block';
+                    document.getElementById('editcancle' + abc).style.display = 'none';
+                    $('#' + 'showcomment' + abc).html(data);
+                    $('.post-design-commnet-box').show();
+                }
+            });
         }
+    });
+    $(".scroll").click(function (event) {
+        event.preventDefault();
+        $('html,body').animate({scrollTop: $(this.hash).offset().top}, 1200);
     });
 }
 
@@ -703,12 +598,32 @@ function edit_commenttwo(abc)
         $('html,body').animate({scrollTop: $(this.hash).offset().top}, 1200);
     });
 }
-
 function commentedittwo(abc)
 {
+    $("#editcommenttwo" + abc).click(function () {
+        $(this).prop("contentEditable", true);
+    });
+
     $('#editcommenttwo' + abc).keypress(function (event) {
         if (event.which == 13 && event.shiftKey != 1) {
             event.preventDefault();
+
+            var sel = $("#editcommenttwo" + abc);
+            var txt = sel.html();
+
+            txt = txt.replace(/&nbsp;/gi, " ");
+            txt = txt.replace(/<br>$/, '');
+            txt = txt.replace(/&gt;/gi, ">");
+            txt = txt.replace(/div/gi, "p");
+
+            if (txt == '' || txt == '<br>') {
+                return false;
+            }
+            if (/^\s+$/gi.test(txt))
+            {
+                return false;
+            }
+            txt = txt.replace(/&/g, "%26");
 
             if (window.preventDuplicateKeyPresses)
                 return;
@@ -718,8 +633,26 @@ function commentedittwo(abc)
                 window.preventDuplicateKeyPresses = false;
             }, 500);
 
-            edit_commenttwo(abc);
+            $.ajax({
+                type: 'POST',
+                url: base_url + "business_profile/edit_comment_insert",
+                data: 'post_id=' + abc + '&comment=' + encodeURIComponent(txt),
+                success: function (data) {
+                    document.getElementById('editcommenttwo' + abc).style.display = 'none';
+                    document.getElementById('showcommenttwo' + abc).style.display = 'block';
+                    document.getElementById('editsubmittwo' + abc).style.display = 'none';
+                    document.getElementById('editcommentboxtwo' + abc).style.display = 'block';
+                    document.getElementById('editcancletwo' + abc).style.display = 'none';
+
+                    $('#' + 'showcommenttwo' + abc).html(data);
+                    $('.post-design-commnet-box').show();
+                }
+            });
         }
+    });
+    $(".scroll").click(function (event) {
+        event.preventDefault();
+        $('html,body').animate({scrollTop: $(this.hash).offset().top}, 1200);
     });
 
 }
@@ -914,11 +847,8 @@ function save_post(abc)
 }
 /* SAVEPOST END */
 /* FOLLOW USER SCRIPT START */
-function followuser(clicked_id)
+function followuser_two(clicked_id)
 {
-    var follow_index = $('.follow_left_box_main_btn').index();
-    document.getElementById('followdiv' + clicked_id).removeAttribute("onclick");
-    document.getElementById('Follow_close' + clicked_id).removeAttribute("onclick");
     $.ajax({
         type: 'POST',
         url: base_url + "business_profile/home_three_follow",
@@ -929,78 +859,38 @@ function followuser(clicked_id)
             $('ul.home_three_follow_ul').append(data.third_user);
 
             $('.left_box_following_count').html('(' + data.following_count + ')')
-            $.when($('.fad' + clicked_id).fadeOut(2000))
+            $.when($('.fad' + clicked_id).fadeOut(3000))
                     .done(function () {
                         $('.fad' + clicked_id).remove();
-                        var liCount = $("ul.home_three_follow_ul li.follow_box_ul_li").length;
-                        if (liCount == 0) {
-                            $('.full-box-module_follow').hide();
-                        }
                     });
-            if (data.notification.notification_count != 0) {
-                var notification_count = data.notification.notification_count;
-                var to_id = data.notification.to_id;
-                show_header_notification(notification_count, to_id);
-            }
         }
     });
 }
 
 function followclose(clicked_id)
 {
-    document.getElementById('followdiv' + clicked_id).removeAttribute("onclick");
-    document.getElementById('Follow_close' + clicked_id).removeAttribute("onclick");
     $.ajax({
         type: 'POST',
         url: base_url + "business_profile/business_home_follow_ignore",
         data: 'follow_to=' + clicked_id,
         success: function (data) {
-            $('ul.home_three_follow_ul').append(data);
-            $.when($('.fad' + clicked_id).fadeOut(1500))
-                    .done(function () {
-                        $('.fad' + clicked_id).remove();
-                        var liCount = $("ul.home_three_follow_ul li.follow_box_ul_li").length;
-                        if (liCount == 0) {
-                            $('.full-box-module_follow').hide();
-                        }
-                    });
+            if (data) {
+                $.ajax({
+                    type: 'POST',
+                    url: base_url + "business_profile/third_follow_ignore_user_data",
+                    dataType: 'html',
+                    success: function (data) {
+                        $('ul.home_three_follow_ul').append(data);
+                        $.when($('.fad' + clicked_id).fadeOut(3000))
+                                .done(function () {
+                                    $('.fad' + clicked_id).remove();
+                                });
+                    }
+                });
+            }
         }
     });
 }
-
-
-
-
-// function followclose(clicked_id)
-// {
-//     document.getElementById('followdiv' + clicked_id).removeAttribute("onclick");
-//     document.getElementById('Follow_close' + clicked_id).removeAttribute("onclick");
-//     $.ajax({
-//         type: 'POST',
-//         url: base_url + "business_profile/business_home_follow_ignore",
-//         data: 'follow_to=' + clicked_id,
-//         success: function (data) {
-//             if (data) {
-//                 $.ajax({
-//                     type: 'POST',
-//                     url: base_url + "business_profile/third_follow_ignore_user_data",
-//                     dataType: 'html',
-//                     success: function (data) {
-//                         $('ul.home_three_follow_ul').append(data);
-//                         $.when($('.fad' + clicked_id).fadeOut(1500))
-//                                 .done(function () {
-//                                     $('.fad' + clicked_id).remove();
-//                                     var liCount = $("ul.home_three_follow_ul li.follow_box_ul_li").length;
-//                                     if (liCount == 0) {
-//                                         $('.full-box-module_follow').hide();
-//                                     }
-//                                 });
-//                     }
-//                 });
-//             }
-//         }
-//     });
-// }
 //function followclose(clicked_id)
 //{
 //    $.when($('.fad' + clicked_id).fadeOut(3000))
@@ -1022,10 +912,6 @@ function business_home_follow_ignore(clicked_id)
             } else {
                 return false;
             }
-            var liCount = $("ul.home_three_follow_ul li.follow_box_ul_li").length;
-            if (liCount == 1) {
-                $('.full-box-module_follow').hide();
-            }
         }
     });
 }
@@ -1036,32 +922,16 @@ function business_home_follow_ignore(clicked_id)
 // Get the modal
 var modal = document.getElementById('myModal');
 // Get the button that opens the modal
-//var btn = document.getElementById("myBtn");
+var btn = document.getElementById("myBtn");
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close1")[0];
 // When the user clicks the button, open the modal 
-// btn.onclick = function () {
-
-//     var product_name1 = document.getElementById("test-upload-product").value;
-
-//     var product_trim1 = product_name1.trim();
-//     var product_description1 = document.getElementById("test-upload-des").value;
-//     var des_trim1 = product_description1.trim();
-
-//     var product_fileInput1 = document.getElementById("file-1").value;
-
-//     if (product_fileInput1 == '' && product_trim1 == '' && des_trim1 == '')
-//     {
-//         modal.style.display = "block";
-//     }
-// }
+btn.onclick = function () {
+    modal.style.display = "block";
+}
 // When the user clicks on <span> (x), close the modal
 span.onclick = function () {
     modal.style.display = "none";
-}
-
-function modelopen() {
-    modal.style.display = "block";
 }
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function (event) {
@@ -1648,7 +1518,6 @@ $(document).on('keydown', function (e) {
             });
         }
         document.getElementById('myModal').style.display = "none";
-        $('body').removeClass('modal-open');
     }
 });
 
@@ -1660,7 +1529,6 @@ window.onclick = function (event) {
     if (event.target == modal) {
         modal.style.display = "none";
     }
-    $('body').removeClass('modal-open');
 }
 
 
@@ -1757,7 +1625,7 @@ function editpost(abc)
 //    document.getElementById('khyati' + abc).style.display = 'none';
 
     var editposttitle = $('#editpostdata' + abc + ' a').html();
-    var editpostdesc = $('#khyatii' + abc).html();
+    var editpostdesc = $('#khyati' + abc).html();
     $("#myDropdown" + abc).removeClass('show');
     document.getElementById('editpostdata' + abc).style.display = 'none';
     document.getElementById('editpostbox' + abc).style.display = 'block';
@@ -1769,9 +1637,8 @@ function editpost(abc)
 
     editposttitle = editposttitle.trim();
     editpostdesc = editpostdesc.trim();
-
     $('#editpostname' + abc).val(editposttitle);
-    $('#editpostdesc' + abc).html(nl2br(editpostdesc));
+    $('#editpostdesc' + abc).html(editpostdesc);
 
     var input = $("#editpostdesc" + abc);
     var len = input.text().length;
@@ -1828,7 +1695,6 @@ jQuery(document).ready(function ($) {
     var percent = $('.sr-only');
     var options = {
         beforeSend: function () {
-            $('body').removeClass('modal-open');
             // Replace this with your loading gif image
             document.getElementById("progress_div").style.display = "block";
             var percentVal = '0%';
@@ -1840,8 +1706,6 @@ jQuery(document).ready(function ($) {
             var percentVal = percentComplete + '%';
             bar.width(percentVal)
             percent.html(percentVal);
-
-            $('#myBtn').prop('onclick', null).off('click');
         },
         success: function () {
 //            var percentVal = '100%';
@@ -1849,9 +1713,6 @@ jQuery(document).ready(function ($) {
 //            percent.html(percentVal);
         },
         complete: function (response) {
-
-
-            $("#myBtn").on("click", modelopen);
 
             var percentVal = '100%';
             bar.width(percentVal)
@@ -1865,9 +1726,8 @@ jQuery(document).ready(function ($) {
             $("input[name='text_num']").val(50);
             $(".file-preview-frame").hide();
             document.getElementById("progress_div").style.display = "none";
-            // $('.business-all-post').find('.post-design-box:first').parent().remove();
+            $('.business-all-post').find('.post-design-box:first').parent().remove();
             $(".business-all-post").prepend(response.responseText);
-            $('video, audio').mediaelementplayer();
             // second header class add for scroll
             var nb = $('.post-design-box').length;
             if (nb == 0) {
@@ -1878,7 +1738,6 @@ jQuery(document).ready(function ($) {
             }
             $('html, body').animate({scrollTop: $(".upload-image-messages").offset().top - 100}, 150);
             check_no_post_data();
-
         }
     };
     // Submit the form
@@ -1951,63 +1810,5 @@ function check_no_post_data() {
     if (numberPost == 0) {
         $('.business-all-post').html(no_business_post_html);
     }
-}
 
-$('.editor-content').click(function () {
-    $('body').addClass('modal-open');
-});
-
-$('.close1').click(function () {
-    $('body').removeClass('modal-open');
-});
-
-
-function removeimage() {
-    var fileInput = document.getElementById("file-1").files;
-    var ab = $(this).index();
-    //alert(ab);
-    for (var i = 0; i < fileInput.length; i++)
-    {
-        var vname = fileInput[i].name;
-
-    }
-}
-
-
-
-// video view user start
-
-
-// video user show list
-
-function count_videouser(file_id, post_id) {
-
-    var vid = document.getElementById("show_video" + file_id);
-
-    if (vid.paused) {
-        vid.play();
-        $.ajax({
-            type: 'POST',
-            url: base_url + "business_profile/showuser",
-            data: 'post_id=' + post_id + '&file_id=' + file_id,
-            dataType: "html",
-            success: function (data) {
-                $('#' + 'viewvideouser' + post_id).html(data);
-            }
-        });
-    } else {
-        vid.pause();
-    }
-}
-
-function playtime(file_id, post_id) {
-    $.ajax({
-        type: 'POST',
-        url: base_url + "business_profile/showuser",
-        data: 'post_id=' + post_id + '&file_id=' + file_id,
-        dataType: "html",
-        success: function (data) {
-            $('#' + 'viewvideouser' + post_id).html(data);
-        }
-    });
 }
