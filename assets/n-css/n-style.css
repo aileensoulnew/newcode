@@ -187,6 +187,7 @@ padding: 5px;}
 .add-comment .comment-input{width:426px; padding:0 15px; float:left;}
 .edit-comment .comment-input{width:415px; padding:0 15px 0 0; float:left;}
 .question-page .add-comment .comment-input{width:85%;}
+.custom-user-list.question-page h3{border-bottom:0;}
 .question-page .edit-comment .comment-input{width:83%;}
 .add-comment .comment-input input{height:36px;}
 .comment-submit{width:90px; position: absolute; right: 0; bottom: 0;}
