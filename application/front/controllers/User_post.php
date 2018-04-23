@@ -137,7 +137,7 @@ class User_post extends MY_Controller {
         $return_data = array();
         if ($postComentId) {
             $return_data['message'] = '1';
-            $return_data['comment_data'] = $this->user_post_model->postCommentData($post_id);
+            $return_data['comment_data'] = $this->user_post_model->postCommentData($post_id,$userid);
             $return_data['comment_data'][0]['is_userlikePostComment'] = '0';
             $return_data['comment_data'][0]['postCommentLikeCount'] = '';
             $return_data['comment_count'] = $this->user_post_model->postCommentCount($post_id);
@@ -148,6 +148,7 @@ class User_post extends MY_Controller {
     }
 
     public function deletePostComment() {
+        $userid = $this->session->userdata('aileenuser');
         $comment_id = $_POST['comment_id'];
         $post_id = $_POST['post_id'];
 
@@ -158,7 +159,7 @@ class User_post extends MY_Controller {
         if ($update_post) {
             $return_data = array();
             $return_data['message'] = 1;
-            $return_data['comment_data'] = $this->user_post_model->postCommentData($post_id);
+            $return_data['comment_data'] = $this->user_post_model->postCommentData($post_id,$userid);
             $return_data['comment_count'] = $this->user_post_model->postCommentCount($post_id);
         } else {
             $return_data['message'] = '0';
@@ -275,22 +276,25 @@ class User_post extends MY_Controller {
     public function getUserDashboardImage() {
         $user_slug = $_GET["user_slug"];
         $userid = $this->db->select('user_id')->get_where('user', array('user_slug' => $user_slug))->row('user_id');
-        $post_image_data = $this->user_post_model->userDashboardImage($userid);
-        echo json_encode($post_image_data);
+        $resdata['userDashboardImage'] = $this->user_post_model->userDashboardImage($userid);
+        $resdata['userDashboardImageAll'] = $this->user_post_model->userDashboardImageAll($userid);
+        echo json_encode($resdata);
     }
 
     public function getUserDashboardVideo() {
         $user_slug = $_GET["user_slug"];
         $userid = $this->db->select('user_id')->get_where('user', array('user_slug' => $user_slug))->row('user_id');
-        $post_video_data = $this->user_post_model->userDashboardVideo($userid);
-        echo json_encode($post_video_data);
+        $resdata['userDashboardVideo'] = $this->user_post_model->userDashboardVideo($userid);
+        $resdata['userDashboardVideoAll'] = $this->user_post_model->userDashboardVideo($userid);
+        echo json_encode($resdata);
     }
 
     public function getUserDashboardAudio() {
         $user_slug = $_GET["user_slug"];
         $userid = $this->db->select('user_id')->get_where('user', array('user_slug' => $user_slug))->row('user_id');
-        $post_audio_data = $this->user_post_model->userDashboardAudio($userid);
-        echo json_encode($post_audio_data);
+        $resdata['userDashboardAudio'] = $this->user_post_model->userDashboardAudio($userid);
+        $resdata['userDashboardAudioAll'] = $this->user_post_model->userDashboardAudioAll($userid);
+        echo json_encode($resdata);
     }
 
     public function getUserDashboardPdf() {
@@ -403,29 +407,29 @@ class User_post extends MY_Controller {
     }
 
     public function post_opportunity() {
+        // print_r($_POST);
+        // print_r($_FILES);exit;
        
         $s3 = new S3(awsAccessKey, awsSecretKey);
         $userid = $this->session->userdata('aileenuser');
-      
-        
-        $description = $_POST['description'] == 'undefined' ? '' : $_POST['description'];
-        $field = $_POST['field'];
-        $job_title = json_decode($_POST['job_title'], TRUE);
-        $location = json_decode($_POST['location'], TRUE);
+
+        $field = (isset($_POST['field'])  && $_POST['field'] != "undefined" && $_POST['field'] != "" ? $_POST['field'] : "");
+        $job_title = (isset($_POST['job_title']) && $_POST['job_title'] != "undefined" && $_POST['job_title'] != "" ? json_decode($_POST['job_title'], TRUE) : "");
+        $location = (isset($_POST['location']) && $_POST['location'] != "undefined" && $_POST['location'] != "" ? json_decode($_POST['location'], TRUE) : "");
         $post_for = $_POST['post_for'];
-        $question = $_POST['question'];
-        $description = $_POST['description'];
-        $other_field = $_POST['other_field'] == 'undefined' ? '' : $_POST['other_field'];
-        $weblink = $_POST['weblink'] == 'undefined' ? '' : $_POST['weblink'];
-        $is_anonymously = $_POST['is_anonymously'] == 'undefined' ? '0' : '1';
-        $category = json_decode($_POST['category'], TRUE);
+        $question = (isset($_POST['question']) && $_POST['question'] != "" ? $_POST['question'] : "");
+        $description = (isset($_POST['description']) && $_POST['description'] != 'undefined' && $_POST['description'] != '' ? $_POST['description'] : '');
+        $other_field = (isset($_POST['other_field']) && $_POST['other_field'] != 'undefined' && $_POST['other_field'] != "" ? $_POST['other_field'] : "");
+        $weblink = (isset($_POST['weblink']) && $_POST['weblink'] != 'undefined' && $_POST['weblink'] != '' ? $_POST['weblink'] : '');
+        $is_anonymously = (isset($_POST['is_anonymously']) && $_POST['is_anonymously'] != 'undefined' && $_POST['is_anonymously'] != '' ? '1' : '0');
+        $category = (isset($_POST['category']) && $_POST['category'] != "undefined" && $_POST['category'] != "" ? json_decode($_POST['category'], TRUE) : "");
 
 
         $error = '';
         if ($post_for == 'opportunity') {
             if ($description == '') {
                 $error = 1;
-            } elseif ($field == '') {
+            } elseif ($field <= -1) {
                 $error = 1;
             } elseif ($job_title[0]['name'] == '') {
                 $error = 1;
@@ -436,10 +440,10 @@ class User_post extends MY_Controller {
 
         if ($post_for == 'question') {
             $ask_question = $question;
-            $ask_description = $description;
+            $ask_description = $description == 'undefined' ? '' : $description;
             $ask_field = $field;
             $ask_category = $category;
-            $ask_weblink = $weblink;
+            $ask_weblink = $weblink == 'undefined' ? '' : $weblink;
 
             if ($ask_question == '') {
                 $error = 1;
@@ -511,7 +515,7 @@ class User_post extends MY_Controller {
             $this->load->library('upload');
 
             $files = $_FILES;
-            $count = count($_FILES['postfiles']['name']);
+            $count = count($_FILES);//$_FILES['postfiles']['name']);
             $title = time();
 
             $insert_data = array();
@@ -535,15 +539,16 @@ class User_post extends MY_Controller {
                 $insert_data['post_id'] = $user_post_id;
                 $insert_data['opportunity_for'] = $job_title_id;
                 $insert_data['location'] = $city_id;
-                $insert_data['opportunity'] = $description;
+                $insert_data['opportunity'] = $description == 'undefined' ? "" : trim($description);
                 $insert_data['field'] = $field;
                 $insert_data['modify_date'] = date('Y-m-d H:i:s', time());
 
                 $inserted_id = $user_opportunity_id = $this->common->insert_data_getid($insert_data, 'user_opportunity');
+
             } elseif ($post_for == 'simple') {
                 $insert_data = array();
                 $insert_data['post_id'] = $user_post_id;
-                $insert_data['description'] = $description;
+                $insert_data['description'] = $description == 'undefined' ? "" : trim($description);
                 $insert_data['modify_date'] = date('Y-m-d H:i:s', time());
                 $inserted_id = $user_simple_id = $this->common->insert_data_getid($insert_data, 'user_simple_post');
             } elseif ($post_for == 'question') {
@@ -553,6 +558,7 @@ class User_post extends MY_Controller {
                 $insert_data['description'] = $ask_description;
                 $insert_data['category'] = $categoryId;
                 $insert_data['field'] = $ask_field;
+                $insert_data['others_field'] = $other_field;
                 $insert_data['link'] = $ask_weblink;
                 $insert_data['is_anonymously'] = $is_anonymously;
                 $insert_data['modify_date'] = date('Y-m-d H:i:s', time());
@@ -565,17 +571,25 @@ class User_post extends MY_Controller {
             $s3 = new S3(awsAccessKey, awsSecretKey);
             $s3->putBucket(bucket, S3::ACL_PUBLIC_READ);
 
-            if ($_FILES['postfiles']['name'][0] != '') {
+            //if ($_FILES['postfiles']['name'][0] != '') {
+            if ($count >= 0) {
+                $i = 0;
+                //for ($i = 0; $i < $count; $i++) {
+                foreach($_FILES as $k=>$v) {
 
-                for ($i = 0; $i < $count; $i++) {
+                    // $_FILES['postfiles']['name'] = $files['postfiles']['name'][$i];
+                    // $_FILES['postfiles']['type'] = $files['postfiles']['type'][$i];
+                    // $_FILES['postfiles']['tmp_name'] = $files['postfiles']['tmp_name'][$i];
+                    // $_FILES['postfiles']['error'] = $files['postfiles']['error'][$i];
+                    // $_FILES['postfiles']['size'] = $files['postfiles']['size'][$i];
 
-                    $_FILES['postfiles']['name'] = $files['postfiles']['name'][$i];
-                    $_FILES['postfiles']['type'] = $files['postfiles']['type'][$i];
-                    $_FILES['postfiles']['tmp_name'] = $files['postfiles']['tmp_name'][$i];
-                    $_FILES['postfiles']['error'] = $files['postfiles']['error'][$i];
-                    $_FILES['postfiles']['size'] = $files['postfiles']['size'][$i];
+                    $_FILES['postfiles']['name'] = $_FILES[$k]['name'];
+                    $_FILES['postfiles']['type'] = $_FILES[$k]['type'];
+                    $_FILES['postfiles']['tmp_name'] = $_FILES[$k]['tmp_name'];
+                    $_FILES['postfiles']['error'] = $_FILES[$k]['error'];
+                    $_FILES['postfiles']['size'] = $_FILES[$k]['size'];
 
-                    $file_type = $_FILES['postfiles']['type'];
+                    $file_type = $_FILES[$k]['type'];
                     $file_type = explode('/', $file_type);
                     $file_type = $file_type[0];
                     if ($file_type == 'image') {
@@ -588,8 +602,8 @@ class User_post extends MY_Controller {
                         $file_type = 'pdf';
                     }
 
-                    if ($_FILES['postfiles']['error'] == 0) {
-                        $store = $_FILES['postfiles']['name'];
+                    if ($_FILES[$k]['error'] == 0) {
+                        $store = $_FILES[$k]['name'];
                         $store_ext = explode('.', $store);
                         $store_ext = end($store_ext);
                         $fileName = 'file_' . $title . '_' . $this->random_string() . '.' . $store_ext;
@@ -603,16 +617,17 @@ class User_post extends MY_Controller {
 
                             if ($file_type == 'video') {
                                 $uploaded_url = base_url() . $this->config->item('user_post_main_upload_path') . $response['result'][$i]['file_name'];
-                                exec("ffmpeg -i " . $uploaded_url . " -vcodec h264 -acodec aac -strict -2 " . $upload_data['file_path'] . $upload_data['raw_name'] . "1" . $upload_data['file_ext'] . "");
-                                exec("ffmpeg -ss 00:00:05 -i " . $upload_data['full_path'] . " " . $upload_data['file_path'] . $upload_data['raw_name'] . "1" . ".png");
+                                exec("ffmpeg -i " . $uploaded_url . " -vcodec h264 -acodec aac -strict -2 " . $upload_data['file_path'] . $upload_data['raw_name'] . $upload_data['file_ext'] . "");
+                                exec("ffmpeg -ss 00:00:05 -i " . $upload_data['full_path'] . " " . $upload_data['file_path'] . $upload_data['raw_name'] . ".png");
                                 //$fileName = $response['result'][$i]['file_name'] = $upload_data['raw_name'] . "1" . $upload_data['file_ext'];
                                 $fileName = $response['result'][$i]['file_name'] = $upload_data['raw_name'] . "" . $upload_data['file_ext'];
                                 if (IMAGEPATHFROM == 's3bucket') {
-                                    unlink($this->config->item('user_post_main_upload_path') . $upload_data['raw_name'] . "" . $upload_data['file_ext']);
+                                    //unlink($this->config->item('user_post_main_upload_path') . $upload_data['raw_name'] . "" . $upload_data['file_ext']);
+                                    $abc = $s3->putObjectFile($fileName, bucket, $fileName, S3::ACL_PUBLIC_READ);
                                 }
-                            }
+                            }                                
 
-                            $main_image_size = $_FILES['postfiles']['size'];
+                            $main_image_size = $_FILES[$k]['size'];
 
                             if ($main_image_size > '1000000') {
                                 $quality = "50%";
@@ -640,6 +655,7 @@ class User_post extends MY_Controller {
 
                             /* RESIZE */
 
+                            //Main Image
                             $main_image = $this->config->item('user_post_main_upload_path') . $response['result'][$i]['file_name'];
                             if (IMAGEPATHFROM == 's3bucket') {
                                 $abc = $s3->putObjectFile($main_image, bucket, $main_image, S3::ACL_PUBLIC_READ);
@@ -656,57 +672,11 @@ class User_post extends MY_Controller {
                             }
                             $image_width = $response['result'][$i]['image_width'];
                             $image_height = $response['result'][$i]['image_height'];
-
-
-                            if ($count == '3') {
-                                /* RESIZE 4 */
-
-                                $resize4_image_width = $this->config->item('user_post_resize4_width');
-                                $resize4_image_height = $this->config->item('user_post_resize4_height');
-
-
-                                if ($image_width > $image_height) {
-                                    $n_h1 = $resize4_image_height;
-                                    $image_ratio = $image_height / $n_h1;
-                                    $n_w1 = round($image_width / $image_ratio);
-                                } else if ($image_width < $image_height) {
-                                    $n_w1 = $resize4_image_width;
-                                    $image_ratio = $image_width / $n_w1;
-                                    $n_h1 = round($image_height / $image_ratio);
-                                } else {
-                                    $n_w1 = $resize4_image_width;
-                                    $n_h1 = $resize4_image_height;
-                                }
-
-                                $left = ($n_w1 / 2) - ($resize4_image_width / 2);
-                                $top = ($n_h1 / 2) - ($resize4_image_height / 2);
-
-                                $user_post_resize4[$i]['image_library'] = 'gd2';
-                                $user_post_resize4[$i]['source_image'] = $this->config->item('user_post_main_upload_path') . $response['result'][$i]['file_name'];
-                                $user_post_resize4[$i]['new_image'] = $this->config->item('user_post_resize4_upload_path') . $response['result'][$i]['file_name'];
-                                $user_post_resize4[$i]['create_thumb'] = TRUE;
-                                $user_post_resize4[$i]['maintain_ratio'] = TRUE;
-                                $user_post_resize4[$i]['thumb_marker'] = '';
-                                $user_post_resize4[$i]['width'] = $n_w1;
-                                $user_post_resize4[$i]['height'] = $n_h1;
-                                $user_post_resize4[$i]['quality'] = "100%";
-                                $instanse4 = "image4_$i";
-                                //Loading Image Library
-                                $this->load->library('image_lib', $user_post_resize4[$i], $instanse4);
-                                //Creating Thumbnail
-                                $this->$instanse4->resize();
-                                $this->$instanse4->clear();
-
-                                $resize_image4 = $this->config->item('user_post_resize4_upload_path') . $response['result'][$i]['file_name'];
-                                if (IMAGEPATHFROM == 's3bucket') {
-                                    $abc = $s3->putObjectFile($resize_image4, bucket, $resize_image4, S3::ACL_PUBLIC_READ);
-                                }
-                                /* RESIZE 4 */
-                            }
-
+                            //Main Image
+                            if ($file_type == 'image') {
+                            //Thumb Image
                             $thumb_image_width = $this->config->item('user_post_thumb_width');
                             $thumb_image_height = $this->config->item('user_post_thumb_height');
-
 
                             if ($image_width > $image_height) {
                                 $n_h = $thumb_image_height;
@@ -743,105 +713,105 @@ class User_post extends MY_Controller {
                             if (IMAGEPATHFROM == 's3bucket') {
                                 $abc = $s3->putObjectFile($thumb_image, bucket, $thumb_image, S3::ACL_PUBLIC_READ);
                             }
-                            if ($count == '2' || $count == '3') {
-                                /* CROP 335 X 320 */
-                                // reconfigure the image lib for cropping
-
-                                $resized_image_width = $this->config->item('user_post_resize1_width');
-                                $resized_image_height = $this->config->item('user_post_resize1_height');
-                                if ($thumb_image_width < $resized_image_width) {
-                                    $resized_image_width = $thumb_image_width;
-                                }
-                                if ($thumb_image_height < $resized_image_height) {
-                                    $resized_image_height = $thumb_image_height;
-                                }
-
-                                $conf_new[$i] = array(
-                                    'image_library' => 'gd2',
-                                    'source_image' => $user_post_thumb[$i]['new_image'],
-                                    'create_thumb' => FALSE,
-                                    'maintain_ratio' => FALSE,
-                                    'width' => $resized_image_width,
-                                    'height' => $resized_image_height
-                                );
-
-                                $conf_new[$i]['new_image'] = $this->config->item('user_post_resize1_upload_path') . $response['result'][$i]['file_name'];
-
-                                $left = ($n_w / 2) - ($resized_image_width / 2);
-                                $top = ($n_h / 2) - ($resized_image_height / 2);
-
-                                $conf_new[$i]['x_axis'] = $left;
-                                $conf_new[$i]['y_axis'] = $top;
-
-                                $instanse1 = "image1_$i";
-                                //Loading Image Library
-                                $this->load->library('image_lib', $conf_new[$i], $instanse1);
-                                $dataimage = $response['result'][$i]['file_name'];
-                                //Creating Thumbnail
-                                $this->$instanse1->crop();
-
-                                $resize_image = $this->config->item('user_post_resize1_upload_path') . $response['result'][$i]['file_name'];
-                                if (IMAGEPATHFROM == 's3bucket') {
-                                    $abc = $s3->putObjectFile($resize_image, bucket, $resize_image, S3::ACL_PUBLIC_READ);
-                                }
-                                /* CROP 335 X 320 */
-                            }
-                            if ($count == '4' || $count > '4') {
-                              
-                                /* CROP 335 X 245 */
-                                // reconfigure the image lib for cropping
-
-                                $resized_image_width = $this->config->item('user_post_resize2_width');
-                                $resized_image_height = $this->config->item('user_post_resize2_height');
-                                if ($thumb_image_width < $resized_image_width) {
-                                    $resized_image_width = $thumb_image_width;
-                                }
-                                if ($thumb_image_height < $resized_image_height) {
-                                    $resized_image_height = $thumb_image_height;
-                                }
+                            //Thumb Image
 
 
-                                $conf_new1[$i] = array(
-                                    'image_library' => 'gd2',
-                                    'source_image' => $user_post_thumb[$i]['new_image'],
-                                    'create_thumb' => FALSE,
-                                    'maintain_ratio' => FALSE,
-                                    'width' => $resized_image_width,
-                                    'height' => $resized_image_height
-                                );
-
-                                $conf_new1[$i]['new_image'] = $this->config->item('user_post_resize2_upload_path') . $response['result'][$i]['file_name'];
-
-                                $left = ($n_w / 2) - ($resized_image_width / 2);
-                                $top = ($n_h / 2) - ($resized_image_height / 2);
-
-                                $conf_new1[$i]['x_axis'] = $left;
-                                $conf_new1[$i]['y_axis'] = $top;
-
-                                $instanse2 = "image2_$i";
-                                //Loading Image Library
-                                $this->load->library('image_lib', $conf_new1[$i], $instanse2);
-                                $dataimage = $response['result'][$i]['file_name'];
-                                //Creating Thumbnail
-                                $this->$instanse2->crop();
-
-                                $resize_image1 = $this->config->item('user_post_resize2_upload_path') . $response['result'][$i]['file_name'];
-                                if (IMAGEPATHFROM == 's3bucket') {
-                                    $abc = $s3->putObjectFile($resize_image1, bucket, $resize_image1, S3::ACL_PUBLIC_READ);
-                                }
-
-                                /* CROP 335 X 245 */
-                            }
-                            /* CROP 210 X 210 */
+                            /* Resize1 Start CROP 335 X 320 */
                             // reconfigure the image lib for cropping
 
-                            $resized_image_width = $this->config->item('user_post_resize3_width');
-                            $resized_image_height = $this->config->item('user_post_resize3_height');
-                            if ($thumb_image_width < $resized_image_width) {
-                                $resized_image_width = $thumb_image_width;
+                            $resized_image_width1 = $this->config->item('user_post_resize1_width');
+                            $resized_image_height1 = $this->config->item('user_post_resize1_height');
+                            if ($thumb_image_width < $resized_image_width1) {
+                                $resized_image_width1 = $thumb_image_width;
                             }
-                            if ($thumb_image_height < $resized_image_height) {
-                                $resized_image_height = $thumb_image_height;
+                            if ($thumb_image_height < $resized_image_height1) {
+                                $resized_image_height1 = $thumb_image_height;
+                            }
+
+                            $conf_new[$i] = array(
+                                'image_library' => 'gd2',
+                                'source_image' => $user_post_thumb[$i]['new_image'],
+                                'create_thumb' => FALSE,
+                                'maintain_ratio' => FALSE,
+                                'width' => $resized_image_width1,
+                                'height' => $resized_image_height1
+                            );
+
+                            $conf_new[$i]['new_image'] = $this->config->item('user_post_resize1_upload_path') . $response['result'][$i]['file_name'];
+
+                            $left = ($n_w / 2) - ($resized_image_width1 / 2);
+                            $top = ($n_h / 2) - ($resized_image_height1 / 2);
+
+                            $conf_new[$i]['x_axis'] = $left;
+                            $conf_new[$i]['y_axis'] = $top;
+
+                            $instanse1 = "image1_$i";
+                            //Loading Image Library
+                            $this->load->library('image_lib', $conf_new[$i], $instanse1);
+                            $dataimage = $response['result'][$i]['file_name'];
+                            //Creating Thumbnail
+                            $this->$instanse1->crop();
+
+                            $resize_image = $this->config->item('user_post_resize1_upload_path') . $response['result'][$i]['file_name'];
+                            if (IMAGEPATHFROM == 's3bucket') {
+                                $abc = $s3->putObjectFile($resize_image, bucket, $resize_image, S3::ACL_PUBLIC_READ);
+                            }
+                            /*  Resize1 End CROP 335 X 320 */
+
+                            /* Resize2 Start CROP 335 X 245 */
+                            // reconfigure the image lib for cropping
+
+                            $resized_image_width2 = $this->config->item('user_post_resize2_width');
+                            $resized_image_height2 = $this->config->item('user_post_resize2_height');
+                            if ($thumb_image_width < $resized_image_width2) {
+                                $resized_image_width2 = $thumb_image_width;
+                            }
+                            if ($thumb_image_height < $resized_image_height2) {
+                                $resized_image_height2 = $thumb_image_height;
+                            }
+
+
+                            $conf_new1[$i] = array(
+                                'image_library' => 'gd2',
+                                'source_image' => $user_post_thumb[$i]['new_image'],
+                                'create_thumb' => FALSE,
+                                'maintain_ratio' => FALSE,
+                                'width' => $resized_image_width2,
+                                'height' => $resized_image_height2
+                            );
+
+                            $conf_new1[$i]['new_image'] = $this->config->item('user_post_resize2_upload_path') . $response['result'][$i]['file_name'];
+
+                            $left = ($n_w / 2) - ($resized_image_width2 / 2);
+                            $top = ($n_h / 2) - ($resized_image_height2 / 2);
+
+                            $conf_new1[$i]['x_axis'] = $left;
+                            $conf_new1[$i]['y_axis'] = $top;
+
+                            $instanse2 = "image2_$i";
+                            //Loading Image Library
+                            $this->load->library('image_lib', $conf_new1[$i], $instanse2);
+                            $dataimage = $response['result'][$i]['file_name'];
+                            //Creating Thumbnail
+                            $this->$instanse2->crop();
+
+                            $resize_image1 = $this->config->item('user_post_resize2_upload_path') . $response['result'][$i]['file_name'];
+                            if (IMAGEPATHFROM == 's3bucket') {
+                                $abc = $s3->putObjectFile($resize_image1, bucket, $resize_image1, S3::ACL_PUBLIC_READ);
+                            }
+
+                            /* Resize2 End CROP 335 X 245 */
+
+                            /* Resize3 Start CROP 210 X 210 */
+                            // reconfigure the image lib for cropping
+
+                            $resized_image_width3 = $this->config->item('user_post_resize3_width');
+                            $resized_image_height3 = $this->config->item('user_post_resize3_height');
+                            if ($thumb_image_width < $resized_image_width3) {
+                                $resized_image_width3 = $thumb_image_width;
+                            }
+                            if ($thumb_image_height < $resized_image_height3) {
+                                $resized_image_height3 = $thumb_image_height;
                             }
 
                             $conf_new2[$i] = array(
@@ -849,14 +819,14 @@ class User_post extends MY_Controller {
                                 'source_image' => $user_post_thumb[$i]['new_image'],
                                 'create_thumb' => FALSE,
                                 'maintain_ratio' => FALSE,
-                                'width' => $resized_image_width,
-                                'height' => $resized_image_height
+                                'width' => $resized_image_width3,
+                                'height' => $resized_image_height3
                             );
 
                             $conf_new2[$i]['new_image'] = $this->config->item('user_post_resize3_upload_path') . $response['result'][$i]['file_name'];
 
-                            $left = ($n_w / 2) - ($resized_image_width / 2);
-                            $top = ($n_h / 2) - ($resized_image_height / 2);
+                            $left = ($n_w / 2) - ($resized_image_width3 / 2);
+                            $top = ($n_h / 2) - ($resized_image_height3 / 2);
 
                             $conf_new2[$i]['x_axis'] = $left;
                             $conf_new2[$i]['y_axis'] = $top;
@@ -871,20 +841,80 @@ class User_post extends MY_Controller {
                             if (IMAGEPATHFROM == 's3bucket') {
                                 $abc = $s3->putObjectFile($resize_image2, bucket, $resize_image2, S3::ACL_PUBLIC_READ);
                             }
+                            /* Resize3 End CROP 210 X 210 */
 
-                            /* CROP 210 X 210 */
-                            $response['error'][] = $thumberror = $this->$instanse->display_errors();
-                            $return['data'][] = $imgdata;
-                            $return['status'] = "success";
-                            $return['msg'] = sprintf($this->lang->line('success_item_added'), "Image", "uploaded");
+                            /* RESIZE 4 Start */
+
+                            $resize4_image_width = $this->config->item('user_post_resize4_width');
+                            $resize4_image_height = $this->config->item('user_post_resize4_height');
+
+
+                            if ($image_width > $image_height) {
+                                $n_h1 = $resize4_image_height;
+                                $image_ratio = $image_height / $n_h1;
+                                $n_w1 = round($image_width / $image_ratio);
+                            } else if ($image_width < $image_height) {
+                                $n_w1 = $resize4_image_width;
+                                $image_ratio = $image_width / $n_w1;
+                                $n_h1 = round($image_height / $image_ratio);
+                            } else {
+                                $n_w1 = $resize4_image_width;
+                                $n_h1 = $resize4_image_height;
+                            }
+
+                            $left = ($n_w1 / 2) - ($resize4_image_width / 2);
+                            $top = ($n_h1 / 2) - ($resize4_image_height / 2);
+
+                            $user_post_resize4[$i]['image_library'] = 'gd2';
+                            $user_post_resize4[$i]['source_image'] = $this->config->item('user_post_main_upload_path') . $response['result'][$i]['file_name'];
+                            $user_post_resize4[$i]['new_image'] = $this->config->item('user_post_resize4_upload_path') . $response['result'][$i]['file_name'];
+                            $user_post_resize4[$i]['create_thumb'] = TRUE;
+                            $user_post_resize4[$i]['maintain_ratio'] = TRUE;
+                            $user_post_resize4[$i]['thumb_marker'] = '';
+                            $user_post_resize4[$i]['width'] = $n_w1;
+                            $user_post_resize4[$i]['height'] = $n_h1;
+                            $user_post_resize4[$i]['quality'] = "100%";
+                            $instanse4 = "image4_$i";
+                            //Loading Image Library
+                            $this->load->library('image_lib', $user_post_resize4[$i], $instanse4);
+                            //Creating Thumbnail
+                            $this->$instanse4->resize();
+                            $this->$instanse4->clear();
+
+                            $resize_image4 = $this->config->item('user_post_resize4_upload_path') . $response['result'][$i]['file_name'];
+                            if (IMAGEPATHFROM == 's3bucket') {
+                                $abc = $s3->putObjectFile($resize_image4, bucket, $resize_image4, S3::ACL_PUBLIC_READ);
+                            }
+                            /* RESIZE 4 End */
+                            }
+
+
+                            /*if ($count == '3') {
+                                
+                            }
+
+                            
+                            if ($count == '2' || $count == '3') {
+                               
+                            }
+                            if ($count == '4' || $count > '4') {                              
+                                
+                            }*/
+                            
+                            // $response['error'][] = $thumberror = $this->$instanse->display_errors();
+                            // $return['data'][] = $imgdata;
+                            // $return['status'] = "success";
+                            // $return['msg'] = sprintf($this->lang->line('success_item_added'), "Image", "uploaded");
+                            
 
                             $insert_data = array();
                             $insert_data['post_id'] = $user_post_id;
                             $insert_data['file_type'] = $file_type;
                             $insert_data['filename'] = $fileName;
                             $insert_data['modify_date'] = date('Y-m-d H:i:s', time());
-
+                            
                             $insert_post_id = $this->common->insert_data_getid($insert_data, 'user_post_file');
+
                             /* THIS CODE UNCOMMENTED AFTER SUCCESSFULLY WORKING : REMOVE IMAGE FROM UPLOAD FOLDER */
 
                             if ($_SERVER['HTTP_HOST'] != "localhost") {
@@ -916,12 +946,14 @@ class User_post extends MY_Controller {
                         $this->session->set_flashdata('error', '<div class="col-md-7 col-sm-7 alert alert-danger1">Something went to wrong in uploded file.</div>');
                         exit;
                     }
+                $i++;
                 }
             }
 
-            $post_data = $this->user_post_model->userPost($userid, $start = '0', $limit = '1');
+            //$post_data = $this->user_post_model->userPost($userid, $start = '0', $limit = '1');
             //  echo count($post_data); '<pre>'; print_r($post_data); die();
-            echo json_encode($post_data);
+            //echo json_encode($post_data);
+            echo json_encode("1");
         }
     }
 
@@ -987,6 +1019,7 @@ class User_post extends MY_Controller {
             $job_title = json_decode($_POST['job_title'], TRUE);
             $location = json_decode($_POST['location'], TRUE);
 
+            $job_title_id = "";
             foreach ($job_title as $title) {
                 $designation = $this->data_model->findJobTitle($title['name']);
                 if ($designation['title_id'] != '') {
@@ -1004,6 +1037,7 @@ class User_post extends MY_Controller {
             }
             $job_title_id = trim($job_title_id, ',');
 
+            $city_id = "";
             foreach ($location as $loc) {
                 $city = $this->data_model->findCityList($loc['city_name']);
                 if ($city['city_id'] != '') {
@@ -1039,6 +1073,7 @@ class User_post extends MY_Controller {
             $ask_other_field = $_POST['other_field'];
             $ask_web_link = $_POST['weblink'];
             $ask_category = json_decode($_POST['category'], TRUE);
+            $is_anonymously = $_POST['is_anonymously'];
 
             foreach ($ask_category as $ask) {
                 $asked = $this->data_model->findCategory($ask['name']);
@@ -1065,31 +1100,34 @@ class User_post extends MY_Controller {
             $update_data['description'] = $ask_desc;
             $update_data['category'] = $categoryId;
             $update_data['field'] = $ask_field;
+            $update_data['others_field'] = $ask_other_field;
+            $update_data['is_anonymously'] = $is_anonymously;
+            $update_data['link'] = $ask_web_link;
             $update_data['modify_date'] = date('Y-m-d H:i:s', time());
             $update_post_data = $this->common->update_data($update_data, 'user_ask_question', 'post_id', $post_id);
         }
 
         if ($update_post_data) {
             if ($post_for == 'opportunity') {
+                $opp_desc = nl2br($this->common->make_links($opp_desc));
                 $updatedata = array(
                     'response' => 1,
                     'opp_location' => $opportunity_location['location'],
                     'opp_opportunity_for' => $opportunity_title['opportunity_for'],
                     'opp_field' => $opportunity_field['field'],
+                    'opportunity' => $opp_desc
                 );
             } else if ($post_for == 'simple') {
+                $description = nl2br($this->common->make_links($description));
                 $updatedata = array(
                     'response' => 1,
                     'sim_description' => $description,
                 );
             } else if ($post_for == 'question') {
-                $updatedata = array(
-                    'response' => 1,
-                    'ask_question' => $ask_que,
-                    'ask_description' => $ask_desc,
-                    'ask_field' => $question_field['field'],
-                    'ask_category' => $question_category['category'],
-                );
+                //$ask_desc = nl2br($this->common->make_links($ask_desc));
+                
+                $updatedata['question_data'] = $this->user_post_model->getQuestionDataFromId($post_id);
+                $updatedata['response'] = 1;
             }
         } else {
             $updatedata = array(

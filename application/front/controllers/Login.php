@@ -14,7 +14,7 @@ class Login extends CI_Controller {
         $this->load->library('S3');
         //AWS access info end
         if ($this->session->userdata('aileenuser')) {
-            redirect('profiles/' . $this->session->userdata('aileenuser_slug'), 'refresh');
+            redirect($this->session->userdata('aileenuser_slug')."/profiles", 'refresh');
         }
 
         $this->load->library('form_validation');
