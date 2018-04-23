@@ -43,7 +43,6 @@ $(function () {
                 }
             });
     /* first box*/
-    
     /* location box*/
     $(".searchplace").bind("keydown", function (event) {
         if (event.keyCode === $.ui.keyCode.TAB &&

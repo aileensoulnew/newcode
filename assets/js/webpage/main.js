@@ -80,7 +80,7 @@ $(document).ready(function () {
                 if (response.data == "ok") {
                     $("#btn-login").html('<img src="' + base_url + 'images/btn-ajax-loader.gif" /> &nbsp; Login ...');
                     if(response.is_userBasicInfo==1 || response.is_userStudentInfo==1){
-                        window.location = base_url + "profiles/" + response.user_slug;
+                        window.location = base_url;// + response.user_slug + "/profiles";
                     } else {
                         window.location = base_url + "basic-information";//"profiles/" + response.user_slug;    
                     }

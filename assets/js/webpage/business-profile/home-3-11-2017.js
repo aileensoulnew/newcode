@@ -59,15 +59,12 @@ function ajax_business_home_post(pagenum) {
         dataType: "html",
         beforeSend: function () {
             if (pagenum == 'undefined') {
-                $(".business-all-post").prepend('<p style="text-align:center;"><img class="loader" src="' + base_url + 'images/loading.gif"/></p>');
             } else {
-                $('#loader').show();
             }
         },
         complete: function () {
         },
         success: function (data) {
-            $('#loader').remove();
             $('.business-all-post').append(data);
             var nb = $('.post-design-box').length;
             if (nb == 0) {
@@ -132,12 +129,6 @@ function post_like(clicked_id)
                             document.getElementById('likeusername' + clicked_id).style.display = "block";
                         }
                         $('#likeusername' + clicked_id).addClass('likeduserlist1');
-
-                        if (data.notification.notification_count != 0) {
-                            var notification_count = data.notification.notification_count;
-                            var to_id = data.notification.to_id;
-                            show_header_notification(notification_count, to_id);
-                        }
                     }
                 });
             } else {
@@ -195,11 +186,6 @@ function insert_comment(clicked_id)
                             });
                             $('.insertcomment' + clicked_id).html(data.comment);
                             $('.comment_count' + clicked_id).html(data.comment_count);
-                            if (data.notification.notification_count != 0) {
-                                var notification_count = data.notification.notification_count;
-                                var to_id = data.notification.to_id;
-                                show_header_notification(notification_count, to_id);
-                            }
                         }
                     });
                 } else {
@@ -214,11 +200,6 @@ function insert_comment(clicked_id)
                             });
                             $('#' + 'fourcomment' + clicked_id).html(data.comment);
                             $('.comment_count' + clicked_id).html(data.comment_count);
-                            if (data.notification.notification_count != 0) {
-                                var notification_count = data.notification.notification_count;
-                                var to_id = data.notification.to_id;
-                                show_header_notification(notification_count, to_id);
-                            }
                         }
                     });
                 }
@@ -287,11 +268,6 @@ function entercomment(clicked_id)
                                     });
                                     $('.insertcomment' + clicked_id).html(data.comment);
                                     $('.comment_count' + clicked_id).html(data.comment_count);
-                                    if (data.notification.notification_count != 0) {
-                                        var notification_count = data.notification.notification_count;
-                                        var to_id = data.notification.to_id;
-                                        show_header_notification(notification_count, to_id);
-                                    }
                                 }
                             });
                         } else {
@@ -306,11 +282,6 @@ function entercomment(clicked_id)
                                     });
                                     $('#' + 'fourcomment' + clicked_id).html(data.comment);
                                     $('.comment_count' + clicked_id).html(data.comment_count);
-                                    if (data.notification.notification_count != 0) {
-                                        var notification_count = data.notification.notification_count;
-                                        var to_id = data.notification.to_id;
-                                        show_header_notification(notification_count, to_id);
-                                    }
                                 }
                             });
                         }
@@ -391,14 +362,8 @@ function comment_like1(clicked_id)
                     type: 'POST',
                     url: base_url + "business_profile/like_comment1",
                     data: 'post_id=' + clicked_id,
-                    dataType: 'json',
                     success: function (data) {
-                        $('#' + 'likecomment1' + clicked_id).html(data.comment_html);
-                        if (data.notification.notification_count != 0) {
-                            var notification_count = data.notification.notification_count;
-                            var to_id = data.notification.to_id;
-                            show_header_notification(notification_count, to_id);
-                        }
+                        $('#' + 'likecomment1' + clicked_id).html(data);
                     }
                 });
             } else {
@@ -497,8 +462,6 @@ function comment_editbox(clicked_id) {
                 document.getElementById('editcancle' + clicked_id).style.display = 'block';
 
                 $('.post-design-commnet-box').hide();
-                $('.hidebottomborder').find('.all-comment-comment-box:last').css('border-bottom', '0px');
-
             } else {
                 $('.mes').html('Sorry this content is now not available');
                 $('#bidmodal').modal('show');
@@ -512,8 +475,6 @@ function comment_editcancle(clicked_id) {
     document.getElementById('editcomment' + clicked_id).style.display = 'none';
     document.getElementById('showcomment' + clicked_id).style.display = 'block';
     document.getElementById('editsubmit' + clicked_id).style.display = 'none';
-
-    $('.hidebottomborder').find('.all-comment-comment-box:last').css('border-bottom', '1px solid #d9d9d9');
 
     $('.post-design-commnet-box').show();
 }
@@ -538,9 +499,6 @@ function comment_editboxtwo(clicked_id) {
                 document.getElementById('editcancletwo' + clicked_id).style.display = 'block';
 
                 $('.post-design-commnet-box').hide();
-                $('.hidebottombordertwo').find('.all-comment-comment-box:last').css('border-bottom', '0px');
-                $('.hidebottomborder').find('.all-comment-comment-box:last').css('border-bottom', '0px');
-
             } else {
                 $('.mes').html('Sorry this content is now not available');
                 $('#bidmodal').modal('show');
@@ -554,10 +512,6 @@ function comment_editcancletwo(clicked_id) {
     document.getElementById('editcommenttwo' + clicked_id).style.display = 'none';
     document.getElementById('showcommenttwo' + clicked_id).style.display = 'block';
     document.getElementById('editsubmittwo' + clicked_id).style.display = 'none';
-
-
-    $('.hidebottombordertwo').find('.all-comment-comment-box:last').css('border-bottom', '1px solid #d9d9d9');
-    $('.hidebottomborder').find('.all-comment-comment-box:last').css('border-bottom', '1px solid #d9d9d9');
 
     $('.post-design-commnet-box').show();
 }
@@ -916,9 +870,6 @@ function save_post(abc)
 /* FOLLOW USER SCRIPT START */
 function followuser(clicked_id)
 {
-    var follow_index = $('.follow_left_box_main_btn').index();
-    document.getElementById('followdiv' + clicked_id).removeAttribute("onclick");
-    document.getElementById('Follow_close' + clicked_id).removeAttribute("onclick");
     $.ajax({
         type: 'POST',
         url: base_url + "business_profile/home_three_follow",
@@ -937,70 +888,39 @@ function followuser(clicked_id)
                             $('.full-box-module_follow').hide();
                         }
                     });
-            if (data.notification.notification_count != 0) {
-                var notification_count = data.notification.notification_count;
-                var to_id = data.notification.to_id;
-                show_header_notification(notification_count, to_id);
-            }
+
         }
     });
 }
 
 function followclose(clicked_id)
 {
-    document.getElementById('followdiv' + clicked_id).removeAttribute("onclick");
-    document.getElementById('Follow_close' + clicked_id).removeAttribute("onclick");
     $.ajax({
         type: 'POST',
         url: base_url + "business_profile/business_home_follow_ignore",
         data: 'follow_to=' + clicked_id,
         success: function (data) {
-            $('ul.home_three_follow_ul').append(data);
-            $.when($('.fad' + clicked_id).fadeOut(1500))
-                    .done(function () {
-                        $('.fad' + clicked_id).remove();
-                        var liCount = $("ul.home_three_follow_ul li.follow_box_ul_li").length;
-                        if (liCount == 0) {
-                            $('.full-box-module_follow').hide();
-                        }
-                    });
+            if (data) {
+                $.ajax({
+                    type: 'POST',
+                    url: base_url + "business_profile/third_follow_ignore_user_data",
+                    dataType: 'html',
+                    success: function (data) {
+                        $('ul.home_three_follow_ul').append(data);
+                        $.when($('.fad' + clicked_id).fadeOut(1500))
+                                .done(function () {
+                                    $('.fad' + clicked_id).remove();
+                                    var liCount = $("ul.home_three_follow_ul li.follow_box_ul_li").length;
+                                    if (liCount == 0) {
+                                        $('.full-box-module_follow').hide();
+                                    }
+                                });
+                    }
+                });
+            }
         }
     });
 }
-
-
-
-
-// function followclose(clicked_id)
-// {
-//     document.getElementById('followdiv' + clicked_id).removeAttribute("onclick");
-//     document.getElementById('Follow_close' + clicked_id).removeAttribute("onclick");
-//     $.ajax({
-//         type: 'POST',
-//         url: base_url + "business_profile/business_home_follow_ignore",
-//         data: 'follow_to=' + clicked_id,
-//         success: function (data) {
-//             if (data) {
-//                 $.ajax({
-//                     type: 'POST',
-//                     url: base_url + "business_profile/third_follow_ignore_user_data",
-//                     dataType: 'html',
-//                     success: function (data) {
-//                         $('ul.home_three_follow_ul').append(data);
-//                         $.when($('.fad' + clicked_id).fadeOut(1500))
-//                                 .done(function () {
-//                                     $('.fad' + clicked_id).remove();
-//                                     var liCount = $("ul.home_three_follow_ul li.follow_box_ul_li").length;
-//                                     if (liCount == 0) {
-//                                         $('.full-box-module_follow').hide();
-//                                     }
-//                                 });
-//                     }
-//                 });
-//             }
-//         }
-//     });
-// }
 //function followclose(clicked_id)
 //{
 //    $.when($('.fad' + clicked_id).fadeOut(3000))
@@ -1036,32 +956,16 @@ function business_home_follow_ignore(clicked_id)
 // Get the modal
 var modal = document.getElementById('myModal');
 // Get the button that opens the modal
-//var btn = document.getElementById("myBtn");
+var btn = document.getElementById("myBtn");
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close1")[0];
 // When the user clicks the button, open the modal 
-// btn.onclick = function () {
-
-//     var product_name1 = document.getElementById("test-upload-product").value;
-
-//     var product_trim1 = product_name1.trim();
-//     var product_description1 = document.getElementById("test-upload-des").value;
-//     var des_trim1 = product_description1.trim();
-
-//     var product_fileInput1 = document.getElementById("file-1").value;
-
-//     if (product_fileInput1 == '' && product_trim1 == '' && des_trim1 == '')
-//     {
-//         modal.style.display = "block";
-//     }
-// }
+btn.onclick = function () {
+    modal.style.display = "block";
+}
 // When the user clicks on <span> (x), close the modal
 span.onclick = function () {
     modal.style.display = "none";
-}
-
-function modelopen() {
-    modal.style.display = "block";
 }
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function (event) {
@@ -1648,7 +1552,6 @@ $(document).on('keydown', function (e) {
             });
         }
         document.getElementById('myModal').style.display = "none";
-        $('body').removeClass('modal-open');
     }
 });
 
@@ -1660,7 +1563,6 @@ window.onclick = function (event) {
     if (event.target == modal) {
         modal.style.display = "none";
     }
-    $('body').removeClass('modal-open');
 }
 
 
@@ -1840,8 +1742,6 @@ jQuery(document).ready(function ($) {
             var percentVal = percentComplete + '%';
             bar.width(percentVal)
             percent.html(percentVal);
-
-            $('#myBtn').prop('onclick', null).off('click');
         },
         success: function () {
 //            var percentVal = '100%';
@@ -1849,9 +1749,6 @@ jQuery(document).ready(function ($) {
 //            percent.html(percentVal);
         },
         complete: function (response) {
-
-
-            $("#myBtn").on("click", modelopen);
 
             var percentVal = '100%';
             bar.width(percentVal)
@@ -1965,49 +1862,10 @@ $('.close1').click(function () {
 function removeimage() {
     var fileInput = document.getElementById("file-1").files;
     var ab = $(this).index();
-    //alert(ab);
+    alert(ab);
     for (var i = 0; i < fileInput.length; i++)
     {
         var vname = fileInput[i].name;
-
+        
     }
-}
-
-
-
-// video view user start
-
-
-// video user show list
-
-function count_videouser(file_id, post_id) {
-
-    var vid = document.getElementById("show_video" + file_id);
-
-    if (vid.paused) {
-        vid.play();
-        $.ajax({
-            type: 'POST',
-            url: base_url + "business_profile/showuser",
-            data: 'post_id=' + post_id + '&file_id=' + file_id,
-            dataType: "html",
-            success: function (data) {
-                $('#' + 'viewvideouser' + post_id).html(data);
-            }
-        });
-    } else {
-        vid.pause();
-    }
-}
-
-function playtime(file_id, post_id) {
-    $.ajax({
-        type: 'POST',
-        url: base_url + "business_profile/showuser",
-        data: 'post_id=' + post_id + '&file_id=' + file_id,
-        dataType: "html",
-        success: function (data) {
-            $('#' + 'viewvideouser' + post_id).html(data);
-        }
-    });
 }
