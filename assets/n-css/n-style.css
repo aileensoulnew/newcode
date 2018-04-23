@@ -74,7 +74,9 @@
 .post-img{width:50px; height:50px; float:left; }
 .modal .post-img{width:40px; height:40px;}
 .post-img img{width:100%;}
-.post-box .post-text{width:90%; float:left; padding:14px 10px; font-size:22px; color:#999;}
+.post-box .post-text{width:100%; float:left; padding:14px 0px; font-size:22px; color:#999;}
+.post-box .post-text textarea{border:0px; border-bottom:1px solid #d2d2d2; border-radius:0;}
+#ask_question .post-field textarea{height:130px;}
 .post-box .post-cam{position:absolute; right:10px; top:23px;}
 .post-box .post-cam .fa{color:#1b8ab9; font-size:25px}
 .post-box-bottom{margin-top:10px; border-top:1px solid #d2d2d2; padding-top:5px; width:100%; float:left;}
@@ -1984,7 +1986,7 @@ li .custom-user-box.no-data-available{border:0; padding: 15px;}
 	.comment-dis{width:90%;}
 	.post-images .two-img{width:calc(50% - 4px);}
 	.main-banner{max-height:260px;}
-	.post-box .post-text{width:85%;}
+	.post-box .post-text{/*width:85%;*/}
 	.add-comment .comment-input{width:73%;}
 	.post-box-bottom ul li a{font-size:14px;}
 	.all-upload .upload_icon{margin:0 2px;}
@@ -2038,7 +2040,7 @@ li .custom-user-box.no-data-available{border:0; padding: 15px;}
 	.upload-profile{width:100px; height:100px; font-size:0; padding:15px 15px;}
 	.user-photo-name h3 a{font-size:20px;}
 	.user-photo-name p{font-size:16px;}
-	.post-box .post-text{width:78%;}
+	.post-box .post-text{/*width:78%;*/}
 	.post-detail{width:80%;}
 	.comment-dis{width:87%;}
 	.post-images .two-img{height:150px;}
@@ -2107,6 +2109,8 @@ li .custom-user-box.no-data-available{border:0; padding: 15px;}
         .post-popup-box .all-upload .upload_icon .upload_span_icon{padding-left: 2px;}
         .post-popup-box .all-upload .upload_icon{padding: 10px 5px 10px 12px;}
         .cover-pic .btn{float: left !important; }
+		.post-discription .post-field label{font-size:14px;}
+		.btn1{font-size: 14px; padding: 3px 15px;}
 }
 @media screen and (max-width: 359px) {
 	.all-job-bottom{text-align:center;}
