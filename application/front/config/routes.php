@@ -62,6 +62,7 @@ $route['educational-information'] = 'user_info';
 
 $route['dashboard/logout'] = 'dashboard/logout';
 $route['dashboard/image'] = 'dashboard/image';
+$route['dashboard/photos/(:any)'] = 'Userprofile';
 $route['dashboard/(:any)'] = 'Userprofile';
 $route['profiles/(:any)'] = 'Userprofile';
 $route['details/(:any)'] = 'Userprofile';
@@ -70,6 +71,9 @@ $route['following/(:any)'] = 'Userprofile';
 $route['contacts/(:any)'] = 'Userprofile';
 $route['questions/(:any)'] = 'Userprofile';
 $route['searchh'] = 'user_post/search';
+
+$route['userprofile_page'] = 'userprofile_page';
+$route['userprofile_page/(:any)'] = 'userprofile_page/$1';
 
 $route['opportunities'] = 'user_post';
 $route['contact-request'] = 'userprofile_page/contact_request';
@@ -423,3 +427,16 @@ $route['how-to-use-artistic-profile-in-aileensoul'] = "introduction/artistic_pro
 
 $route['artist/pdf-view/(:any)'] = "artist/pdf_display/$1";
 $route['business-profile/pdf-view/(:any)'] = "business_profile/pdf_display/$1";
+
+$route['(:any)/contacts'] = 'Userprofile';
+$route['(:any)/following'] = 'Userprofile';
+$route['(:any)/followers'] = 'Userprofile';
+$route['(:any)/details'] = 'Userprofile';
+$route['(:any)/questions'] = 'Userprofile';
+$route['(:any)/profiles'] = 'Userprofile';
+$route['(:any)/photos'] = 'Userprofile';
+$route['(:any)/videos'] = 'Userprofile';
+$route['(:any)/audios'] = 'Userprofile';
+$route['(:any)/pdf'] = 'Userprofile';
+$route['(:any)/article'] = 'Userprofile';
+$route['(:any)'] = 'Userprofile';
