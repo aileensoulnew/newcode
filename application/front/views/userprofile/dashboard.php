@@ -214,7 +214,7 @@
                 <li><a href="#"><i class="fa fa-address-card"></i> Article</a></li>
             </ul>
         </div>
->>>>>>> 3c2b36cdf2d0b5c1b310e07c65dfe7e591ef84b7
+
             <div style="display:none;">
         <div id="ninja-slider">
             <div class="slider-inner">
