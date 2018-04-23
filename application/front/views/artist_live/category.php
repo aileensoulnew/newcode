@@ -25,14 +25,14 @@
                         <div class="cat-box">
                             <ul>
                                 <li ng-repeat="category in artistAllCategory">
-                                    <a href="<?php echo base_url('artist/category/') ?>{{category.category_slug}}">
+                                    <a href="<?php echo base_url('artist/') ?>{{category.category_slug}}">
                                         <img src="<?php echo base_url('assets/n-images/car.png') ?>">
                                         <p><span ng-bind="category.art_category | capitalize"></span><span ng-bind="'(' + category.count + ')'"></span><p>
 
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="<?php echo base_url('artist/category/other') ?>">
+                                    <a href="<?php echo base_url('artist/other') ?>">
                                         <img src="<?php echo base_url('assets/n-images/car.png?ver=' . time()) ?>">
                                         <p>Other<span ng-bind="'(' + otherCategoryCount + ')'"></span><p>
                                     </a>
