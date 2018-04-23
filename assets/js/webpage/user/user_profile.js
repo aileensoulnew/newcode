@@ -903,6 +903,18 @@ app.controller('dashboardController', function ($scope, $compile, $http, $locati
         }
     });
 
+    $(document).on('focusin','#job_title .input',function () {
+
+
+        /*$(this).attr('placeholder', '');
+        $(this).css('width', '10px');*/
+    });
+    $(document).on('focusout','#job_title .input',function () {
+         console.log($(this).tagsinput('items'));
+         /*$(this).attr('placeholder', 'Ex:Seeking Opportunity, CEO, Enterpreneur, Founder, Singer, Photographer....');
+         $(this).css('width', '100%');*/
+    });
+
     /*$("#post-popup").on('hidden.bs.modal', function (event) {
         $("#post_something")[0].reset();
     });

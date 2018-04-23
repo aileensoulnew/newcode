@@ -24,6 +24,7 @@ class MY_Controller extends CI_Controller {
 //        }
 //COMMENT BY KHYATI 02/12/2017 START
         $segment2 = $this->uri->segment(2);
+        $segjobloc = "";
 //        jobs live link start
         $jobs = array('0' => 'jobs');
         $jobin = explode('-', $this->uri->segment(1));
@@ -34,6 +35,7 @@ class MY_Controller extends CI_Controller {
         }
         //jobs live link end
 //freelancer search live link start
+        $segfreelancerloc = "";
         $projects = array('0' => 'project');
         $projectin = explode('-', $this->uri->segment(1));
         $freelancersearchresult = array_intersect((array) $projects, (array) $projectin);

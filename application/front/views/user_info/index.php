@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="basicInfoApp" ng-controller="basicInfoController">
     <head>
-        <base href="/" >
+        <base href="/aileensoul_nf/newcode/" >
         <title ng-bind="title"></title>
         <meta name="robots" content="noindex, nofollow">
         <meta charset="utf-8">
@@ -62,7 +62,7 @@
             var title = '<?php echo $title; ?>';
             /*var header_all_profile = '<?php //echo $header_all_profile; ?>'; // Pratik*/
             
-            var app = angular.module("basicInfoApp", ['ui.bootstrap', 'ngValidate', 'ngRoute']);
+            var app = angular.module("basicInfoApp", ['ngRoute', 'ui.bootstrap', 'ngValidate']);
             app.config(function ($routeProvider, $locationProvider) {
             $routeProvider
                     .when("/basic-information", {
@@ -78,7 +78,7 @@
 //                    });
             $locationProvider.html5Mode(true);
             });
-            app.controller('basicInfoController', function ($scope, $http, $location) {
+            app.controller('basicInfoController', function ($scope, $http, $location) {                
             $scope.user = {};
             $('#basic_info_ajax_load').hide();
             // PROFEETIONAL DATA
