@@ -498,6 +498,14 @@ header {
     z-index: 1002;
     height: auto !important;
 }
+.search-banner header {
+    background: none;
+    border-bottom: none;
+	position:relative;
+}
+.search-banner header .logo a {
+    color: #5c5c5c;
+}
 header .logo a{color:#fff; line-height: 1;}
 header .logo a:focus, header .logo a:hover {text-decoration:none;}
 header h2.logo{margin:0; float:left; padding-right:20px; padding:0; line-height:1;}
@@ -1026,10 +1034,10 @@ footer ul li a:hover{
     font-size:22px
 }
 .cr-rotate-l i:before{
-    content:'↺'
+    content:'â†º'
 }
 .cr-rotate-r i:before{
-    content:'↻'
+    content:'â†»'
 }
 #upload-demo .cr-viewport, #upload-demo .cr-boundary{width:100% !important;}
 .cr-boundary .cr-image{}
@@ -1092,7 +1100,7 @@ footer ul li a:hover{
 .upload-result-one.btn1{width:auto; float:right; margin-top:15px;}
 /***  end upload banner image  ***/
 /*** center title  ***/
-.center-title{position:relative; text-align:center; margin-bottom:30px;}
+.center-title{position:relative; text-align:center; margin-bottom:60px;}
 .center-title:after{width:250px; height:1px; position:absolute; margin:0 auto; display:inline-block; content:""; left:0; right:0; bottom:-10px; background:#d2d2d2;}
 
 /***  end center title  ***/

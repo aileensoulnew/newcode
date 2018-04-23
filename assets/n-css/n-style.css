@@ -2,6 +2,7 @@
 /***  page 1  ***/
 .middle-section{padding:80px 0 50px;}
 .middle-section-banner{padding:54px 0 0px;}
+.middle-section-banner.new-ld-page{padding:0;}
 .register .middle-section{padding:120px 0 50px;}
 .form-box{width:700px; margin:0 auto; border-radius:4px;
 	border:1px solid #c7c7c7;
@@ -1084,7 +1085,7 @@ header.profile-header .logo a{color:#5c5c5c;}
 .sticky-container.right-profile{display:none;}
 .custom-dediter{padding:20px 0 60px; border-bottom:1px solid #d2d2d2; min-height:300px; position:relative;}
 .publish-btn{position:absolute; bottom:10px; width:100%;}
-.related-article{padding:20px 0; margin:40px 0;}
+.related-article{padding:150px 0 0;}
 .rel-art-box{}
 .rel-art-name{width:100%; padding:15px; text-align:center;}
 .rel-art-name a{color:#5c5c5c; font-size:18px;}
@@ -1098,14 +1099,14 @@ header.profile-header .logo a{color:#5c5c5c;}
 .article-all-comment .comment-dis{width:92%;}
 
 /***  search banner  ***/
-.search-banner{background:url("../n-images/search-bnr-job.jpg"); margin-bottom:20px; padding-bottom:60px; background-size:100%;}
+.search-banner{background:url("../n-images/search-bnr-job.jpg"); padding-bottom:60px; background-size:100%;}
 .recruiter-main .search-banner{background:url("../n-images/bnr-rec.jpg"); margin-bottom:20px; padding:25px 0; background-size:cover;}
 .search-box{}
 .search-box .search-input input{width:48%; margin-right:2%; height:50px; font-size:22px;}
 .search-box .search-input input.city-input{margin-right:0;}
 .search-box .btn1{font-size:22px; padding:12px 21px;}
 .search-box .search-input input.btn1{width:120px; margin-right:0;}
-.search-bnr-text{padding:100px 0 40px;}
+.search-bnr-text{padding:50px 0 40px;}
 .search-bnr-text h1{font-size:32px; color:#5c5c5c; line-height:1.5; }
 .work-timing{padding-left:0;}
 .work-timing li{list-style-type:none; float:left; padding:0 20px;}
@@ -1130,7 +1131,8 @@ header.profile-header .logo a{color:#5c5c5c;}
 .job-cat-box a:hover{background:#eaeaea;}		
 .job-cat-box p{font-size:18px; padding:10px 0; color:#5c5c5c;}		
 .job-cat-box span{font-size:14px; padding:5px 10px; color:#5c5c5c; background:rgba(217,217,217,0.6); border-radius:5px;}		
-.job-cat-lp .center-title{margin:50px 0 80px;}		
+.job-cat-lp{padding-top:125px;}		
+.how-it-work{padding-top:125px;}
 .hiw-box{text-align:center; padding:20px; position:relative;}		
 .hiw-box p{font-size:20px; color:#5c5c5c; padding:40px 0 10px;}		
 .hiw-box span{font-size:16px; color:#7e7e7e;}		
@@ -1173,7 +1175,7 @@ header.profile-header .logo a{color:#5c5c5c;}
 .job-top-detail h5 a span{font-weight:normal;}
 .job-top-detail h5 a:hover{border-bottom:none;}
 .content-img img{width:80%;}
-.content-bnr{max-height:350px; overflow:hidden; margin:80px 0; background:url('../n-images/img2.jpg'); background-attachment:fixed; height:350px;}
+.content-bnr{max-height:350px; overflow:hidden; margin:90px 0 0; background:url('../n-images/img2.jpg'); background-attachment:fixed; height:350px;}
 .content-bnr img{width:100%;}
 .content-bnr .bnr-box{position:relative;}
 .content-bnr .content-bnt-text{position:absolute; text-align:center; width:100%; padding:100px 0; color:#fff; top:0px;}
@@ -1604,6 +1606,17 @@ box-shadow: 1px 1px 5px 0 #a2958a; padding: 6px; text-align: center; cursor: def
 .all-upload .img_preview:hover{box-shadow: 3px 3px 5px 0 #333;}
 .all-upload .remove_img:hover{/*background: #e6e6e6;*/}
 /*** end  upload box  ***/
+/*** browse job  ***/
+.browse-jobs{max-width:915px; margin:0 auto; padding-top:105px;}
+.browse-box h4{font-size:20px;}
+.browse-box ul{padding-left:0;}
+.browse-box ul li{list-style-type:none; padding:4px 0; text-align:center;}
+.browse-box ul li:last-child{padding-top:30px;}
+.browse-box ul li:last-child a{font-size:18px;}
+.browse-box ul li a{color:#5c5c5c; font-size:16px; letter-spacing:1px;}
+.browse-box ul li a:hover{color:#1b8ab9;}
+
+/*** end  browse job  ***/
 .bs-example .sr-only{
     position: inherit;
     width:45px;
