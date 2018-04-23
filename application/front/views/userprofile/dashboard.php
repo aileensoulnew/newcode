@@ -143,7 +143,7 @@
                     </li>
                 </ul>
             </div>
-        </div>	
+        </div>  
     </div>
 
     <div class="middle-part">
@@ -196,6 +196,7 @@
             </div>
         </div>
         <div class="media-pages-tablet">
+<<<<<<< HEAD
 			<ul>
 				<li><a href="{{user_slug}}/photos"><i class="fa fa-camera"></i> Photos</a></li>
 				<li><a href="{{user_slug}}/videos"><i class="fa fa-video-camera"></i> Video</a></li>
@@ -204,6 +205,16 @@
 				<li><a href="#"><i class="fa fa-address-card"></i> Article</a></li>
 			</ul>
 		</div>
+=======
+            <ul>
+                <li><a href="{{user_slug}}/photos"><i class="fa fa-camera"></i> Photos</a></li>
+                <li><a href="{{user_slug}}/videos"><i class="fa fa-video-camera"></i> Video</a></li>
+                <li><a href="{{user_slug}}/audios"><i class="fa fa-music"></i> Audio</a></li>
+                <li><a href="{{user_slug}}/pdf"><i class="fa fa-file-pdf-o"></i> PDF</a></li>
+                <li><a href="#"><i class="fa fa-address-card"></i> Article</a></li>
+            </ul>
+        </div>
+>>>>>>> 3c2b36cdf2d0b5c1b310e07c65dfe7e591ef84b7
             <div style="display:none;">
         <div id="ninja-slider">
             <div class="slider-inner">
@@ -574,10 +585,17 @@
                                     <div class="comment-input">
                                         <!--<div contenteditable data-directive ng-model="editComment" ng-class="{'form-control': false, 'has-error':isMsgBoxEmpty}" ng-change="isMsgBoxEmpty = false" class="editable_text" placeholder="Add a Comment ..." ng-enter="sendEditComment({{comment.comment_id}},$index,post)" id="editCommentTaxBox-{{comment.comment_id}}" ng-focus="setFocus" focus-me="setFocus" onpaste="OnPaste_StripFormatting(event);"></div>-->
                                         <div contenteditable="true" data-directive ng-model="editComment" ng-class="{'form-control': false, 'has-error':isMsgBoxEmpty}" ng-change="isMsgBoxEmpty = false" class="editable_text" placeholder="Add a Comment ..." ng-enter="sendEditComment({{comment.comment_id}}, post.post_data.id)" id="editCommentTaxBox-{{comment.comment_id}}" ng-focus="setFocus" focus-me="setFocus" role="textbox" spellcheck="true" ng-paste="handlePaste($event)"></div>
+<<<<<<< HEAD
                                     </div>
                                     <div class="mob-comment">
                                         <button ng-click="sendEditComment(comment.comment_id, post.post_data.id)"><img ng-src="<?php echo base_url('assets/n-images/send.png') ?>"></button>
                                     </div>
+=======
+                                    </div>
+                                    <div class="mob-comment">
+                                        <button ng-click="sendEditComment(comment.comment_id, post.post_data.id)"><img ng-src="<?php echo base_url('assets/n-images/send.png') ?>"></button>
+                                    </div>
+>>>>>>> 3c2b36cdf2d0b5c1b310e07c65dfe7e591ef84b7
                                     
                                     <div class="comment-submit hidden-mob">
                                         <button class="btn2" ng-click="sendEditComment(comment.comment_id, post.post_data.id)">Save</button>
@@ -620,10 +638,17 @@
                             </div>
                             <div class="comment-input">
                                 <div contenteditable="true" data-directive ng-model="comment" ng-class="{'form-control': false, 'has-error':isMsgBoxEmpty}" ng-change="isMsgBoxEmpty = false" class="editable_text" placeholder="Add a Comment ..." ng-enter="sendComment({{post.post_data.id}},$index,post)" id="commentTaxBox-{{post.post_data.id}}" ng-focus="setFocus" focus-me="setFocus" ng-paste="handlePaste($event)"></div>
+<<<<<<< HEAD
                             </div>
                             <div class="mob-comment">
                                 <button ng-click="sendEditComment(comment.comment_id, post.post_data.id)"><img ng-src="<?php echo base_url('assets/img/send.png') ?>"></button>
                             </div>
+=======
+                            </div>
+                            <div class="mob-comment">
+                                <button ng-click="sendEditComment(comment.comment_id, post.post_data.id)"><img ng-src="<?php echo base_url('assets/img/send.png') ?>"></button>
+                            </div>
+>>>>>>> 3c2b36cdf2d0b5c1b310e07c65dfe7e591ef84b7
                             <div class="comment-submit hidden-mob">
                                 <button class="btn2" ng-click="sendComment(post.post_data.id, $index, post)">Comment</button>
                             </div>

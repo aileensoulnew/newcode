@@ -12,7 +12,6 @@ class Artist_userprofile extends CI_Controller {
         $this->load->library('form_validation');
         $this->load->library('user_agent');
         $this->load->model('email_model');
-        $this->load->model('user_model');
         $this->lang->load('message', 'english');
         $this->load->helper('smiley');
         //AWS access info start
@@ -42,13 +41,13 @@ class Artist_userprofile extends CI_Controller {
             $this->data['art'] = $this->common->select_data_by_condition('user', $contition_array, $data = 'user_id,first_name,last_name,user_email', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
 
             if (count($artdata) > 0) {
-                if ($artdata[0]['art_step'] == '1') {
+                if ($artdata[0]['art_step'] == 1) {
                     redirect('artist/artistic-address', refresh);
-                } else if ($artdata[0]['art_step'] == '2') {
+                } else if ($artdata[0]['art_step'] == 2) {
                     redirect('artist/artistic-information', refresh);
-                } else if ($artdata[0]['art_step'] == '3') { //echo "123"; die();
+                } else if ($artdata[0]['art_step'] == 3) { //echo "123"; die();
                     redirect('artist/artistic-portfolio', refresh);
-                } else if ($artdata[0]['art_step'] == '4') {
+                } else if ($artdata[0]['art_step'] == 4) {
                     redirect('artist/home', refresh);
                 }
             } else {
@@ -65,7 +64,7 @@ class Artist_userprofile extends CI_Controller {
         $user_name = $this->session->userdata('user_name');
 
 
-        $contition_array = array('user_id' => $id, 'status' => '1', 'art_step' => '4');
+        $contition_array = array('user_id' => $id, 'status' => '1', 'art_step' => 4);
         $artisticdata = $this->data['artisticdata'] = $this->common->select_data_by_condition('art_reg', $contition_array, $data = '*', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
       
         $contition_array = array('user_id' => $artisticdata[0]['user_id']);
@@ -119,7 +118,7 @@ class Artist_userprofile extends CI_Controller {
         $s3 = new S3(awsAccessKey, awsSecretKey);
         $id = $_POST['art_id'];
         // manage post start       
-        $contition_array = array('user_id' => $id, 'status' => '1', 'art_step' => '4');
+        $contition_array = array('user_id' => $id, 'status' => '1', 'art_step' => 4);
         $artisticdata = $this->data['artisticdata'] = $this->common->select_data_by_condition('art_reg', $contition_array, $data = '*', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
 
        $contition_array = array('user_id' => $artisticdata[0]['user_id']);
@@ -143,7 +142,8 @@ class Artist_userprofile extends CI_Controller {
                 $post_poster1 = explode('.', $post_poster);
                 $post_poster2 = end($post_poster1);
                 $post_poster = str_replace($post_poster2, 'png', $post_poster);
-        
+                //echo "<pre>"; print_r($post_poster); die();
+
                 if (IMAGEPATHFROM == 'upload') {
                     $fetch_video .= '<td class = "image_profile">';
                     if (file_exists(ART_POST_MAIN_UPLOAD_URL . $post_poster)) {
@@ -413,7 +413,7 @@ class Artist_userprofile extends CI_Controller {
         $id = $_POST['art_id'];
         // manage post start
         
-            $contition_array = array('user_id' => $id, 'status' => '1', 'art_step' => '4');
+            $contition_array = array('user_id' => $id, 'status' => '1', 'art_step' => 4);
             $artisticdata = $this->data['artisticdata'] = $this->common->select_data_by_condition('art_reg', $contition_array, $data = '*', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
     
          $contition_array = array('user_id' => $artisticdata[0]['user_id']);
@@ -515,7 +515,7 @@ class Artist_userprofile extends CI_Controller {
     public function artistic_user_pdf() {
        $id = $_POST['art_id'];
         
-            $contition_array = array('user_id' => $id, 'status' => '1', 'art_step' => '4');
+            $contition_array = array('user_id' => $id, 'status' => '1', 'art_step' => 4);
             $artisticdata = $this->data['artisticdata'] = $this->common->select_data_by_condition('art_reg', $contition_array, $data = '*', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
 
         $contition_array = array('user_id' => $artisticdata[0]['user_id']);
@@ -575,15 +575,17 @@ class Artist_userprofile extends CI_Controller {
         if ($start < 0)
             $start = 0;
 
-            $contition_array = array('user_id' => $id, 'status' => '1', 'art_step' => '4');
+            $contition_array = array('user_id' => $id, 'status' => '1', 'art_step' => 4);
             $artisticdata = $this->common->select_data_by_condition('art_reg', $contition_array, $data = '*', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
 
-            $contition_array = array('user_id' => $id, 'status' => '1', 'is_delete' => '0');
+            $contition_array = array('user_id' => $id, 'status' => 1, 'is_delete' => '0');
             $artsdata = $this->common->select_data_by_condition('art_post', $contition_array, $data, $sortby = 'art_post_id', $orderby = 'DESC', $limit, $offset, $join_str = array(), $groupby = '');
 
         $return_html = '';
 
         $artsdata1 = array_slice($artsdata, $start, $perpage);
+        //echo "<pre>"; print_r($artsdata1);  count($artsdata1); 
+        //echo count($artsdata); die();
 
         if (empty($_GET["total_record"])) {
             $_GET["total_record"] = count($artsdata);
@@ -836,13 +838,24 @@ onblur = check_lengthedit(' . $row['art_post_id'] . ')>';
                     $filename = $artmultiimage[0]['file_name'];
                     $ext = pathinfo($filename, PATHINFO_EXTENSION);
                     if (in_array($ext, $allowed)) {
-                        $return_html .= '<a href = "javascript:void(0)" target="_blank" onclick="login_profile();"><div class="one-image">
+                        $return_html .= '<div class="one-image">
+            <a href = "javascript:void(0)" target="_blank" onclick="login_profile();">
+
            <img src = "' . ART_POST_MAIN_UPLOAD_URL . $artmultiimage[0]['file_name'] . '">
-        </div></a>';
+
+             </a>
+        </div>';
                     } elseif (in_array($ext, $allowespdf)) {
 
-                         $return_html .= '<div>
-<a title = "click to open" href = "javascript:void(0)" target="_blank" onclick="login_profile();"><div class = "pdf_img">
+        //                 $return_html .= '<div><a href = "javascript:void(0)" target="_blank" onclick="login_profile();"> 
+
+        //    <div class="pdf_img">
+        //            <embed src="' . ART_POST_MAIN_UPLOAD_URL . $artmultiimage[0]['file_name'] . '" width="100%" height="450px" />
+        //         </div></a>
+        // </div>';
+
+                        $return_html .= '<div>
+<a title = "click to open" href = "' . ART_POST_MAIN_UPLOAD_URL . $artmultiimage[0]['file_name'] . '" target="_blank"><div class = "pdf_img">
     <img src="' . base_url('assets/images/PDF.jpg') . '" alt="PDF">
 </div>
 </a>
@@ -901,26 +914,36 @@ onblur = check_lengthedit(' . $row['art_post_id'] . ')>';
                     }
                 } elseif (count($artmultiimage) == 2) {
                     foreach ($artmultiimage as $multiimage) {
-                        $return_html .= ' <a href = "javascript:void(0)" target="_blank" onclick="login_profile();"><div  class="two-images" >
+                        $return_html .= '<div  class="two-images" >
+            <a href = "javascript:void(0)" target="_blank" onclick="login_profile();">
              <img class = "two-columns" src = "' . ART_POST_RESIZE1_UPLOAD_URL . $multiimage['file_name'] . '">
-        </div> </a>';
+             </a>
+        </div>';
                     }
                 } elseif (count($artmultiimage) == 3) {
-                    $return_html .= '<a href = "javascript:void(0)" target="_blank" onclick="login_profile();"><div class="three-imag-top" >
+                    $return_html .= '<div class="three-imag-top" >
+            <a href = "javascript:void(0)" target="_blank" onclick="login_profile();">
             <img class = "three-columns" src = "' . ART_POST_RESIZE4_UPLOAD_URL . $artmultiimage[0]['file_name'] . '">
+            </a>
         </div>
         <div class="three-image" >
+            <a href = "javascript:void(0)" target="_blank" onclick="login_profile();">
            <img class = "three-columns" src = "' . ART_POST_RESIZE1_UPLOAD_URL . $artmultiimage[1]['file_name'] . '">
+            </a>
         </div>
         <div class="three-image" >
+            <a href = "javascript:void(0)" target="_blank" onclick="login_profile();">
             <img class = "three-columns" src = "' . ART_POST_RESIZE1_UPLOAD_URL . $artmultiimage[2]['file_name'] . '">
-        </div></a>';
+            </a>
+        </div>';
                 } elseif (count($artmultiimage) == 4) {
 
                     foreach ($artmultiimage as $multiimage) {
-                        $return_html .= ' <a href = "javascript:void(0)" target="_blank" onclick="login_profile();"><div class="four-image">
+                        $return_html .= '<div class="four-image">
+            <a href = "javascript:void(0)" target="_blank" onclick="login_profile();">
             <img class = "breakpoint" src = "' . ART_POST_RESIZE2_UPLOAD_URL . $multiimage['file_name'] . '">
-        </div></a>';
+             </a>
+        </div>';
                     }
                 } elseif (count($artmultiimage) > 4) {
 
@@ -1038,8 +1061,8 @@ onblur = check_lengthedit(' . $row['art_post_id'] . ')>';
                     $countlike = $commnetcount[0]['art_likes_count'] - 1;
                     $likelistarray = explode(',', $likeuser);
                     foreach ($likelistarray as $key => $value) {
-                        $art_fname1 = $this->db->select('art_name')->get_where('art_reg', array('user_id' => $value, 'status' => '1'))->row()->art_name;
-                        $art_lname1 = $this->db->select('art_lastname')->get_where('art_reg', array('user_id' => $value, 'status' => '1'))->row()->art_lastname;
+                        $art_fname1 = $this->db->select('art_name')->get_where('art_reg', array('user_id' => $value, 'status' => 1))->row()->art_name;
+                        $art_lname1 = $this->db->select('art_lastname')->get_where('art_reg', array('user_id' => $value, 'status' => 1))->row()->art_lastname;
                     }
                    
                     $contition_array = array('art_post_id' => $row['art_post_id'], 'status' => '1', 'is_delete' => '0');
@@ -1049,8 +1072,8 @@ onblur = check_lengthedit(' . $row['art_post_id'] . ')>';
                     $countlike = $commnetcount[0]['art_likes_count'] - 1;
                     $likelistarray = explode(',', $likeuser);
 
-                  $art_fname = $this->db->select('art_name')->get_where('art_reg', array('user_id' => $likelistarray[0], 'status' => '1'))->row()->art_name;
-                 $art_lname = $this->db->select('art_lastname')->get_where('art_reg', array('user_id' => $likelistarray[0], 'status' => '1'))->row()->art_lastname;
+                  $art_fname = $this->db->select('art_name')->get_where('art_reg', array('user_id' => $likelistarray[0], 'status' => 1))->row()->art_name;
+                 $art_lname = $this->db->select('art_lastname')->get_where('art_reg', array('user_id' => $likelistarray[0], 'status' => 1))->row()->art_lastname;
 
                     $return_html .= '<div class="like_one_other">';
 
@@ -1071,7 +1094,7 @@ onblur = check_lengthedit(' . $row['art_post_id'] . ')>';
                
 
 
-$return_html .= '<div class="art-all-comment col-md-12" style="display:none !important;">
+$return_html .= '<div class="art-all-comment col-md-12">
     <div id="fourcomment' . $row['art_post_id'] . '" style="display:none;">
     </div>
     <div  id="threecomment' . $row['art_post_id'] . '" style="display:block">
@@ -1091,7 +1114,7 @@ $return_html .= '<div class="art-all-comment col-md-12" style="display:none !imp
                 <div class="post-design-pro-comment-img">';
                  $return_html .= '<a href = "javascript:void(0)" target="_blank" onclick="login_profile();">';
 
-                        $art_userimage = $this->db->select('art_user_image')->get_where('art_reg', array('user_id' => $rowdata['user_id'], 'status' => '1'))->row()->art_user_image; 
+                        $art_userimage = $this->db->select('art_user_image')->get_where('art_reg', array('user_id' => $rowdata['user_id'], 'status' => 1))->row()->art_user_image; 
 
                         if (IMAGEPATHFROM == 'upload') {
                             if($art_userimage){
@@ -1192,7 +1215,7 @@ $return_html .= '<div class="art-all-comment col-md-12" style="display:none !imp
                     </div>';
                         }
                         $userid = $this->session->userdata('aileenuser');
-                        $art_userid = $this->db->select('user_id')->get_where('art_post', array('art_post_id' => $rowdata['art_post_id'], 'status' => '1'))->row()->user_id;
+                        $art_userid = $this->db->select('user_id')->get_where('art_post', array('art_post_id' => $rowdata['art_post_id'], 'status' => 1))->row()->user_id;
                         if ($rowdata['user_id'] == $userid || $art_userid == $userid) {
                             $return_html .= '<span role="presentation" aria-hidden="true"> · </span>
                     <div class="comment-details-menu">

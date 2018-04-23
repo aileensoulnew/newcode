@@ -268,9 +268,56 @@ class Blog extends CI_Controller {
         // data end
 
         foreach ($blog_detail as $blog) {
+            $blog_data .= '<div class="blog-box">';
+                $blog_data .= '<div class="blog-left-img">';
+                    $blog_data .= '<a target="_blank" href="' .
+                    base_url('blog/' . $blog['blog_slug']) . '"> <img src="' . base_url($this->config->item('blog_main_upload_path') . $blog['image'] .'?ver='.time()) . '" alt="' . $blog['image'] . '"></a>';   
+                $blog_data .= '</div>';
+                $blog_data .= '<div class="blog-left-content"> <p class="blog-details-cus">
+                                    <span class="cat">Categorys</span>
+                                    <span>8th March 2018</span>
+                                    <span>Dhaval Shah</span>
+                                    <span>8 comments</span>
+                                    <a target="_blank" href="' . base_url('blog/' . $blog['blog_slug']) . '">
+                                        <h3>' . $blog['title'] . '</h3>
+                                    </a>
+                                    <div class="blog-text">';
 
-            $blog_data .= '<div class="blog_main_o">';
+            $num_words = 20;
+            $words = array();
+            $words = explode(" ", $blog['description'], $num_words);
+            $shown_string = "";
+
+            if (count($words) == 20) {
+                $words[19] = " ...... ";
+            }
+
+            $shown_string = implode(" ", $words);
+            $blog_data .= $shown_string;
+
+            $blog_data .= '</div>
+
+            <p>
+		<ul class="social-icon">
+                    <li><a href="#"><i class="fa fa-facebook-f"></i></a></li>
+                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                    <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                    <li><a href="#"><i class="fa fa-skype"></i></a></li>
+		</ul>
+            </p>
+';
+                   
+                        
+                        
+                    
+                $blog_data .= '</div>';
+            
+            $blog_data .= '</div>';
+            
+            
+            $blog_data .= '<div class="blog-box">';
             //$blog_data .= $blog['id'];
+            
             $blog_data .= '<div class="date_blog_left">
                                             <div class="blog-date-change">
                                                     <div class="blog-month blog-picker">
@@ -295,7 +342,6 @@ class Blog extends CI_Controller {
 
             $year = new DateTime($blog['created_date']);
             $blog_data .= $year->format('Y') . PHP_EOL;
-
             $blog_data .= '</span>
                                                     </div>
                                                 </div>

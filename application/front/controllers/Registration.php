@@ -46,6 +46,7 @@ class Registration extends CI_Controller {
         if ($updatedata) {
             $this->session->set_userdata('aileenuser', $id);
             $this->session->set_userdata('aileenuser_slug', $user[0]['user_slug']);
+            $this->session->set_userdata('aileenuser_firstname', $user[0]['aileenuser_firstname']);
             redirect('profiles/' . $this->session->userdata('aileenuser_slug'), 'refresh');
         }
     }

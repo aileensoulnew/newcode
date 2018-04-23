@@ -6,7 +6,7 @@
         $contition_array = array('user_id' => $userid, 'is_deleted' => '0', 'status' => '1');
         $business_profile_count = $this->common->select_data_by_condition('business_profile', $contition_array, $data = 'business_step', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
         $this->business_profile_link = base_url("business-profile/");
-        if(!empty($business_profile_count) &&  $business_profile_count[0]['business_count']==1){
+        if(isset($business_profile_count) && !empty($business_profile_count) && isset($business_profile_count[0]['business_count']) && $business_profile_count[0]['business_count']==1){
             $this->business_profile_link = base_url("business-profile/home");
         }
         /*Code for business profile link end*/
