@@ -21,6 +21,7 @@ header('Expires: '.$date);
 
 //header('Cache-Control: public, max-age=30');
 ?>
+<meta name="robots" content="noindex, nofollow">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Cache-control" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -101,3 +102,4 @@ if ($this->uri->segment(1) == 'profiles') {
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js?ver="<?php echo time() ?>></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js?ver="<?php echo time() ?>></script>
 <script type="text/javascript" src="<?php echo base_url('assets/js/bootstrap.min.js?ver=' . time()); ?>"></script> 
+

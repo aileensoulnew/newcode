@@ -5,6 +5,7 @@
         <meta name="description" content="Aileensoul.com have something to give this world, Know about us." />
         <link rel="icon" href="<?php echo base_url('assets/images/favicon.png?ver='.time()); ?>">
         <meta charset="utf-8">
+        <meta name="robots" content="noindex, nofollow">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
         <?php
 

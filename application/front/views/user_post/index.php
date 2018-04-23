@@ -3,7 +3,9 @@
     <head>
         <title><?php echo $title; ?></title>
         <meta charset="utf-8">
+        <meta name="robots" content="noindex, nofollow">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
         <link rel="stylesheet" href="<?php echo base_url('assets/n-css/bootstrap.min.css?ver=' . time()) ?>">
         <link rel="stylesheet" href="<?php echo base_url('assets/n-css/animate.css?ver=' . time()) ?>">
         <link rel="stylesheet" href="<?php echo base_url('assets/n-css/font-awesome.min.css?ver=' . time()) ?>">
@@ -13,6 +15,7 @@
         <link href="<?php echo base_url('assets/dragdrop/themes/explorer/theme.css?ver=' . time()) ?>" media="all" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/as-videoplayer/build/mediaelementplayer.css?ver=' . time()); ?>">
         <link rel="stylesheet" href="<?php echo base_url('assets/n-css/ng-tags-input.min.css?ver=' . time()) ?>">
+        <link rel="stylesheet" href="<?php echo base_url('assets/n-css/component.css?ver=' . time()) ?>">
         <link rel="stylesheet" href="<?php echo base_url('assets/n-css/n-commen.css?ver=' . time()) ?>">
         <link rel="stylesheet" href="<?php echo base_url('assets/n-css/n-style.css?ver=' . time()) ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/n-css/angular-tooltips.css?ver=' . time()) ?>">
@@ -59,12 +62,12 @@
     </head>
     <body>
         <?php echo $header_profile; ?>
-        <div class="middle-section">
+        <div class="middle-section custom-mob-pd">
             <div class="container">
                 <?php echo $n_leftbar; ?>
                 <div class="middle-part">
                     <div class="add-post">
-                        <div class="post-box" data-target="#post-popup" data-toggle="modal">
+                        <div class="post-box">
                             <div class="post-img">
                                 <?php if ($leftbox_data['user_image'] != '') { ?> 
                                     <img ng-src="<?php echo USER_THUMB_UPLOAD_URL . $leftbox_data['user_image'] ?>" alt="<?php echo $leftbox_data['first_name'] ?>">  
@@ -72,7 +75,7 @@
                                     <img ng-src="<?php echo base_url(NOBUSIMAGE) ?>" alt="<?php echo $leftbox_data['first_name'] ?>">
                                 <?php } ?>
                             </div>
-                            <div class="post-text">
+                            <div class="post-text" data-target="#post-popup" data-toggle="modal" onclick="void(0)">
                                 Share an opportunity, Article
                             </div>
                             <!--<span class="post-cam"><i class="fa fa-camera"></i></span>-->
@@ -81,12 +84,12 @@
                             <ul>
                                 <li>
                                     <a href="javascript:void(0);" data-target="#opportunity-popup" data-toggle="modal">
-                                        <img src="<?php echo base_url('assets/n-images/post-op.png') ?>"><span>Post Opportunity</span>
+                                        <img src="<?php echo base_url('assets/n-images/post-op.png') ?>"><span><span class="none-479">Post</span> <span> Opportunity</span></span>
                                     </a>
                                 </li>
                                 <li class="pl15">
                                     <a href="article.html">
-                                        <img src="<?php echo base_url('assets/n-images/article.png') ?>"><span>Post Article</span>
+                                        <img src="<?php echo base_url('assets/n-images/article.png') ?>"><span><span class="none-479">Post</span> <span> Article</span></span>
                                     </a>
                                 </li>
                                 <li class="pl15">
@@ -95,9 +98,7 @@
                                     </a>
                                 </li>
                             </ul>
-                            <p class="pull-right">
-                                <button type="submit" class="btn1" value="Submit">Post</button>
-                            </p>
+                           
                         </div>
                     </div>
                     <div class="bs-example">
@@ -135,10 +136,10 @@
                                     <div class="post-detail">
                                         <div class="fw" ng-if="post.post_data.post_for == 'question'">
                                             <a href="javascript:void(0)" class="post-name" ng-if="post.question_data.is_anonymously == '1'">Anonymous</a><span class="post-time" ng-if="post.question_data.is_anonymously == '1'"></span>
-                                            <a ng-href="<?php echo base_url('profiles/') ?>{{post.user_data.user_slug}}" class="post-name" ng-bind="post.user_data.fullname" ng-if="post.question_data.is_anonymously == '0'"></a><span class="post-time">{{post.post_data.created_date}}</span>
+                                            <a ng-href="<?php echo base_url('profiles/') ?>{{post.user_data.user_slug}}" class="post-name" ng-bind="post.user_data.fullname" ng-if="post.question_data.is_anonymously == '0'"></a><span class="post-time">{{post.post_data.time_string}}</span>
                                         </div>
                                         <div class="fw" ng-if="post.post_data.post_for != 'question'">
-                                            <a ng-href="<?php echo base_url('profiles/') ?>{{post.user_data.user_slug}}" class="post-name" ng-bind="post.user_data.fullname"></a><span class="post-time">{{post.post_data.created_date}}</span>
+                                            <a ng-href="<?php echo base_url('profiles/') ?>{{post.user_data.user_slug}}" class="post-name" ng-bind="post.user_data.fullname"></a><span class="post-time">{{post.post_data.time_string}}</span>
                                         </div>
                                         <div class="fw" ng-if="post.post_data.post_for == 'question'">
                                             <span class="post-designation" ng-if="post.user_data.title_name != '' && post.question_data.is_anonymously == '0'" ng-bind="post.user_data.title_name"></span>
@@ -279,8 +280,9 @@
                                             <div class="edit-comment" id="edit-comment-{{comment.comment_id}}" style="display:none;">
                                                 <div class="comment-input">
                                                     <!--<div contenteditable data-directive ng-model="editComment" ng-class="{'form-control': false, 'has-error':isMsgBoxEmpty}" ng-change="isMsgBoxEmpty = false" class="editable_text" placeholder="Add a Comment ..." ng-enter="sendEditComment({{comment.comment_id}},$index,post)" id="editCommentTaxBox-{{comment.comment_id}}" ng-focus="setFocus" focus-me="setFocus" onpaste="OnPaste_StripFormatting(event);"></div>-->
-                                                    <div contenteditable data-directive ng-model="editComment" ng-class="{'form-control': false, 'has-error':isMsgBoxEmpty}" ng-change="isMsgBoxEmpty = false" class="editable_text" placeholder="Add a Comment ..." ng-enter="sendEditComment({{comment.comment_id}},$index,post)" id="editCommentTaxBox-{{comment.comment_id}}" ng-focus="setFocus" focus-me="setFocus" role="textbox" spellcheck="true" ng-paste="handlePaste($event)"></div>
+                                                    <div contenteditable="true" data-directive ng-model="editComment" ng-class="{'form-control': false, 'has-error':isMsgBoxEmpty}" ng-change="isMsgBoxEmpty = false" class="editable_text" placeholder="Add a Comment ..." ng-enter="sendEditComment({{comment.comment_id}},$index,post)" id="editCommentTaxBox-{{comment.comment_id}}" ng-focus="setFocus" focus-me="setFocus" role="textbox" spellcheck="true" ng-paste="handlePaste($event)"></div>
                                                 </div>
+                                            
                                                 <div class="comment-submit">
                                                     <button class="btn2" ng-click="sendEditComment(comment.comment_id)">Comment</button>
                                                 </div>
@@ -290,7 +292,7 @@
                                                 <li><a href="javascript:void(0);" ng-click="likePostComment(comment.comment_id, post.post_data.id)" ng-if="comment.is_userlikePostComment == '0'"><i class="fa fa-thumbs-up"></i><span ng-bind="comment.postCommentLikeCount" id="post-comment-like-{{comment.comment_id}}"></span></a></li>
                                                 <li><a href="javascript:void(0);" ng-click="editPostComment(comment.comment_id, post.post_data.id, $parent.$index, $index)">Edit</a></li> 
                                                 <li><a href="javascript:void(0);" ng-click="deletePostComment(comment.comment_id, post.post_data.id, $parent.$index, $index, post)">Delete</a></li>
-                                                <li><a href="javascript:void(0);" ng-bind="comment.created_date"></a></li>
+                                                <li><a href="javascript:void(0);" ng-bind="comment.comment_time_string"></a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -305,9 +307,14 @@
 
                                         </div>
                                         <div class="comment-input">
-                                            <div contenteditable data-directive ng-model="comment" ng-class="{'form-control': false, 'has-error':isMsgBoxEmpty}" ng-change="isMsgBoxEmpty = false" class="editable_text" placeholder="Add a Comment ..." ng-enter="sendComment({{post.post_data.id}},$index,post)" id="commentTaxBox-{{post.post_data.id}}" ng-focus="setFocus" focus-me="setFocus" ng-paste="handlePaste($event)"></div>
+                                            <div contenteditable="true" data-directive ng-model="comment" ng-class="{'form-control': false, 'has-error':isMsgBoxEmpty}" ng-change="isMsgBoxEmpty = false" class="editable_text" placeholder="Add a Comment ..." ng-enter="sendComment({{post.post_data.id}},$index,post)" id="commentTaxBox-{{post.post_data.id}}" ng-focus="setFocus" focus-me="setFocus" ng-paste="handlePaste($event)"></div>
                                         </div>
-                                        <div class="comment-submit">
+                                        <div class="mob-comment">
+                                                    <button ng-click="sendComment(post.post_data.id, $index, post)">
+                                                        <img ng-src="<?php echo base_url('assets/img/send.png?ver=' . time()) ?>">
+                                                    </button>
+                                                </div>
+                                        <div class="comment-submit hidden-mob">
                                             <button class="btn2" ng-click="sendComment(post.post_data.id, $index, post)">Comment</button>
                                         </div>
                                     </div>
@@ -405,12 +412,12 @@
                                     <ul ng-if="is_edit != 1">
                                         <li>
                                             <a href="javascript:void(0);"  class="post-opportunity-modal" data-target="#opportunity-popup" data-toggle="modal">
-                                                <img src="<?php echo base_url('assets/n-images/post-op.png') ?>"><span>Post Opportunity</span>
+                                                <img src="<?php echo base_url('assets/n-images/post-op.png') ?>"><span><span class="none-479">Post</span> <span>Opportunity</span></span>
                                             </a>
                                         </li>
                                         <li class="pl15">
                                             <a href="article.html">
-                                                <img src="<?php echo base_url('assets/n-images/article.png') ?>"><span>Post Article</span>
+                                                <img src="<?php echo base_url('assets/n-images/article.png') ?>"><span><span class="none-479">Post</span> <span>Article</span></span>
                                             </a>
                                         </li>
                                         <li class="pl15">
@@ -463,8 +470,8 @@
                             </div>
                             <div class="post-field">
                                 <div id="content" class="form-group">
-                                    <label>FOR WHOM THIS OPPORTUNITY ?<span class="pull-right"><img ng-src="<?php echo base_url('assets/n-images/tooltip.png') ?>" tooltips tooltip-append-to-body="true" tooltip-close-button="true" tooltip-side="right" tooltip-hide-trigger="click" tooltip-template="I'm a tooltip that is kwjnefk jnkwjenfkjnk kjwnekjn kjwnekfjn kjwenfkjnkwjnekfjnwkejnf kjwnef bounded on body!" alt="tooltip"></span></label>
-                                    <tags-input ng-model="opp.job_title" display-property="name" placeholder="Ex:Seeking Opportunity, CEO, Enterpreneur, Founder, Singer, Photographer, PHP Developer, HR, BDE, CA, Doctor, Freelancer.." replace-spaces-with-dashes="false" template="title-template" on-tag-added="onKeyup()">
+                                    <label>For whom this opportunity?<span class="pull-right"><img ng-src="<?php echo base_url('assets/n-images/tooltip.png') ?>" tooltips tooltip-append-to-body="true" tooltip-close-button="true" tooltip-side="right" tooltip-hide-trigger="click" tooltip-template="I'm a tooltip that is kwjnefk jnkwjenfkjnk kjwnekjn kjwnekfjn kjwenfkjnkwjnekfjnwkejnf kjwnef bounded on body!" alt="tooltip"></span></label>
+                                    <tags-input ng-model="opp.job_title" display-property="name" placeholder="Ex: Seeking Opportunity, CEO, Enterpreneur, Founder, Singer, Photographer...." replace-spaces-with-dashes="false" template="title-template" on-tag-added="onKeyup()">
                                         <auto-complete source="loadJobTitle($query)" min-length="0" load-on-focus="false" load-on-empty="false" max-results-to-show="32" template="title-autocomplete-template"></auto-complete>
                                     </tags-input>
                                     <script type="text/ng-template" id="title-template">
@@ -476,8 +483,8 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label>WHICH LOCATION?<span class="pull-right"><img ng-src="<?php echo base_url('assets/n-images/tooltip.png') ?>" alt="tooltip"></span></label>
-                                    <tags-input ng-model="opp.location" display-property="city_name" placeholder="Ex:Mumbai, Delhi, New south wels, London, New York, Captown, Sydeny, Shanghai, Moscow, Paris, Tokyo.." replace-spaces-with-dashes="false" template="location-template" on-tag-added="onKeyup()">
+                                    <label>For which location?<span class="pull-right"><img ng-src="<?php echo base_url('assets/n-images/tooltip.png') ?>" alt="tooltip"></span></label>
+                                    <tags-input ng-model="opp.location" display-property="city_name" placeholder="Ex: Mumbai, Delhi, New south wels, London, New York, Captown, Sydeny, Shanghai...." replace-spaces-with-dashes="false" template="location-template" on-tag-added="onKeyup()">
                                         <auto-complete source="loadLocation($query)" min-length="0" load-on-focus="false" load-on-empty="false" max-results-to-show="32" template="location-autocomplete-template"></auto-complete>
                                     </tags-input>
                                     <script type="text/ng-template" id="location-template">
@@ -488,7 +495,7 @@
                                     </script>
                                 </div>
                                 <div class="form-group">
-                                    <label>What is your field?<span class="pull-right"><img ng-src="<?php echo base_url('assets/n-images/tooltip.png') ?>" alt="tooltip"></span></label>
+                                    <label>For which field?<span class="pull-right"><img ng-src="<?php echo base_url('assets/n-images/tooltip.png') ?>" alt="tooltip"></span></label>
                                     <!--<input name="field" id="field" type="text" placeholder="What is your field?" autocomplete="off">-->
                                     <select name="field" ng-model="opp.field" id="field" ng-change="other_field(this)" class="post-opportunity-field">
                                         <option value="" selected="selected">Select your field</option>
@@ -569,7 +576,7 @@
                                 <div class="form-group">
                                     <label>From which field the Question asked?<span class="pull-right"><img ng-src="<?php echo base_url('assets/n-images/tooltip.png') ?>" alt="tooltip"></span></label>
                                     <select ng-model="ask.ask_field" id="ask_field">
-                                        <option value="" selected="selected">What is your field</option>
+                                        <option value="" selected="selected">Field</option>
                                         <option data-ng-repeat='fieldItem in fieldList' value='{{fieldItem.industry_id}}'>{{fieldItem.industry_name}}</option>             
                                         <option value="0">Other</option>
                                     </select>
@@ -702,5 +709,46 @@
         </script>               
         <script src="<?php echo base_url('assets/js/webpage/user/user_header_profile.js?ver=' . time()) ?>"></script>
         <script src="<?php echo base_url('assets/js/webpage/user/user_post.js?ver=' . time()) ?>"></script>
+        <script src="<?php echo base_url('assets/js/classie.js?ver=' . time()) ?>"></script>
+        <script>
+			var menuRight = document.getElementById( 'cbp-spmenu-s2' ),
+				showRight = document.getElementById( 'showRight' ),
+				body = document.body;
+
+			showRight.onclick = function() {
+				classie.toggle( this, 'active' );
+				classie.toggle( menuRight, 'cbp-spmenu-open' );
+				disableOther( 'showRight' );
+			};
+		
+			function disableOther( button ) {
+				
+				if( button !== 'showRight' ) {
+					classie.toggle( showRight, 'disabled' );
+				}
+			}
+			
+			$(function () {
+				$('a[href="#search"]').on('click', function (event) {
+					event.preventDefault();
+					$('#search').addClass('open');
+					$('#search > form > input[type="search"]').focus();
+				});
+				$('#search, #search button.close-new').on('click keyup', function (event) {
+					if (event.target == this || event.target.className == 'close' || event.keyCode == 27) {
+						$(this).removeClass('open');
+					}
+				});
+			});
+		</script>
+                <script>
+                    jQuery(document).ready(function($) {
+                        $("li.user-id label").click(function(e){
+                            $(this).next('ul.dropdown-menu').toggle();
+                            e.stopPropagation();
+                            });
+                    });
+                   
+                </script>
     </body>
 </html>

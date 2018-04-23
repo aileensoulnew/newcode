@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <?php
 if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
     header("HTTP/1.1 304 Not Modified");
@@ -20,6 +20,7 @@ header("Pragma: no-cache"); // HTTP/1.0
 ?>
 <html lang="en" class="custom-main">
     <head>
+        <meta name="robots" content="noindex, nofollow">
         <meta charset="utf-8">
         <title>Build Career in Business, Freelancing, Job & Art with Aileensoul.com</title>
         <meta name="description" content="Aileensoul provides completely free platform for career-related services, such as job, hiring, freelancing, business networking, artistic and much more.">
@@ -315,8 +316,8 @@ header("Pragma: no-cache"); // HTTP/1.0
         <script>
                 var user_slug = '<?php echo $this->session->userdata('aileenuser_slug'); ?>';
                 var base_url = '<?php echo base_url(); ?>';
-                var data = <?php echo json_encode($demo); ?>;
-                var data1 = <?php echo json_encode($city_data); ?>;
+                /*var data = <?php //echo json_encode($demo); ?>;//Pratik
+                var data1 = <?php //echo json_encode($city_data); ?>;//Pratik*/
                 var get_csrf_token_name = '<?php echo $this->security->get_csrf_token_name(); ?>';
                 var get_csrf_hash = '<?php echo $this->security->get_csrf_hash(); ?>';
         </script>

@@ -20,6 +20,7 @@ header('Expires: ' . $date);
 //header("Cache-Control: no-cache, must-revalidate"); 
 //header('Cache-Control: public, max-age=30');
 ?>
+<meta name="robots" content="noindex, nofollow">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Cache-control" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -158,3 +159,4 @@ if (IS_OUTSIDE_JS_MINIFY == '0') {
 ?>
 
 <script src="<?php echo base_url('node_modules/socket.io/node_modules/socket.io-client/socket.io.js?ver='.time());  ?>"></script>
+<script src="<?php echo base_url('assets/js/classie.js?ver='.time());  ?>"></script>

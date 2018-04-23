@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="basicInfoApp" ng-controller="basicInfoController">
     <head>
-        <base href="/aileensoul-new/" >
+        <base href="/" >
         <title ng-bind="title"></title>
+        <meta name="robots" content="noindex, nofollow">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="<?php echo base_url('assets/n-css/component.css') ?>" />
         <link rel="stylesheet" href="<?php echo base_url('assets/css/common-style.css') ?>">
         <link rel="stylesheet" href="<?php echo base_url('assets/n-css/n-commen.css') ?>">
         <link rel="stylesheet" href="<?php echo base_url('assets/n-css/n-style.css') ?>">
@@ -52,12 +54,13 @@
         <script data-semver="0.13.0" src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.13.0.min.js"></script>
         <script type="text/javascript" src="<?php echo base_url('assets/js/angular-validate.min.js?ver=' . time()) ?>"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
+        <script src="<?php echo base_url('assets/js/classie.js?ver=' . time()) ?>"></script>
         <script>
             var base_url = '<?php echo base_url(); ?>';
-            var slug = '<?php echo $slugid; ?>';
+            /*var slug = '<?php //echo $slugid; ?>'; // Pratik*/
             var user_id = '<?php echo $this->session->userdata('aileenuser'); ?>';
             var title = '<?php echo $title; ?>';
-            var header_all_profile = '<?php echo $header_all_profile; ?>';
+            /*var header_all_profile = '<?php //echo $header_all_profile; ?>'; // Pratik*/
             
             var app = angular.module("basicInfoApp", ['ui.bootstrap', 'ngValidate', 'ngRoute']);
             app.config(function ($routeProvider, $locationProvider) {
@@ -273,6 +276,36 @@
             }
 
             };
+            });
+        </script>
+        <script>
+            var menuRight = document.getElementById( 'cbp-spmenu-s2' ),
+            showRight = document.getElementById( 'showRight' ),
+            body = document.body;
+
+            showRight.onclick = function() {
+                classie.toggle( this, 'active' );
+                classie.toggle( menuRight, 'cbp-spmenu-open' );
+                disableOther( 'showRight' );
+            };
+
+            function disableOther( button ) {
+                if( button !== 'showRight' ) {
+                    classie.toggle( showRight, 'disabled' );
+                }
+            }
+
+            $(function () {
+                $('a[href="#search"]').on('click', function (event) {
+                    event.preventDefault();
+                    $('#search').addClass('open');
+                    $('#search > form > input[type="search"]').focus();
+                });
+                $('#search, #search button.close-new').on('click keyup', function (event) {
+                    if (event.target == this || event.target.className == 'close' || event.keyCode == 27) {
+                        $(this).removeClass('open');
+                    }
+                });
             });
         </script>
         <script src="<?php echo base_url('assets/js/webpage/user/user_header_profile.js?ver=' . time()) ?>"></script>

@@ -23,6 +23,7 @@ header('Cache-Control: public, max-age=30');
         <meta name="description" content="Promote your business with Aileensoul.com" />
         <link rel="icon" href="<?php echo base_url('assets/images/favicon.png?ver=' . time()); ?>">
         <meta charset="utf-8">
+        <meta name="robots" content="noindex, nofollow">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
         <?php
         if ($_SERVER['HTTP_HOST'] == "www.aileensoul.com") {
@@ -109,9 +110,83 @@ header('Cache-Control: public, max-age=30');
                 <h1>Promote Your Business With Aileensoul</h1>
             </div>
             <div class="container">
+                <div class="add-content">
+                    <div class="fw p20">
+                        <div class="add-title">
+                            <h2>How to Advertise with us?</h2>
+                        </div>
+                        <div class="row">
+                 
+                            <div class="col-md-8 col-md-push-2">
+                                <img src="<?php echo base_url('assets/n-images/HowtoAdvertiseWithUs.jpg') ?>" alt="Advertise With Us">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fw p20">
+                        <div class="add-title">
+                            <h2>How your Advertise display?</h2>
+                        </div>
+                        <div class="">
+                           <img src="<?php echo base_url('assets/n-images/Advertisedisplay.jpg') ?>" alt="Advertise With Us">
+                        </div>
+                    </div>
+                    <div class="fw p20">
+                        <div class="add-title">
+                            <h2>Our Audience.</h2>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 col-sm-6">
+                                <div class="audience-box">
+                                    <img src="<?php echo base_url('assets/n-images/Freelnace.jpg') ?>" alt="Advertise With Us">
+                                    <h3>Freelance-Employer</h3>
+                                    <p>Getting leads seem difficult for you? Don't worry! We have covered your back. Our Freelance-Employer draws clients from all over the world who render projects to freelancers. Hence, advertise in this profile will be of great benefit.</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6">
+                                <div class="audience-box">
+                                    <img src="<?php echo base_url('assets/n-images/Business.jpg') ?>" alt="Advertise With Us">
+                                    <h3>Business Profile</h3>
+                                    <p>The business profile in Aileensoul consists businesses from various fields such as IT sector, Medical, Clothing or any domain you name. Advertising in this profile will yield a great exposure in several industries which will help you in enlarging your business.</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6">
+                                <div class="audience-box">
+                                    <img src="<?php echo base_url('assets/n-images/Artist.jpg') ?>" alt="Advertise With Us">
+                                    <h3>Artistic Profile</h3>
+                                    <p>The artistic profile is a very innovative and unique profile.It consists of talented people showcasing their art and talent. Ads in this profile will connect your brand to this talented person which were otherwise would have been unreachable.</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6">
+                                <div class="audience-box">
+                                    <img src="<?php echo base_url('assets/n-images/freelance-apply.jpg') ?>" alt="Advertise With Us">
+                                    <h3>Freelance apply Profile</h3>
+                                    <p>Reach more than 5000 audiences of different age group from different countrieshave different sets of skills. The core benefit for an advertiser from thefreelance profile is a massive reach and high growth for his venture.</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6">
+                                <div class="audience-box">
+                                    <img src="<?php echo base_url('assets/n-images/recruiter.jpg') ?>" alt="Advertise With Us">
+                                    <h3>Recruiter Profile</h3>
+                                    <p>Get noticed by the talent hunters who constantly look to connect with great enthusiastic peoples! The advantage of advertising in recruiter profile is that it will help you in making loyal connections and growing network.</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-6">
+                                <div class="audience-box">
+                                    <img src="<?php echo base_url('assets/n-images/Job-Seeker-.jpg') ?>" alt="Advertise With Us">
+                                    <h3>Job Profile</h3>
+                                    <p>AileenSoul offers a great platform for ajob seeker to get an opportunity to grow their career. If your advertisement goal is to reach a young audience who are regular web visitors, then this profile will help to spread your message in front of them.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
                 <div class="add-form">
-                    <h3>Advertise With Us</h3>
-					
+                    <div class="add-form-title">
+                        <h2>Reach Us</h2>
+                        <p>Drop your advertising inquiries</p>
+                    </div>
                     <form name="advertise" id="advertise" method="POST">
                         <div class="form-group">
                             <div class="row">

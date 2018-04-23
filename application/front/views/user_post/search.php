@@ -2,6 +2,7 @@
 <html lang="en" ng-app="searchApp" ng-controller="searchController">
     <head>
         <title>Aileensoul</title>
+        <meta name="robots" content="noindex, nofollow">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="<?php echo base_url('assets/n-css/bootstrap.min.css') ?>">
@@ -275,11 +276,11 @@
                                             <div class="post-img-mainuser">{{contact.first_name| limitTo:1 | uppercase}}{{contact.last_name| limitTo:1 | uppercase}}</div>
                                         </div>
                                         <div class="user-list-detail">
-                                            <p class="contact-name"><a href="#" ng-bind="(contact.first_name | limitTo:1 | uppercase) + (contact.first_name.substr(1) | lowercase)"></a></p>
+                                            <p class="contact-name"><a href="profiles/{{contact.user_slug}}" ng-bind="(contact.first_name | limitTo:1 | uppercase) + (contact.first_name.substr(1) | lowercase)"></a></p>
                                             <p class="contact-designation">
-                                                <a href="#" ng-if="contact.title_name != ''">{{contact.title_name| uppercase}}</a>
-                                                <a href="#" ng-if="contact.title_name == ''">{{contact.degree_name| uppercase}}</a>
-                                                <a href="#" ng-if="contact.title_name == null && contact.degree_name == null">CURRENT WORK</a>
+                                                <a href="profiles/{{contact.user_slug}}" ng-if="contact.title_name != ''">{{contact.title_name| uppercase}}</a>
+                                                <a href="profiles/{{contact.user_slug}}" ng-if="contact.title_name == ''">{{contact.degree_name| uppercase}}</a>
+                                                <a href="profiles/{{contact.user_slug}}" ng-if="contact.title_name == null && contact.degree_name == null">CURRENT WORK</a>
                                             </p>
                                         </div>
                                         <button class="follow-btn" ng-click="addToContact(contact.user_id)">Add to contact</button>

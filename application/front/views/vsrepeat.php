@@ -27,6 +27,7 @@
             }
         </style>
         <title></title>
+        <meta name="robots" content="noindex, nofollow">
         <meta charset="utf-8" />
         <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0-rc1/angular-material.min.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">

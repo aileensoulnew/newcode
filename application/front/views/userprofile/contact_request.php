@@ -12,6 +12,7 @@
 
         <link rel="stylesheet" href="<?php echo base_url('assets/n-css/n-commen.css') ?>">
         <link rel="stylesheet" href="<?php echo base_url('assets/n-css/n-style.css') ?>">
+        <link rel="stylesheet" href="<?php echo base_url('assets/n-css/component.css') ?>">
     </head>
     <body class="">
         <?php echo $header_profile; ?>
@@ -31,13 +32,14 @@
                                 <li ng-repeat="contact in pending_contact_request_data">
                                     <div class="list-box">
                                         <div class="profile-img">
-                                            <a href="#">
-                                                <img ng-src="<?php echo USER_THUMB_UPLOAD_URL ?>{{contact.user_image}}" alt="{{contact.fullname}}" ng-if="contact.user_image != ''">
-                                                <img ng-src="<?php echo NOIMAGE ?>" alt="{{contact.fullname}}" ng-if="contact.user_image == ''">
+                                            <a href="<?php echo base_url(); ?>{{contact.user_slug}}" target="_self">
+                                                <img ng-src="<?php echo USER_THUMB_UPLOAD_URL ?>{{contact.user_image}}" alt="{{contact.fullname}}" ng-if="contact.user_image != ''">                                                
+                                                 <img ng-if="contact.user_image == '' && contact.user_gender == 'M'" ng-src="<?php echo base_url('assets/img/man-user.jpg') ?>">
+                                                <img ng-if="contact.user_image == '' && contact.user_gender == 'F'" ng-src="<?php echo base_url('assets/img/female-user.jpg') ?>">
                                             </a>
                                         </div>
                                         <div class="profile-content">
-                                            <a href="#">
+                                            <a href="<?php echo base_url(); ?>{{contact.user_slug}}" target="_self">
                                                 <div class="main_data_cq">   
                                                     <span title="{{contact.fullname}}" class="main_compny_name" ng-bind="contact.fullname | capitalize"></span>
                                                 </div>
@@ -76,26 +78,27 @@
                                 <li ng-repeat="suggest in contactSuggetion">
                                     <div class="list-box">
                                         <div class="profile-img">
-                                            <a href="#">
-                                                <img ng-src="<?php echo USER_THUMB_UPLOAD_URL ?>{{suggest.user_image}}" ng-if="suggest.user_image">
-                                                <img ng-src="<?php echo NOIMAGE ?>" ng-if="!suggest.user_image">
+                                            <a href="<?php echo base_url();?>{{suggest.user_slug}}" target="_self">
+                                                <img ng-src="<?php echo USER_THUMB_UPLOAD_URL ?>{{suggest.user_image}}" ng-if="suggest.user_image">                                                
+                                                <img ng-if="!suggest.user_image && suggest.user_gender == 'M'" ng-src="<?php echo base_url('assets/img/man-user.jpg') ?>">
+                                                <img ng-if="!suggest.user_image && suggest.user_gender == 'F'" ng-src="<?php echo base_url('assets/img/female-user.jpg') ?>">
                                             </a>
                                         </div>
                                         <div class="profile-content">
-                                            <a href="#">
+                                            <a href="<?php echo base_url();?>{{suggest.user_slug}}" target="_self">
                                                 <div class="main_data_cq">   
                                                     <span title="{{suggest.fullname| capitalize}}" class="main_compny_name" ng-bind="suggest.fullname | capitalize"></span>
                                                 </div>
                                                 <div class="main_data_cq">
-                                                    <span class="dc_cl_m" title="Clothing" ng-if="suggest.title_name != ''">{{suggest.title_name| uppercase}}</span>
-                                                    <span class="dc_cl_m" title="Clothing" ng-if="suggest.title_name == ''">{{suggest.degree_name| uppercase}}</span>
-                                                    <span class="dc_cl_m" title="Clothing" ng-if="suggest.title_name == null && suggest.degree_name == null">CURRENT WORK</span>
+                                                    <span class="dc_cl_m" title="{{suggest.title_name}}" ng-if="suggest.title_name != ''">{{suggest.title_name}}</span>
+                                                    <span class="dc_cl_m" title="{{suggest.degree_name}}" ng-if="suggest.title_name == ''">{{suggest.degree_name}}</span>
+                                                    <span class="dc_cl_m" title="Current Work" ng-if="suggest.title_name == null && suggest.degree_name == null">Current Work</span>
                                                 </div>
                                             </a>
                                         </div>
                                         <div class="fw" id="item-{{suggest.user_id}}">
                                             <p class="request-btn">
-                                                <a href="javascript:void(0);" class="btn3" ng-click="addToContact(suggest.user_id, suggest);">
+                                                <a href="#" class="btn3" ng-click="addToContact(suggest.user_id, suggest);">
                                                     Add to contact
                                                 </a>
                                             </p>
@@ -120,20 +123,19 @@
                             </div>
                             <ul class="request-list">
                                 <li ng-repeat="notification in contactRequestNotification">
-                                    <a href=profiles/{{notification.user_slug}}>
+                                    <a href="<?php echo base_url(); ?>{{notification.user_slug}}">
                                         <div class="post-img">
-                                            <img src="<?php echo USER_THUMB_UPLOAD_URL ?>{{notification.user_image}}" alt="{{notification.fullname}}" ng-if="notification.user_image">
-                                                <div ng-if="!notification.user_image">{{notification.first_name| limitTo:1 | uppercase}}{{notification.last_name| limitTo:1 | uppercase}}</div>
+                                            <img src="<?php echo USER_THUMB_UPLOAD_URL ?>{{notification.user_image}}" alt="{{notification.fullname}}" ng-if="notification.user_image != ''">
+                                            <img ng-if="notification.user_image == '' && notification.user_gender == 'M'" ng-src="<?php echo base_url('assets/img/man-user.jpg') ?>">
+                                            <img ng-if="notification.user_image == '' && notification.user_gender == 'F'" ng-src="<?php echo base_url('assets/img/female-user.jpg') ?>">
                                         </div>
                                         <div class="request-detail">
                                             <h6 class="">
                                                 <b ng-bind="notification.fullname | capitalize" ng-bind="notification.fullname | capitalize"></b> confirmed your contact request.
                                             </h6>
-                                            <p>1 day ago</p>
+                                            <p>{{notification.time_string}}</p>
                                         </div>
                                     </a>
-
-                                        
                                 </li>
                             </ul>
                         </div>
@@ -151,6 +153,7 @@
         <script src="<?php echo base_url('assets/js/bootstrap.min.js'); ?>"></script>
         <script src="<?php echo base_url('assets/js/owl.carousel.min.js'); ?>"></script>
         <script src="<?php echo base_url('assets/js/jquery.mCustomScrollbar.concat.min.js'); ?>"></script>
+        <script src="<?php echo base_url('assets/js/classie.js'); ?>"></script>
 
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
         <script data-semver="0.13.0" src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.13.0.min.js"></script>
@@ -163,6 +166,36 @@
                                                     var user_id = '<?php echo $this->session->userdata('aileenuser'); ?>';
                                                     var item = '<?php echo $this->uri->segment(1); ?>';
                                                     var app = angular.module("contactRequestApp", ['ngRoute', 'ui.bootstrap', 'ngSanitize']);
+        </script>
+        <script>
+        var menuRight = document.getElementById( 'cbp-spmenu-s2' ),
+        showRight = document.getElementById( 'showRight' ),
+        body = document.body;
+
+        showRight.onclick = function() {
+            classie.toggle( this, 'active' );
+            classie.toggle( menuRight, 'cbp-spmenu-open' );
+            disableOther( 'showRight' );
+        };
+
+        function disableOther( button ) {
+            if( button !== 'showRight' ) {
+                classie.toggle( showRight, 'disabled' );
+            }
+        }
+
+        $(function () {
+            $('a[href="#search"]').on('click', function (event) {
+                event.preventDefault();
+                $('#search').addClass('open');
+                $('#search > form > input[type="search"]').focus();
+            });
+            $('#search, #search button.close-new').on('click keyup', function (event) {
+                if (event.target == this || event.target.className == 'close' || event.keyCode == 27) {
+                    $(this).removeClass('open');
+                }
+            });
+        });
         </script>
         <script src="<?php echo base_url('assets/js/webpage/user/user_header_profile.js?ver=' . time()) ?>"></script>
         <script src="<?php echo base_url('assets/js/webpage/user/contact_request.js?ver=' . time()) ?>"></script>

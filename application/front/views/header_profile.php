@@ -243,34 +243,34 @@ $userData = $this->user_model->getUserData($session_user['aileenuser']);
 </div>
 <div class="mobile-header">
     <header class="">
-        <div class="header animated fadeInDownBig">
+		<div class="header animated fadeInDownBig">
             <div class="container">
                 <div class="left-header">
                     <h2 class="logo"><a href="#"><img ng-src="<?php echo base_url('assets/n-images/mob-logo.png?ver=' . time()) ?>"></a></h2>
-                    <div class="search-mob-block">
-                        <div class="">
-                            <a href="#search">
-                                <input type="search" id="tags1" class="tags" name="skills" value="" placeholder="Job Title,Skill,Company" />
-                             </a>
-                        </div>
-                        <div id="search">
-                            <form method="get">
-                                <div class="new-search-input">
-                                   <input type="search" id="tags1" class="tags" name="skills" value="" placeholder="Job Title,Skill,Company" />
-                                   <input type="search" id="searchplace1" class="searchplace" name="searchplace" value="" placeholder="Find Location" />
-                                   
-                                </div>
-                                <div class="new-search-btn">
-                                    <button type="button" class="close-new btn">Cancel</button>
-                                    <button type="submit"  id="search_btn" class="btn btn-primary" onclick="return check();">Search</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="right-header">
-                        <ul>
-                            <li class="dropdown user-id">
-                                <label class="dropdown-toggle user-id-custom" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+					<div class="search-mob-block">
+						<div class="">
+							<a href="#search">
+								<input type="search" id="tags1" class="tags" name="skills" value="" placeholder="Job Title,Skill,Company" />
+							 </a>
+						</div>
+						<div id="search">
+							<form method="get">
+								<div class="new-search-input">
+								   <input type="search" id="tags1" class="tags" name="skills" value="" placeholder="Job Title,Skill,Company" />
+								   <input type="search" id="searchplace1" class="searchplace" name="searchplace" value="" placeholder="Find Location" />
+								   
+								</div>
+								<div class="new-search-btn">
+									<button type="button" class="close-new btn">Cancel</button>
+									<button type="submit"  id="search_btn" class="btn btn-primary" onclick="return check();">Search</button>
+								</div>
+							</form>
+						</div>
+					</div>
+					<div class="right-header">
+						<ul>
+							<li class="dropdown user-id">
+								<label class="dropdown-toggle user-id-custom" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                     <span class="usr-img">
                                         <?php
                                         if ($session_user['aileenuser_userimage'] != '')
@@ -299,148 +299,148 @@ $userData = $this->user_model->getUserData($session_user['aileenuser']);
                                             echo ucfirst($session_user['aileenuser_firstname']);
                                         }*/ ?>                                            
                                     </span>                                    
-                                </label>                                
-                                <ul class="dropdown-menu profile-dropdown">
+                                </label>								
+								<ul class="dropdown-menu profile-dropdown">
                                     <li>Account</li>
                                     <li><a  href="<?php echo base_url().$this->session->userdata('aileenuser_slug'); ?>" title="Setting"><i class="fa fa-user"></i> View Profile</a></li>
                                     <li><a href="<?php echo base_url('profile') ?>" title="Setting"><i class="fa fa-cog"></i> Setting</a></li>
                                     <li><a href="<?php echo base_url('dashboard/logout') ?>" title="Logout"><i class="fa fa-power-off"></i> Logout</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
+								</ul>
+							</li>
+						</ul>
+					</div>
                 </div>
-                
+				
                
             </div>
-        </div>
-        
+		</div>
+		
     </header>
     <div class="mob-bottom-menu">
-        <ul>
-            <li>
-                <a href="<?php echo base_url() ?>" title="Opportunity" target="_self""><img ng-src="<?php echo base_url('assets/n-images/op-bottom.png?ver=' . time()) ?>" ></a>
-            </li>
-            <li id="add-contact" class="dropdown">
-                <a href="<?php echo base_url('contact-request') ?>" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img ng-src="<?php echo base_url('assets/n-images/add-contact-bottom.png?ver=' . time()) ?>">
-                    <span class="noti-box">1</span>
-                </a>
-            </li>
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img ng-src="<?php echo base_url('assets/n-images/message-bottom.png?ver=' . time()) ?>" >
-                    <span class="noti-box">1</span>
-                </a>
-            </li>
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img ng-src="<?php echo base_url('assets/n-images/noti-bottom.png?ver=' . time()) ?>" >
-                    <span class="noti-box">1</span>
-                </a>
-            </li>
-            <li>
-                <button id="showRight"><img ng-src="<?php echo base_url('assets/n-images/mob-menu.png?ver=' . time()) ?>"></button>
-            </li>
-        </ul>
-    </div>
+		<ul>
+			<li>
+				<a href="<?php echo base_url() ?>" title="Opportunity" target="_self""><img ng-src="<?php echo base_url('assets/n-images/op-bottom.png?ver=' . time()) ?>" ></a>
+			</li>
+			<li id="add-contact" class="dropdown">
+				<a href="<?php echo base_url('contact-request') ?>" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img ng-src="<?php echo base_url('assets/n-images/add-contact-bottom.png?ver=' . time()) ?>">
+					<span class="noti-box">1</span>
+				</a>
+			</li>
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img ng-src="<?php echo base_url('assets/n-images/message-bottom.png?ver=' . time()) ?>" >
+					<span class="noti-box">1</span>
+				</a>
+			</li>
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img ng-src="<?php echo base_url('assets/n-images/noti-bottom.png?ver=' . time()) ?>" >
+					<span class="noti-box">1</span>
+				</a>
+			</li>
+			<li>
+				<button id="showRight"><img ng-src="<?php echo base_url('assets/n-images/mob-menu.png?ver=' . time()) ?>"></button>
+			</li>
+		</ul>
+	</div>
     <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right mob-side-menu" id="cbp-spmenu-s2">
-        <div class="all-profile-box content custom-scroll">
-            <ul class="all-pr-list">
-                <li>
-                    <a href="#">
-                        <div class="all-pr-img">
-                            <img src="https://www.aileensoul.com/assets/img/i1.png?ver=1517557803" alt="Job Profile">
-                        </div>
-                        <span>Job Profile</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <div class="all-pr-img">
-                            <img src="https://www.aileensoul.com/assets/img/i2.jpg?ver=1517557803" alt="Recruiter Profile">
-                        </div>
-                        <span>Recruiter Profile</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <div class="all-pr-img">
-                            <img src="https://www.aileensoul.com/assets/img/i3.jpg?ver=1517557803" alt="Freelance Profile">
-                        </div>
-                        <span>Freelance Profile</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <div class="all-pr-img">
-                            <img src="https://www.aileensoul.com/assets/img/i4.jpg?ver=1517557803" alt="Business Profile">
-                        </div>
-                        <span>Business Profile</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <div class="all-pr-img">
-                            <img src="https://www.aileensoul.com/assets/img/i5.jpg?ver=1517557803" alt="Artistic Profile">
-                        </div>
-                        <span>Artistic Profile</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <div class="all-pr-img">
-                            <img src="https://www.aileensoul.com/assets/img/i5.jpg?ver=1517557803" alt="Artistic Profile">
-                        </div>
-                        <span>Artistic Profile</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <div class="all-pr-img">
-                            <img src="https://www.aileensoul.com/assets/img/i5.jpg?ver=1517557803" alt="Artistic Profile">
-                        </div>
-                        <span>Artistic Profile</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <div class="all-pr-img">
-                            <img src="https://www.aileensoul.com/assets/img/i5.jpg?ver=1517557803" alt="Artistic Profile">
-                        </div>
-                        <span>Artistic Profile</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <div class="all-pr-img">
-                            <img src="https://www.aileensoul.com/assets/img/i5.jpg?ver=1517557803" alt="Artistic Profile">
-                        </div>
-                        <span>Artistic Profile</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <div class="all-pr-img">
-                            <img src="https://www.aileensoul.com/assets/img/i5.jpg?ver=1517557803" alt="Artistic Profile">
-                        </div>
-                        <span>Artistic Profile</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <div class="all-pr-img">
-                            <img src="https://www.aileensoul.com/assets/img/i5.jpg?ver=1517557803" alt="Artistic Profile">
-                        </div>
-                        <span>Artistic Profile</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <div class="all-pr-img">
-                            <img src="https://www.aileensoul.com/assets/img/i5.jpg?ver=1517557803" alt="Artistic Profile">
-                        </div>
-                        <span>Artistic Profile</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+		<div class="all-profile-box content custom-scroll">
+			<ul class="all-pr-list">
+				<li>
+					<a href="#">
+						<div class="all-pr-img">
+							<img src="https://www.aileensoul.com/assets/img/i1.png?ver=1517557803" alt="Job Profile">
+						</div>
+						<span>Job Profile</span>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<div class="all-pr-img">
+							<img src="https://www.aileensoul.com/assets/img/i2.jpg?ver=1517557803" alt="Recruiter Profile">
+						</div>
+						<span>Recruiter Profile</span>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<div class="all-pr-img">
+							<img src="https://www.aileensoul.com/assets/img/i3.jpg?ver=1517557803" alt="Freelance Profile">
+						</div>
+						<span>Freelance Profile</span>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<div class="all-pr-img">
+							<img src="https://www.aileensoul.com/assets/img/i4.jpg?ver=1517557803" alt="Business Profile">
+						</div>
+						<span>Business Profile</span>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<div class="all-pr-img">
+							<img src="https://www.aileensoul.com/assets/img/i5.jpg?ver=1517557803" alt="Artistic Profile">
+						</div>
+						<span>Artistic Profile</span>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<div class="all-pr-img">
+							<img src="https://www.aileensoul.com/assets/img/i5.jpg?ver=1517557803" alt="Artistic Profile">
+						</div>
+						<span>Artistic Profile</span>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<div class="all-pr-img">
+							<img src="https://www.aileensoul.com/assets/img/i5.jpg?ver=1517557803" alt="Artistic Profile">
+						</div>
+						<span>Artistic Profile</span>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<div class="all-pr-img">
+							<img src="https://www.aileensoul.com/assets/img/i5.jpg?ver=1517557803" alt="Artistic Profile">
+						</div>
+						<span>Artistic Profile</span>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<div class="all-pr-img">
+							<img src="https://www.aileensoul.com/assets/img/i5.jpg?ver=1517557803" alt="Artistic Profile">
+						</div>
+						<span>Artistic Profile</span>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<div class="all-pr-img">
+							<img src="https://www.aileensoul.com/assets/img/i5.jpg?ver=1517557803" alt="Artistic Profile">
+						</div>
+						<span>Artistic Profile</span>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<div class="all-pr-img">
+							<img src="https://www.aileensoul.com/assets/img/i5.jpg?ver=1517557803" alt="Artistic Profile">
+						</div>
+						<span>Artistic Profile</span>
+					</a>
+				</li>
+				<li>
+					<a href="#">
+						<div class="all-pr-img">
+							<img src="https://www.aileensoul.com/assets/img/i5.jpg?ver=1517557803" alt="Artistic Profile">
+						</div>
+						<span>Artistic Profile</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
 </div>

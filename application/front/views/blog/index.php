@@ -24,6 +24,7 @@ header("Pragma: no-cache"); // HTTP/1.0
         <meta name="description" content="Our Aileensoul official blog will describe our free service and related news, tips and tricks - stay tuned." />
         <link rel="icon" href="<?php echo base_url('assets/images/favicon.png?ver=' . time()); ?>">
         <meta charset="utf-8">
+        <meta name="robots" content="noindex, nofollow">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
 
 <?php
@@ -118,15 +119,20 @@ header("Pragma: no-cache"); // HTTP/1.0
             <script src="<?php echo base_url('assets/js_min/jquery-3.2.1.min.js?ver=' . time()); ?>" ></script>
 
         <?php } ?>
+            
+            <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/n-css/n-commen.css?ver=' . time()); ?>">
+            <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/jquery.mCustomScrollbar.css?ver=' . time()); ?>">
+            <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/n-css/n-style.css?ver=' . time()); ?>">
     </head>
      <?php if (!$this->session->userdata('aileenuser')) { ?>
-    <body class="blog no-login">
+    <body class="blog no-login blog-page">
         <?php }else{?>
          <body class="blog">
 
         <?php }?>
         <div class="main-inner">
-            <header>
+            <div class="web-header">
+            <header class="custom-header">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-4 col-sm-3">
@@ -143,64 +149,196 @@ header("Pragma: no-cache"); // HTTP/1.0
                     </div>
                 </div>
             </header>
-            <div class="blog_header">
+            <div class="sub-header">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-4 col-sm-5 col-xs-2 mob-zindex">
+                        <div class="col-md-6 mob-p0">
 
-                            <div class="logo pl20">
+                            <ul class="sub-menu blog-sub-menu">
+                                <li>
                                 <?php
                                 if ($this->input->get('q') || $this->uri->segment(2) == 'popular' || $this->uri->segment(2) == 'tag') {
                                     ?>
-                                    <a href="<?php echo base_url('blog'); ?>">
-                                        <h3  style="color: #1b8ab9;">Blog</h3>
+                                    <a class="fs22" href="<?php echo base_url('blog'); ?>">
+                                        Blog
                                     </a>
                                     <?php
                                 } else {
                                     ?>
-                                    <a href="<?php echo base_url('blog'); ?>">
-                                        <h3  style="color: #1b8ab9;">Blog</h3>
+                                    <a class="fs22" href="<?php echo base_url('blog'); ?>">
+                                        Blog
                                     </a>
                                     <?php
                                 }
                                 ?>
-                            </div>
+                                </li>
+                                <li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Post
+							
+							</a>
+							<div class="dropdown-menu">
+								<div class="dropdown-title">
+									Recent Post <a href="#" class="pull-right">See All</a>
+								</div>
+								<div class="content custom-scroll">
+									<ul class="dropdown-data msg-dropdown">
+										<li class="">
+											<a href="#">
+												<div class="dropdown-database">
+													<div class="post-img">
+														<img src="img/user-pic.jpg" alt="No Business Image">
+													</div>
+													<div class="dropdown-user-detail">
+														<p class="drop-blog-title">Lorem ipsum is a dummy text it shuld use for dummy.</p>
+														
+															<span class="day-text">12 march 2018</span>
+														
+													</div> 
+												</div>
+											</a> 
+										</li>
+										<li class="">
+											<a href="#">
+												<div class="dropdown-database">
+													<div class="post-img">
+														<img src="img/user-pic.jpg" alt="No Business Image">
+													</div>
+													<div class="dropdown-user-detail">
+														<p class="drop-blog-title">Lorem ipsum is a dummy text it shuld use for dummy.</p>
+														
+															<span class="day-text">12 march 2018</span>
+														
+													</div> 
+												</div>
+											</a> 
+										</li>
+										<li class="">
+											<a href="#">
+												<div class="dropdown-database">
+													<div class="post-img">
+														<img src="img/user-pic.jpg" alt="No Business Image">
+													</div>
+													<div class="dropdown-user-detail">
+														<p class="drop-blog-title">Lorem ipsum is a dummy text it shuld use for dummy.</p>
+														
+															<span class="day-text">12 march 2018</span>
+														
+													</div> 
+												</div>
+											</a> 
+										</li>
+										<li class="">
+											<a href="#">
+												<div class="dropdown-database">
+													<div class="post-img">
+														<img src="img/user-pic.jpg" alt="No Business Image">
+													</div>
+													<div class="dropdown-user-detail">
+														<p class="drop-blog-title">Lorem ipsum is a dummy text it shuld use for dummy.</p>
+														
+															<span class="day-text">12 march 2018</span>
+														
+													</div> 
+												</div>
+											</a> 
+										</li>
+										<li class="">
+											<a href="#">
+												<div class="dropdown-database">
+													<div class="post-img">
+														<img src="img/user-pic.jpg" alt="No Business Image">
+													</div>
+													<div class="dropdown-user-detail">
+														<p class="drop-blog-title">Lorem ipsum is a dummy text it shuld use for dummy.</p>
+														
+															<span class="day-text">12 march 2018</span>
+														
+													</div>
+												</div>
+											</a> 
+										</li>
+										<li class="">
+											<a href="#">
+												<div class="dropdown-database">
+													<div class="post-img">
+														<img src="img/user-pic.jpg" alt="No Business Image">
+													</div>
+													<div class="dropdown-user-detail">
+														<p class="drop-blog-title">Lorem ipsum is a dummy text it shuld use for dummy.</p>
+														
+															<span class="day-text">12 march 2018</span>
+														
+													</div>
+												</div>
+											</a> 
+										</li>
+										<li class="">
+											<a href="#">
+												<div class="dropdown-database">
+													<div class="post-img">
+														<img src="img/user-pic.jpg" alt="No Business Image">
+													</div>
+													<div class="dropdown-user-detail">
+														<p class="drop-blog-title">Lorem ipsum is a dummy text it shuld use for dummy.</p>
+														
+															<span class="day-text">12 march 2018</span>
+														
+													</div> 
+												</div>
+											</a> 
+										</li>
+									</ul>
+								</div>
+							</div>
+						</li>
+                                                <li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="pr-name">Category</span></a>
+							<div class="dropdown-menu">
+								<ul class="content custom-scroll">
+									<li><a href="#">Interview Tips</a></li>
+									<li><a href="#">Career</a></li>
+									<li><a href="#">Guides</a></li>
+									<li><a href="#">Aritistic</a></li>
+									<li><a href="#">Insipirational</a></li>
+									<li><a href="#">Business Tips</a></li>
+									<li><a href="#">Trending</a></li>
+									<li><a href="#">Lessons From Entrepreneurs</a></li>
+									<li><a href="#">AileenSoul Services</a></li>
+									<li><a href="#">IT Career</a></li>
+									<li><a href="#">Trending</a></li>
+									<li><a href="#">Lessons From Entrepreneurs</a></li>
+									<li><a href="#">AileenSoul Services</a></li>
+									<li><a href="#">IT Career</a></li>
+								</ul>
+							</div>
+						</li>
+                            </ul>
                         </div>
-                        <div class="col-md-8 col-sm-7 col-xs-10 header-left-menu">
-                            <div class="main-menu-right">
-                                <ul class="">
-                                    <?php foreach ($blog_category as $category) { ?>
-                                        <li class="category">
-                                            <div id="category_<?php echo $cateory['id']; ?>"  onclick="return category_data(<?php echo $category['id']; ?>);">
-                                                <?php echo $category['name']; ?>
-                                            </div>
-                                        </li>
-                                    <?php } ?>
-                                </ul>
-                            </div>
-                        </div>
+                        <div class="col-sm-6 col-md-6 col-xs-6 hidden-mob blog-search">
+					<div class="job-search-box1 clearfix">
+                                            
+						<form action="https://www.aileensoul.com/search/business_search" method="get">
+							<fieldset class="sec_h2">
+								<input id="tags" class="tags ui-autocomplete-input" name="skills" placeholder="Search" autocomplete="off" type="text">
+								<i class="fa fa-search" aria-hidden="true"></i>
+							</fieldset>
+							
+							
+						</form>   
+					</div>
+				</div>
+                       
                     </div>
                 </div>
             </div>
-            <section>
-                <div class="col-md-12 hidden-md hidden-lg pt20">
-                    <div class="blog_search">
-                        <div>
-
-                              <form action="<?php echo base_url('blog') ?>" method="get" autocomplete="off">
-                                            <div class="searc_w"><input type="text" name="p" id="p" placeholder="Search Blog Post"></div>
-                                            <button type="submit" class="butn_w" onclick="return checkvalue_one();"><i class="fa fa-search"></i></button> 
-
-
-                                        </form>
-
-                        </div>
-                    </div>
-                </div>
+            </div>
+            
+            <section id="paddingtop_fixed">
+                
                 <div class="blog-mid-section user-midd-section">
                     <div class="container">
                         <div class="row">
-                            <div class="blog_post_outer col-md-9 col-sm-8 pr0">
+                            <div class="custom-user-list">
                             
                                     <div class="job-contact-frnd">
 
@@ -215,53 +353,12 @@ header("Pragma: no-cache"); // HTTP/1.0
                               
                             </div>
 
-                            <div class="col-md-3 col-sm-4 hidden-xs">
-                                <div class="blog_search">
-                                    <h6> Blog Search </h6>
-                                    <div>
-
-                                        <form action="<?php echo base_url('blog') ?>" method="get" autocomplete="off">
-                                            <div class="searc_w"><input type="text" name="q" id="q" placeholder="Search Blog Post"></div>
-                                            <button type="submit" class="butn_w" onclick="return checkvalue();"><i class="fa fa-search"></i></button> 
-
-
-                                        </form>
-                                    </div>
-                                </div>
-                                <div class="blog_latest_post">
-                                    <h3>Latest Post</h3>
-                                    <?php
-                                    foreach ($blog_last as $blog) {
-                                        ?>
-                                        <div class="latest_post_posts">
-                                            <ul>
-                                                <li>
-                                                    <a href="<?php echo base_url('blog/' . $blog['blog_slug']) ?>"> 
-                                                        <div class="post_inside_data">
-                                                            <div class="post_latest_left">
-                                                                <div class="lateaqt_post_img">
-                                                                    <img src="<?php echo base_url($this->config->item('blog_thumb_upload_path') . $blog['image'] . '?ver=' . time()) ?>" alt="<?php echo $blog['image']; ?>">
-                                                                </div>
-                                                            </div>
-                                                            <div class="post_latest_right">
-                                                                <div class="desc_post">
-                                                                    <span class="rifght_fname"> <?php echo $blog['title']; ?> </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </li>
-
-                                            </ul>
-                                        </div>
-                                        <!--latest_post_posts end -->
-                                        <?php
-                                    }//for loop end
-                                    ?>
-                                </div>
-                                
-                               
-
+                            <div class="right-part">
+				<div class="subscribe-box">
+					<h4>Subscribe to Our Newslatter</h4>
+					<input type="text" class="form-control" placeholder="Enter your email id">
+					<a class="btn1" href="#">Subscribe</a>
+				</div>
                             </div>
 
 
@@ -403,5 +500,22 @@ header("Pragma: no-cache"); // HTTP/1.0
         <?php } else { ?>
             <script src="<?php echo base_url('assets/js_min/webpage/blog/blog.js?ver=' . time()); ?>"></script>
         <?php } ?>
+            <script src="<?php echo base_url('assets/js/bootstrap.min.js?ver=' . time()); ?>"></script>
+            <script src="<?php echo base_url('assets/js/scrollbar/jquery.mCustomScrollbar.concat.min.js?ver=' . time()); ?>"></script>
+            <script>
+		
+			
+		// mcustom scroll bar
+			(function($){
+				$(window).on("load",function(){
+					
+					$(".custom-scroll").mCustomScrollbar({
+						autoHideScrollbar:true,
+						theme:"minimal"
+					});
+					
+				});
+			})(jQuery);
+    </script>
     </body>
 </html>

@@ -22,6 +22,7 @@ header('Cache-Control: public, max-age=30');
     <head>
         <title><?php echo $title; ?></title>
         <link rel="icon" href="<?php echo base_url('assets/images/favicon.png?ver=' . time()); ?>">
+        <meta name="robots" content="noindex, nofollow">
         <meta charset="utf-8">
         <?php
         if ($_SERVER['HTTP_HOST'] != "localhost") {
@@ -171,7 +172,7 @@ header('Cache-Control: public, max-age=30');
                             <ol>
                                 <li>
                                     <h4>General:</h4>
-                                    <p>Aileensoul provides users with access to commenting and Posting. The Site, therefore, contains user-generated content (“UGC”) which we do not pre-screen and which contains views that are the opinions of those users. These views do not represent Aileensoul’s views, opinions, beliefs, morals or values and so, whilst we will do our best to monitor, edit or remove such UGC where we consider it appropriate or necessary to do so, we cannot promise that the content in or on the Site (or any of it) is accurate, complete or up-to-date, that it will not offend or upset or that it does not infringe the intellectual property of other third parties.</p>
+                                    <p>Aileensoul provides users with access to commenting and Posting. The Site, therefore, contains user-generated content (“UGC�?) which we do not pre-screen and which contains views that are the opinions of those users. These views do not represent Aileensoul’s views, opinions, beliefs, morals or values and so, whilst we will do our best to monitor, edit or remove such UGC where we consider it appropriate or necessary to do so, we cannot promise that the content in or on the Site (or any of it) is accurate, complete or up-to-date, that it will not offend or upset or that it does not infringe the intellectual property of other third parties.</p>
                                     <p>Further, some users may post content or advice, medical or otherwise, in the form of comments or posts on the Site. Such content and/or advice shall be for informational purposes only and any reliance placed on such content and/or advice by the users shall solely be at their own risk. The posts and comments posted by such users are their sole creation and responsibility. We do not endorse or guarantee the completeness, truthfulness, accuracy, or reliability of any posts or comments  posted by such users, nor do we endorse any opinions they express. It is further clarified that Aileensoul shall not be liable for any consequence arising from or in connection with such content and/or advice.The user represents and warrants that, (i) where the UGC posted by a relevant user which does not belong to such user, the user has procured the right or the necessary permission or license to use the said UGC; and, (ii) the user shall not post or publish any UGC which is in contravention of any Indian and English laws, that which has not been created by the user, or that which violates the rights, title and interest of another person. Further, the user agrees and acknowledges that UGC posted or published on the Site by such user is non-confidential and that the user submits such information at their own risk.</p>
 
                                 </li>

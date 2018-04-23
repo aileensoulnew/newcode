@@ -1,7 +1,7 @@
 <div class="left-part">
     <div class="user-profile-box">
         <div class="user-cover-img">
-            <a href="<?php echo base_url('profiles/'.$leftbox_data['user_slug']) ?>">
+            <a href="<?php echo base_url($leftbox_data['user_slug']) ?>">
             <?php if ($leftbox_data['profile_background'] != '') { ?> 
                 <img ng-src="<?php echo USER_BG_THUMB_UPLOAD_URL.$leftbox_data['profile_background'] ?>" alt="<?php echo $leftbox_data['first_name'] ?>" class="bgImage">
             <?php } else { ?>
@@ -11,7 +11,7 @@
         </div>
         <div class="user-detail">
             <div class="user-img">
-                <a href="<?php echo base_url('profiles/'.$leftbox_data['user_slug']) ?>">
+                <a href="<?php echo base_url($leftbox_data['user_slug']) ?>">
                 <?php if ($leftbox_data['user_image'] != '') { ?> 
                     <img ng-src="<?php echo USER_THUMB_UPLOAD_URL . $leftbox_data['user_image'] ?>" alt="<?php echo $leftbox_data['first_name'] ?>">  
                 <?php } else { ?>
@@ -21,8 +21,8 @@
             </div>
             <div class="user-detail-right">
                 <div class="user-detail-top">
-                    <h4><a href="<?php echo base_url('profiles/'.$leftbox_data['user_slug']) ?>" title="<?php echo ucfirst($leftbox_data['first_name']) . ' ' . ucfirst($leftbox_data['last_name']) ?>"><?php echo ucfirst($leftbox_data['first_name']) . ' ' . ucfirst($leftbox_data['last_name']) ?></a></h4>
-                    <p><a href="<?php echo base_url('profiles/'.$leftbox_data['user_slug']) ?>">
+                    <h4><a href="<?php echo base_url($leftbox_data['user_slug']) ?>" title="<?php echo ucfirst($leftbox_data['first_name']) . ' ' . ucfirst($leftbox_data['last_name']) ?>"><?php echo ucfirst($leftbox_data['first_name']) . ' ' . ucfirst($leftbox_data['last_name']) ?></a></h4>
+                    <p><a href="<?php echo base_url($leftbox_data['user_slug']) ?>">
                             <?php if($leftbox_data['title_name'] == ""){ echo $leftbox_data['degree_name'];
                             }else if($leftbox_data['title_name'] != ""){ echo $leftbox_data['title_name'];
                              } else{?>
@@ -32,7 +32,7 @@
                 </div>
                 <div class="user-detail-bottom">
                     <ul>
-                        <li><a href="<?php echo base_url('profiles/'.$leftbox_data['user_slug']) ?>">Dashboard</a></li>
+                        <li><a href="<?php echo base_url($leftbox_data['user_slug']) ?>">Dashboard</a></li>
                         <li><a href="<?php echo base_url('details/'.$leftbox_data['user_slug']) ?>">Detail</a></li>
                         <li><a href="<?php echo base_url('followers/'.$leftbox_data['user_slug']) ?>">Followers</a></li>
                     </ul>
@@ -43,7 +43,7 @@
 
     <div class="all-profile-box">
         <div class="all-pro-head">
-            <h4>Profiles<a href="<?php echo base_url('profiles/') ?>" title="All Profile" class="pull-right">All</a></h4>
+            <h4>Profiles<a href="<?php echo base_url('profiles/'.$leftbox_data['user_slug']) ?>" title="All Profile" class="pull-right">All</a></h4>
         </div>
         <ul class="all-pr-list">
             <li>

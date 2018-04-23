@@ -25,7 +25,7 @@ $userid = $this->session->userdata('aileenuser');
                                             <a href="#">
                                                 <div class="dropdown-database">
                                                     <div class="post-img">
-                                                        <img src="img/user-pic.jpg" alt="No Business Image">
+                                                        <img src="<?php echo base_url('assets/img/user-pic.jpg?ver=' . time()) ?>" alt="No Business Image">
                                                     </div>
                                                     <div class="dropdown-user-detail">
                                                         <h6><b>Atosa Ahmedabad</b></h6>
@@ -41,7 +41,7 @@ $userid = $this->session->userdata('aileenuser');
                                             <a href="#">
                                                 <div class="dropdown-database">
                                                     <div class="post-img">
-                                                        <img src="img/user-pic.jpg" alt="No Business Image">
+                                                        <img src="<?php echo base_url('assets/img/user-pic.jpg?ver=' . time()) ?>" alt="No Business Image">
                                                     </div>
                                                     <div class="dropdown-user-detail">
                                                         <h6><b>Atosa Ahmedabad</b></h6>
@@ -57,7 +57,7 @@ $userid = $this->session->userdata('aileenuser');
                                             <a href="#">
                                                 <div class="dropdown-database">
                                                     <div class="post-img">
-                                                        <img src="img/user-pic.jpg" alt="No Business Image">
+                                                        <img src="<?php echo base_url('assets/img/user-pic.jpg?ver=' . time()) ?>" alt="No Business Image">
                                                     </div>
                                                     <div class="dropdown-user-detail">
                                                         <h6><b>Atosa Ahmedabad</b></h6>
@@ -73,7 +73,7 @@ $userid = $this->session->userdata('aileenuser');
                                             <a href="#">
                                                 <div class="dropdown-database">
                                                     <div class="post-img">
-                                                        <img src="img/user-pic.jpg" alt="No Business Image">
+                                                        <img src="<?php echo base_url('assets/img/user-pic.jpg?ver=' . time()) ?>" alt="No Business Image">
                                                     </div>
                                                     <div class="dropdown-user-detail">
                                                         <h6><b>Atosa Ahmedabad</b></h6>
@@ -89,7 +89,7 @@ $userid = $this->session->userdata('aileenuser');
                                             <a href="#">
                                                 <div class="dropdown-database">
                                                     <div class="post-img">
-                                                        <img src="img/user-pic.jpg" alt="No Business Image">
+                                                        <img src="<?php echo base_url('assets/img/user-pic.jpg?ver=' . time()) ?>" alt="No Business Image">
                                                     </div>
                                                     <div class="dropdown-user-detail">
                                                         <h6><b>Atosa Ahmedabad</b></h6>
@@ -105,7 +105,7 @@ $userid = $this->session->userdata('aileenuser');
                                             <a href="#">
                                                 <div class="dropdown-database">
                                                     <div class="post-img">
-                                                        <img src="img/user-pic.jpg" alt="No Business Image">
+                                                        <img src="<?php echo base_url('assets/img/user-pic.jpg?ver=' . time()) ?>" alt="No Business Image">
                                                     </div>
                                                     <div class="dropdown-user-detail">
                                                         <h6><b>Atosa Ahmedabad</b></h6>
@@ -121,7 +121,7 @@ $userid = $this->session->userdata('aileenuser');
                                             <a href="#">
                                                 <div class="dropdown-database">
                                                     <div class="post-img">
-                                                        <img src="img/user-pic.jpg" alt="No Business Image">
+                                                        <img src="<?php echo base_url('assets/img/user-pic.jpg?ver=' . time()) ?>" alt="No Business Image">
                                                     </div>
                                                     <div class="dropdown-user-detail">
                                                         <h6><b>Atosa Ahmedabad</b></h6>
@@ -137,9 +137,7 @@ $userid = $this->session->userdata('aileenuser');
                                 </div>
                             </div>
                         </li>
-                        
-                        
-						<li class="dropdown user-id">
+                        <li class="dropdown user-id">
                             <a href="#" class="dropdown-toggle user-id-custom" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user-circle-o" aria-hidden="true"></i><span class="pr-name">Account</span></a>
 
                             <ul class="dropdown-menu account">
@@ -164,7 +162,8 @@ $userid = $this->session->userdata('aileenuser');
                                 <label for="search_btn" id="search_f"><i class="fa fa-search" aria-hidden="true"></i></label>
                                 <input id="search_btn" style="display: none;" name="search_submit" value="Search" onclick="return checkvalue()" type="submit">
                             </fieldset>
-                        </form>    </div>
+                        </form>    
+                    </div>
                 </div>
             </div>
         </div>
@@ -190,19 +189,18 @@ $userid = $this->session->userdata('aileenuser');
                                 <div class="new-search-input">
                                     <input type="search" id="tags1" class="tags" name="skills" value="" placeholder="Job Title,Skill,Company" />
                                     <input type="search" id="searchplace1" class="searchplace" name="searchplace" value="" placeholder="Find Location" />
-                                    
                                 </div>
-								<div class="new-search-btn">
-									<button type="button" class="close-new btn">Cancel</button>
-									<button type="submit" id="search_btn" class="btn btn-primary" onclick="return check();">Search</button>
-								</div>
-							</form>
+				<div class="new-search-btn">
+                                    <button type="button" class="close-new btn">Cancel</button>
+                                    <button type="submit" id="search_btn" class="btn btn-primary" onclick="return check();">Search</button>
+				</div>
+                            </form>
                         </div>
                     </div>
                     <div class="right-header">
                         <ul>
                             <li class="dropdown user-id">
-                                <a href="#" class="dropdown-toggle user-id-custom" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="usr-img"><img src="img/user-pic.jpg"></span><span class="pr-name"></span></a>
+                                <a href="#" class="dropdown-toggle user-id-custom" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="usr-img"><img src="<?php echo base_url('assets/img/user-pic.jpg?ver=' . time()) ?>"></span><span class="pr-name"></span></a>
 
                                 <ul class="dropdown-menu profile-dropdown">
                                     <li>Account</li>

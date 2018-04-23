@@ -22,6 +22,7 @@ header('Cache-Control: public, max-age=30');
 <html lang="en">
     <head>
         <title><?php echo $title; ?></title>
+        <meta name="robots" content="noindex, nofollow">
         <meta name="description" content="Aileensoul.com have something to give this world, Know about us." />
         <link rel="icon" href="<?php echo base_url('assets/images/favicon.png?ver=' . time()); ?>">
         <meta charset="utf-8">

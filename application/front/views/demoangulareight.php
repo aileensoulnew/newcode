@@ -2,6 +2,7 @@
 <html lang="en" ng-app="userOppoApp" ng-controller="userOppoController" scrollable-container>
     <head>
         <title><?php echo $title; ?></title>
+        <meta name="robots" content="noindex, nofollow">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="<?php echo base_url('8/ninja-slider.css'); ?>" rel="stylesheet" type="text/css" />

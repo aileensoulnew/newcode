@@ -20,6 +20,7 @@ header('Expires: ' . $date);
 ?>
 <html lang="en" class="login-custom">
     <head>
+        <meta name="robots" content="noindex, nofollow">
         <meta charset="utf-8">
         <title>Login - Aileensoul</title>
         <meta name="description" content="Login to Aileensoul.com dashboard and get updates on your profiles." />

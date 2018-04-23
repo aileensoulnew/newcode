@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Demo 8</title>
+    <meta name="robots" content="noindex, nofollow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="<?php echo base_url('8/ninja-slider.css'); ?>" rel="stylesheet" type="text/css" />
     <script src="<?php echo base_url('8/ninja-slider.js');?>" type="text/javascript"></script>

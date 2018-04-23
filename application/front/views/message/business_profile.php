@@ -4,6 +4,7 @@
         <?php echo $head_message; ?>
         <meta charset="utf-8">
         <title>Chat | Aileensoul</title>
+        <meta name="robots" content="noindex, nofollow">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
         <link rel="icon" href="<?php echo base_url('assets/images/favicon.png'); ?>">
 

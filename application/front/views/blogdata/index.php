@@ -4,6 +4,7 @@
      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
 
         <title>Load more pagination with AngularJS and PHP</title>
+        <meta name="robots" content="noindex, nofollow">
         <link href="style.css" type="text/css" rel="stylesheet">
       
     </head>

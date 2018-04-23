@@ -19,6 +19,7 @@ header("Pragma: no-cache"); // HTTP/1.0
         <title><?php echo $blog_detail[0]['title']; ?> - Aileensoul</title>
         <link rel="icon" href="<?php echo base_url('assets/images/favicon.png?ver=' . time()); ?>">
         <meta charset="utf-8">
+        <meta name="robots" content="noindex, nofollow">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
         <?php
         if ($_SERVER['HTTP_HOST'] == "www.aileensoul.com") {
@@ -91,17 +92,21 @@ header("Pragma: no-cache"); // HTTP/1.0
             <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css_min/blog.css?ver=' . time()); ?>">
             <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css_min/font-awesome.min.css?ver=' . time()); ?>">
         <?php } ?>
+            <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/n-css/n-commen.css?ver=' . time()); ?>">
+            <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/jquery.mCustomScrollbar.css?ver=' . time()); ?>">
+            <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/n-css/n-style.css?ver=' . time()); ?>">
     </head>
-    <body class="blog-detail blog">
+    <body class="blog-page blog">
         <div class="main-inner">
-            <header>
+            <div class="web-header">
+            <header class="custom-header">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-4 col-sm-3 ">
+                        <div class="col-md-4 col-sm-3">
                             <a href="<?php echo base_url(); ?>"><img src="<?php echo base_url('assets/img/logo-name.png?ver=' . time()) ?>" alt="logo"></a>
                         </div>
-                        <div class="col-md-8 col-sm-9  pt-10">
-                            <div class="btn-right pull-right pt10">
+                        <div class="col-md-8 col-sm-9" style="padding-top: 5px;">
+                            <div class="btn-right pull-right">
                                 <?php if (!$this->session->userdata('aileenuser')) { ?>
                                     <a href="<?php echo base_url('login'); ?>" class="btn2">Login</a>
                                     <a href="<?php echo base_url('registration'); ?>" class="btn3">Create an account</a>
@@ -111,50 +116,325 @@ header("Pragma: no-cache"); // HTTP/1.0
                     </div>
                 </div>
             </header>
-        </div>
-        <div class="blog_header">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-4 col-sm-5 col-xs-3 mob-zindex">
-                        <div class="logo pl20">
-                            <a href="<?php echo base_url('blog'); ?>">
-                                <h3  style="color: #1b8ab9;">Blog</h3>
-                            </a>
+            <div class="sub-header">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 mob-p0">
+
+                            <ul class="sub-menu blog-sub-menu">
+                                <li>
+                                <?php
+                                if ($this->input->get('q') || $this->uri->segment(2) == 'popular' || $this->uri->segment(2) == 'tag') {
+                                    ?>
+                                    <a class="fs22" href="<?php echo base_url('blog'); ?>">
+                                        Blog
+                                    </a>
+                                    <?php
+                                } else {
+                                    ?>
+                                    <a class="fs22" href="<?php echo base_url('blog'); ?>">
+                                        Blog
+                                    </a>
+                                    <?php
+                                }
+                                ?>
+                                </li>
+                                <li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Post
+							
+							</a>
+							<div class="dropdown-menu">
+								<div class="dropdown-title">
+									Recent Post <a href="#" class="pull-right">See All</a>
+								</div>
+								<div class="content custom-scroll">
+									<ul class="dropdown-data msg-dropdown">
+										<li class="">
+											<a href="#">
+												<div class="dropdown-database">
+													<div class="post-img">
+														<img src="img/user-pic.jpg" alt="No Business Image">
+													</div>
+													<div class="dropdown-user-detail">
+														<p class="drop-blog-title">Lorem ipsum is a dummy text it shuld use for dummy.</p>
+														
+															<span class="day-text">12 march 2018</span>
+														
+													</div> 
+												</div>
+											</a> 
+										</li>
+										<li class="">
+											<a href="#">
+												<div class="dropdown-database">
+													<div class="post-img">
+														<img src="img/user-pic.jpg" alt="No Business Image">
+													</div>
+													<div class="dropdown-user-detail">
+														<p class="drop-blog-title">Lorem ipsum is a dummy text it shuld use for dummy.</p>
+														
+															<span class="day-text">12 march 2018</span>
+														
+													</div> 
+												</div>
+											</a> 
+										</li>
+										<li class="">
+											<a href="#">
+												<div class="dropdown-database">
+													<div class="post-img">
+														<img src="img/user-pic.jpg" alt="No Business Image">
+													</div>
+													<div class="dropdown-user-detail">
+														<p class="drop-blog-title">Lorem ipsum is a dummy text it shuld use for dummy.</p>
+														
+															<span class="day-text">12 march 2018</span>
+														
+													</div> 
+												</div>
+											</a> 
+										</li>
+										<li class="">
+											<a href="#">
+												<div class="dropdown-database">
+													<div class="post-img">
+														<img src="img/user-pic.jpg" alt="No Business Image">
+													</div>
+													<div class="dropdown-user-detail">
+														<p class="drop-blog-title">Lorem ipsum is a dummy text it shuld use for dummy.</p>
+														
+															<span class="day-text">12 march 2018</span>
+														
+													</div> 
+												</div>
+											</a> 
+										</li>
+										<li class="">
+											<a href="#">
+												<div class="dropdown-database">
+													<div class="post-img">
+														<img src="img/user-pic.jpg" alt="No Business Image">
+													</div>
+													<div class="dropdown-user-detail">
+														<p class="drop-blog-title">Lorem ipsum is a dummy text it shuld use for dummy.</p>
+														
+															<span class="day-text">12 march 2018</span>
+														
+													</div>
+												</div>
+											</a> 
+										</li>
+										<li class="">
+											<a href="#">
+												<div class="dropdown-database">
+													<div class="post-img">
+														<img src="img/user-pic.jpg" alt="No Business Image">
+													</div>
+													<div class="dropdown-user-detail">
+														<p class="drop-blog-title">Lorem ipsum is a dummy text it shuld use for dummy.</p>
+														
+															<span class="day-text">12 march 2018</span>
+														
+													</div>
+												</div>
+											</a> 
+										</li>
+										<li class="">
+											<a href="#">
+												<div class="dropdown-database">
+													<div class="post-img">
+														<img src="img/user-pic.jpg" alt="No Business Image">
+													</div>
+													<div class="dropdown-user-detail">
+														<p class="drop-blog-title">Lorem ipsum is a dummy text it shuld use for dummy.</p>
+														
+															<span class="day-text">12 march 2018</span>
+														
+													</div> 
+												</div>
+											</a> 
+										</li>
+									</ul>
+								</div>
+							</div>
+						</li>
+                                                <li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="pr-name">Category</span></a>
+							<div class="dropdown-menu">
+								<ul class="content custom-scroll">
+									<li><a href="#">Interview Tips</a></li>
+									<li><a href="#">Career</a></li>
+									<li><a href="#">Guides</a></li>
+									<li><a href="#">Aritistic</a></li>
+									<li><a href="#">Insipirational</a></li>
+									<li><a href="#">Business Tips</a></li>
+									<li><a href="#">Trending</a></li>
+									<li><a href="#">Lessons From Entrepreneurs</a></li>
+									<li><a href="#">AileenSoul Services</a></li>
+									<li><a href="#">IT Career</a></li>
+									<li><a href="#">Trending</a></li>
+									<li><a href="#">Lessons From Entrepreneurs</a></li>
+									<li><a href="#">AileenSoul Services</a></li>
+									<li><a href="#">IT Career</a></li>
+								</ul>
+							</div>
+						</li>
+                            </ul>
                         </div>
-                    </div>
-                    <div class="col-md-8 col-sm-7 col-xs-9 header-left-menu">
-                        <div class="main-menu-right">
-                        </div>
+                        <div class="col-sm-6 col-md-6 col-xs-6 hidden-mob blog-search">
+					<div class="job-search-box1 clearfix">
+                                            
+						<form action="https://www.aileensoul.com/search/business_search" method="get">
+							<fieldset class="sec_h2">
+								<input id="tags" class="tags ui-autocomplete-input" name="skills" placeholder="Search" autocomplete="off" type="text">
+								<i class="fa fa-search" aria-hidden="true"></i>
+							</fieldset>
+							
+							
+						</form>   
+					</div>
+				</div>
+                       
                     </div>
                 </div>
             </div>
-        </div>
-        <section>
+            </div>
+        
+      
+        <section id="paddingtop_fixed">
             <div class="blog-mid-section user-midd-section">
                 <div class="container">
                     <div class="row">
-                        <div class="blog_post_outer col-md-9 col-sm-8 pr0">
-                            <div class="job-contact-frnd">
+                        <div class="custom-user-list">
+                            <div class="blog-user-detail">
+					<div class="user-img">	
+						<img src="n-images/user-pic.jpg">
+					</div>
+					<p class="pt20">Dhaval Shah</p>
+					<p>8 march 18</p>
+					<p><img src="n-images/comment.png" class="pr5"> 15</p>
+					<p class="social-icon">
+						<a href="#"><i class="fa fa-facebook-f"></i></a>
+						<a href="#"><i class="fa fa-twitter"></i></a>
+						<a href="#"><i class="fa fa-linkedin"></i></a>
+						<a href="#"><i class="fa fa-skype"></i></a>
+					</p>
+				</div>
+                            <div class="blog-detail">
                                 <?php
                                 if (count($blog_detail) > 0) {
                                     ?>
+                                <div class="blog-box">
+                                    <div class="blog-left-content blog-detail-top">
+					<p class="blog-details-cus"><span class="cat">Lessons from entrepreneurs</span> </p>
+					<h3><?php echo $blog_detail[0]['title']; ?></h3>
+                                    </div>
+                                    <div class="blog-left-img">
+					<img src="<?php echo base_url($this->config->item('blog_main_upload_path') . $blog_detail[0]['image'] . '?ver=' . time()) ?>"  alt="Blog">
+                                    </div>
+                                    <div class="blog-left-content">
+                                        <?php echo $blog_detail[0]['description']; ?>
+                                    </div>
+                                </div>
+                                <div class="">
+                                    <ul class="pagination pull-right">
+                                        <li class="prev"><a href="#">Previous</a></li>
+                                        <li class="next"><a href="#">Next</a></li>
+                                    </ul>
+				</div>
+                                <div class="also-like fw pt20">
+						<div class="center-title">
+                                                    <h3>You may also like</h3>
+						</div>
+						<div class="row pt20">
+							<div class="col-md-4 col-sm-4">
+								<div class="also-like-box">
+									<div class="rec-img">
+										<a href="#"><img src="n-images/user-pic.jpg"></a>
+									</div>
+									<span>Category</span>
+									<p><a href="#">Beauty Treatments Worth Traveling</a> </p>
+								</div>
+							</div>
+							<div class="col-md-4 col-sm-4">
+								<div class="also-like-box">
+									<div class="rec-img">
+										<a href="#"><img src="n-images/user-pic.jpg"></a>
+									</div>
+									<span>Category</span>
+									<p><a href="#">Beauty Treatments Worth Traveling</a> </p>
+								</div>
+							</div>
+							<div class="col-md-4 col-sm-4">
+								<div class="also-like-box">
+									<div class="rec-img">
+										<a href="#"><img src="n-images/user-pic.jpg"></a>
+									</div>
+									<span>Category</span>
+									<p><a href="#">Beauty Treatments Worth Traveling</a> </p>
+								</div>
+							</div>
+						</div>
+					</div>
+                                <div class="all-comments fw">
+						<div class="center-title">
+                            <h3>All Comments</h3>
+						</div>
+						<div class="comment-box">
+							<div class="comment-img">
+								<img src="n-images/user-pic.jpg">
+							</div>
+							<div class="comment-text">
+								<h4>Dhaval Shah</h4>
+								<span>2 month ago</span>
+								<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+							</div>
+						</div>
+						<div class="comment-box">
+							<div class="comment-img">
+								<img src="n-images/user-pic.jpg">
+							</div>
+							<div class="comment-text">
+								<h4>Dhaval Shah</h4>
+								<span>2 month ago</span>
+								<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+							</div>
+						</div>
+					</div>
+                                <div class="leave-reply fw">
+						<div class="center-title">
+                            <h3>Leave a reply</h3>
+						</div>
+						<div class="reply-form pt20">
+							<div class="row pt20">
+								<div class="col-md-6 col-sm-6">
+									<div class="form-group">
+										<input type="text" class="form-control" placeholder="Enter Your Name">
+									</div>
+								</div>
+								<div class="col-md-6 col-sm-6">
+									<div class="form-group">
+										<input type="text" class="form-control" placeholder="Enter Your Email id">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<textarea class="form-control" placeholder="message"></textarea>
+									</div>
+								</div>
+								
+							</div>
+							<p><a href="#" class="btn1">Comment</a></p>
+						</div>
+					</div>
                                     <div class="date_blog_right2">
                                         <div class="blog_post_main">
                                             <div class="blog_inside_post_main">
-                                                <div class="blog_main_post_first_part">
-                                                    <div class="blog_main_post_img">
-                                                        <img src="<?php echo base_url($this->config->item('blog_main_upload_path') . $blog_detail[0]['image'] . '?ver=' . time()) ?>"  alt="Blog">
-                                                    </div>
-                                                </div>
+                                                
                                                 <div class="blog_main_post_second_part">
-                                                    <div class="blog_class_main_name">
-                                                        <h1><?php echo $blog_detail[0]['title']; ?></h1>
-                                                    </div>
-                                                    <div class="blog_class_main_by">
-                                                    </div>
-                                                    <div class="blog_class_main_desc">
-                                                        <?php echo $blog_detail[0]['description']; ?>
-                                                    </div>
+                                                   
                                                     <div class="blog_class_main_social">
                                                         <div class="left_blog_icon fl">
                                                             <ul class="social_icon_bloag fl">
@@ -330,41 +610,13 @@ header("Pragma: no-cache"); // HTTP/1.0
                                 <li class="loadcatbutton"></li>
                             </ul>
                         </div>
-                        <div class="col-md-3 col-sm-4 hidden-xs">
-                            <div class="blog_latest_post" >
-                                <h3>Latest Post</h3>
-                                <?php
-                                foreach ($blog_last as $blog) {
-                                    ?>
-                                    <div class="latest_post_posts">
-                                        <ul>
-                                            <li>
-                                                <div class="post_inside_data">
-                                                    <div class="post_latest_left">
-                                                        <div class="lateaqt_post_img">
-                                                            <a href="<?php echo base_url('blog/' . $blog['blog_slug']) ?>"> <img src="<?php echo base_url($this->config->item('blog_thumb_upload_path') . $blog['image'] . '?ver=' . time()) ?>" alt="<?php echo $blog['image']; ?>"></a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="post_latest_right">
-                                                        <div class="desc_post">
-                                                            <a href="<?php echo base_url('blog/' . $blog['blog_slug']) ?>"><span class="rifght_fname"> <?php echo $blog['title']; ?> </span></a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li></li>
-                                        </ul>
-                                    </div>
-                                    <!--latest_post_posts end -->
-                                    <?php
-                                }//for loop end
-                                ?>
+                        <div class="right-part">
+				<div class="subscribe-box">
+					<h4>Subscribe to Our Newslatter</h4>
+					<input type="text" class="form-control" placeholder="Enter your email id">
+					<a class="btn1" href="#">Subscribe</a>
+				</div>
                             </div>
-                            
-                            
-                            <!--blog_latest_post end -->
-
-                        </div>
                     </div>
                 </div>
 

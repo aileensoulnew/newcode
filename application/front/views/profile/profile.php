@@ -23,6 +23,7 @@ color: #1b8ab9 !important;}
                                         <ul class="left-form-each">
                                             <li  <?php if ($this->uri->segment(1) == 'profile') { ?> class="active init" <?php } ?>>  <a href="<?php echo base_url() . 'profile' ?>" data-toggle="collapse" data-parent="#bs-collapse" id="toggle">Edit Profile</a></li>
                                             <li> <a href="<?php echo base_url('registration/changepassword') ?>">Change Password</a></li>
+                                             <li> <a href="#">Edit Basic Information</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -161,7 +162,34 @@ color: #1b8ab9 !important;}
                                         <input type="submit" tabindex="9" value="submit" name="submit" id="submit">
                                     </fieldset>
                                 </div>
+                            
+                                <div class="common-form profile_edit main_form change-password-box" style="margin-top:20px;">
+                                    <h3>Edit Basic Information</h3>
+                                    <form>
+                                    <p class="student-or-not">If you are a student then <a href="educational-information">Click Here.</a></p>
+                                    <fieldset class="fw">
+                                        <label >Who are you?</label>
+                                        <input tabindex="1" name="first_name" type="text" placeholder="Firstname..." id="first_name" value="<?php echo $userdata['first_name'] ?>" onblur="return full_name();"/><span id="fullname-error"></span><?php echo form_error('first_name'); ?>
+                                    </fieldset>
+                                    <fieldset class="fw">
+                                        <label>Where are you from?</label>
+                                        <input tabindex="2" name="last_name" placeholder="Lastname...." type="text" id="last_name" value="<?php echo $userdata['last_name'] ?>" onblur="return full_name();"/><span id="fullname-error"></span>
+                                        <?php echo form_error('last_name'); ?>
+                                    </fieldset>
+                                    <fieldset class="fw">           
+                                        <label >What is your field?</label>
+                                        <select>
+                                            <option>It Field</option>
+                                            <option>It Field</option>
+                                            <option>It Field</option>
+                                            <option>It Field</option>
+                                            <option>It Field</option>
+                                        </select>
+                                    </fieldset>
+                                       </form>
+                                </div>
                             </div>
+                          
                         </div>
                     </div>
                 </div>

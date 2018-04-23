@@ -2,6 +2,7 @@
 <html>
     <head>
         <title><?php echo $title; ?></title>
+        
         <?php echo $head; ?>  
          <?php
 if(IS_OUTSIDE_CSS_MINIFY == '0'){

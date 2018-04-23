@@ -17,10 +17,7 @@
                 <div class="col-md-6 col-sm-6 right-header">
                     <ul>
                         <?php if ($is_userBasicInfo == '1' || $is_userStudentInfo == '1') { ?>
-                            <li class="dropdown business_popup" >
-                                <a href="javascript:void(0);" title="All Profile" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" ng-click="header_all_profile()"><img ng-src="<?php echo base_url('assets/n-images/all.png') ?>" alt="All Profile"></a>
-                                <div class="dropdown-menu"></div>
-                            </li>
+                            
                             <li>
                                 <a ng-href="<?php echo base_url('opportunities') ?>" title="Opportunity" target="_self"><img ng-src="<?php echo base_url('assets/n-images/op.png?ver=' . time()) ?>" alt="Opportunity"></a>
                             </li>
@@ -173,6 +170,10 @@
                         }
                         $session_user = $this->session->userdata();
                         ?>
+                            <li class="dropdown business_popup" >
+                                <a href="javascript:void(0);" title="All Profile" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" ng-click="header_all_profile()"><img ng-src="<?php echo base_url('assets/n-images/all.png') ?>" alt="All Profile"></a>
+                                <div class="dropdown-menu"></div>
+                            </li>
                         <li class="dropdown user-id">
                             <a href="#" title="<?php echo $session_user['aileenuser_firstname']; ?>" class="dropdown-toggle user-id-custom" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                 <span class="usr-img"><?php if ($session_user['aileenuser_userimage'] != '') { ?><img ng-src="<?php echo USER_THUMB_UPLOAD_URL . $session_user['aileenuser_userimage'] ?>" alt="<?php echo $session_user['aileenuser_firstname'] ?>"><?php } else { ?><div class="custom-user"><?php echo ucfirst(strtolower(substr($session_user['aileenuser_firstname'], 0, 1))); ?></div><?php } ?></span>
@@ -184,6 +185,7 @@
                             </a>
                             <ul class="dropdown-menu profile-dropdown">
                                 <li>Account</li>
+                                <li><a href="<?php echo base_url().$this->session->userdata('aileenuser_slug'); ?>" title="Setting"><i class="fa fa-user"></i> View Profile</a></li>
                                 <li><a href="<?php echo base_url('profile') ?>" title="Setting"><i class="fa fa-cog"></i> Setting</a></li>
                                 <li><a href="<?php echo base_url('dashboard/logout') ?>" title="Logout"><i class="fa fa-power-off"></i> Logout</a></li>
                             </ul>

@@ -1,3 +1,4 @@
+
 <header class="">
     <?php if (($this->uri->segment(1) == 'recruiter' && $this->uri->segment(2) == 'home') || ($this->uri->segment(1) == 'job' && $this->uri->segment(2) == 'home') || ($this->uri->segment(1) == 'freelance-hire' && $this->uri->segment(2) == 'home') || ($this->uri->segment(1) == 'freelance-work' && $this->uri->segment(2) == 'home') || ($this->uri->segment(1) == 'business-profile' && $this->uri->segment(2) == 'home') || ($this->uri->segment(1) == 'artistic' && $this->uri->segment(2) == 'home')) { ?>
         <div class="header animated fadeInDownBig">
@@ -12,7 +13,7 @@
                 <div class="row">
                     <div class="col-md-4 col-sm-5 col-xs-5 mob-zindex">
                         <div class="logo">
-                            <a tabindex="-200" href="<?php echo base_url('profiles/') . $this->session->userdata('aileenuser_slug'); ?>">
+                            <a tabindex="-200" href="<?php echo base_url('') . $this->session->userdata('aileenuser_slug'); ?>">
                                 <p><img src="<?php echo base_url('assets/img/logo-name.png?ver='.time()) ?>" alt="Aileensoul"></p>
                             </a>
                         </div>
@@ -94,6 +95,7 @@
                                             <li class="my_account">
                                                 <div class="my_S">Account</div>
                                             </li>
+                                            <li><a href="<?php echo base_url().$this->session->userdata('aileenuser_slug'); ?>" title="Setting"><i style="color:#787878" class="fa fa-user"></i> View Profile</a></li>
                                             <li class="Setting">
                                                 <a href="<?php echo base_url('profile') ?>">
                                                     <i class="fa fa-cog" aria-hidden="true"></i> Setting</a> 
@@ -101,10 +103,10 @@
                                             <li class="logout">
                                                 <?php if (($this->uri->segment(1) == 'recruiter' && $this->uri->segment(2) == 'add-post') || ($this->uri->segment(1) == 'recruiter' && $this->uri->segment(2) == 'edit_post') || ($this->uri->segment(1) == 'freelance-hire' && $this->uri->segment(2) == 'add-projects') || ($this->uri->segment(1) == 'freelance-hire' && $this->uri->segment(2) == 'edit-projects')) { ?>
                                                     <a  onclick="return leave_page(8)">
-                                                        <i class="fa fa-power-off" aria-hidden="true"></i> Logodfsdfut</a> 
+                                                        <i class="fa fa-power-off" aria-hidden="true"></i> Logout</a> 
                                                 <?php } else { ?>
                                                     <a href="<?php echo base_url('dashboard/logout') ?>">
-                                                        <i class="fa fa-power-off" aria-hidden="true"></i> Loxsxsgout</a> 
+                                                        <i class="fa fa-power-off" aria-hidden="true"></i> Logout</a> 
                                                     <?php } ?>
                                                 <!--Logout-->
                                             </li>

@@ -296,4 +296,47 @@
      )
      }); */
 </script>
+<script>
+    // mcustom scroll bar
+	(function($){
+            $(window).on("load",function(){
+		$(".custom-scroll").mCustomScrollbar({
+                    autoHideScrollbar:true,
+                    theme:"minimal"
+		});
+            });
+	})(jQuery);
+    </script>
 <!--<p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds. <?php echo (ENVIRONMENT === 'development') ? 'CodeIgniter Version <strong>' . CI_VERSION . '</strong>' : '' ?></p>-->
+
+    <script>
+			var menuRight = document.getElementById( 'cbp-spmenu-s2' ),
+				showRight = document.getElementById( 'showRight' ),
+				body = document.body;
+
+			showRight.onclick = function() {
+				classie.toggle( this, 'active' );
+				classie.toggle( menuRight, 'cbp-spmenu-open' );
+				disableOther( 'showRight' );
+			};
+		
+			function disableOther( button ) {
+				
+				if( button !== 'showRight' ) {
+					classie.toggle( showRight, 'disabled' );
+				}
+			}
+			
+			$(function () {
+				$('a[href="#search"]').on('click', function (event) {
+					event.preventDefault();
+					$('#search').addClass('open');
+					$('#search > form > input[type="search"]').focus();
+				});
+				$('#search, #search button.close-new').on('click keyup', function (event) {
+					if (event.target == this || event.target.className == 'close' || event.keyCode == 27) {
+						$(this).removeClass('open');
+					}
+				});
+			});
+		</script>

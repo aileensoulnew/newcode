@@ -1,5 +1,6 @@
 <html lang = "en">
    <head>
+        <meta name="robots" content="noindex, nofollow">
       <link rel = "stylesheet"
          href = "https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
       <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>

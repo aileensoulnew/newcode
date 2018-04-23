@@ -2,6 +2,7 @@
 <head>
 <meta charset="utf-8">
 <title>Coming Soon Page | Aileensoul</title>
+<meta name="robots" content="noindex, nofollow">
 <meta name="description" content="">
 <meta http-equiv="X-UA-Compatible" content="chrome=1">
 <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=PT+Sans+Narrow:regular,bold"> 

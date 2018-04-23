@@ -1,4 +1,4 @@
-<div class="container pt15">
+<div class="pt15">
     <div class="sticky-container right-profile">
         <ul class="sticky-right">
             <li>
@@ -30,7 +30,7 @@
                             <a target="_self" ng-if="details_data.bp_status == '0' && details_data.rp_step == '3'"  ng-href="<?php echo base_url('business-profile/home'); ?>">
                                 <img title="Business Profile" src="<?php echo base_url() . "assets/n-images/i4.jpg"; ?>">
                             </a>
-                            <a href="<?php echo base_url('business-profile'); ?>"  ng-if="details_data.bp_step == null" class="btn-4" ng-href="<?php echo base_url('business-profile'); ?>">
+                            <a href="<?php echo base_url('business-profile'); ?>"  ng-if="details_data.bp_step == null" class="" ng-href="<?php echo base_url('business-profile'); ?>">
                                 <img title="Business Profile" src="<?php echo base_url() . "assets/n-images/i4.jpg"; ?>">
                             </a>
                         </div>

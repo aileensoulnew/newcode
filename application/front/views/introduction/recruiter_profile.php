@@ -23,6 +23,7 @@ header('Expires: ' . $date);
         <title><?php echo $title; ?></title>
         <link rel="icon" href="<?php echo base_url('assets/images/favicon.png?ver=' . time()); ?>">
         <meta charset="utf-8">
+        <meta name="robots" content="noindex, nofollow">
         <?php
         if ($_SERVER['HTTP_HOST'] == "www.aileensoul.com") {
             ?>
