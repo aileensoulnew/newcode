@@ -1,7 +1,8 @@
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>About Aileensoul.com and its vision and mission</title>
+        <title>About Aileensoul.com and its vision and mission....</title>
         <meta name="description" content="Aileensoul.com have something to give this world, Know about us." />
         <link rel="icon" href="<?php echo base_url('assets/images/favicon.png?ver='.time()); ?>">
         <meta charset="utf-8">
