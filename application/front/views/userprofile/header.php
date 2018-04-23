@@ -145,17 +145,17 @@
                 <div class="table-responsive content horizontal-images">
                     <table class="table" ng-class="{'other-user': live_slug != segment2}">
                         <tr>
-                            <td ng-if="live_slug == segment2" ><a href="<?php echo $userdata['user_slug']; ?>/profiles"  ng-click='makeActive("profiles")' ng-class="{'active': active == 'profiles'}">Profiles</a></td>
-                            <td><a href="<?php echo $userdata['user_slug']; ?>" ng-click='makeActive("<?php echo $userdata['user_slug']; ?>")' ng-class="{'active': active == '<?php echo $userdata['user_slug']; ?>' || active == 'dashboard' || active == 'article' || active == 'photos' || active == 'videos' || active == 'audios' || active == 'pdf'}">Dashboard</a></td>
-                            <td><a href="<?php echo $userdata['user_slug']; ?>/details"  ng-click='makeActive("details")' ng-class="{
+                            <td ng-if="live_slug == segment2" ><a href="<?php echo base_url().$userdata['user_slug']; ?>/profiles"  ng-click='makeActive("profiles")' ng-class="{'active': active == 'profiles'}">Profiles</a></td>
+                            <td><a href="<?php echo base_url().$userdata['user_slug']; ?>" ng-click='makeActive("<?php echo $userdata['user_slug']; ?>")' ng-class="{'active': active == '<?php echo $userdata['user_slug']; ?>' || active == 'dashboard' || active == 'article' || active == 'photos' || active == 'videos' || active == 'audios' || active == 'pdf'}">Dashboard</a></td>
+                            <td><a href="<?php echo base_url().$userdata['user_slug']; ?>/details"  ng-click='makeActive("details")' ng-class="{
                                     'active': active == 'details'}">Details</a></td>
-                            <td><a href="<?php echo $userdata['user_slug']; ?>/contacts" ng-click='makeActive("contacts")' ng-class="{
+                            <td><a href="<?php echo base_url().$userdata['user_slug']; ?>/contacts" ng-click='makeActive("contacts")' ng-class="{
                                     'active': active == 'contacts'}">Contacts</a></td>
-                            <td><a href="<?php echo $userdata['user_slug']; ?>/followers"  ng-click='makeActive("followers")' ng-class="{
+                            <td><a href="<?php echo base_url().$userdata['user_slug']; ?>/followers"  ng-click='makeActive("followers")' ng-class="{
                                     'active': active == 'followers'}">followers</a></td>
-                            <td><a href="<?php echo $userdata['user_slug']; ?>/following"  ng-click='makeActive("following")' ng-class="{
+                            <td><a href="<?php echo base_url().$userdata['user_slug']; ?>/following"  ng-click='makeActive("following")' ng-class="{
                                     'active': active == 'following'}">following</a></td>
-                            <td><a href="<?php echo $userdata['user_slug']; ?>/questions"  ng-click='makeActive("questions")' ng-class="{
+                            <td><a href="<?php echo base_url().$userdata['user_slug']; ?>/questions"  ng-click='makeActive("questions")' ng-class="{
                                     'active': active == 'questions'}">Questions</a></td>
                         </tr>
                     </table>
