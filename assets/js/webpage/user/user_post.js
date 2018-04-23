@@ -278,20 +278,15 @@ app.controller('userOppoController', function ($scope, $http) {
         if (post_id == 0) {
             var fileInput = document.getElementById("fileInput").files;
             var description =$scope.opp.description;//document.getElementById("description").value;
-           // var description = description.trim();
+            var description = description.trim();
             var job_title = $scope.opp.job_title;
             var location = $scope.opp.location;
             var fileInput1 = document.getElementById("fileInput").value;
-           // console.log('description',description);
-           // console.log('job_title',job_title);
-           // console.log('location',location);
-           // console.log('fileInput1',fileInput1);
-
-
+           
             if ( fileInput1 == '' || description == '' ||  job_title == undefined  || location == undefined ) 
             {
                 $('#post .mes').html("<div class='pop_content'>This post appears to be blank. Please write or attach (photos, videos, audios, pdf) to post.");
-                $('#post').modal('show');
+               $('#post').modal('show');
                 // $(document).on('keydown', function (e) {
                 //     if (e.keyCode === 27) {
                 //         $('#posterrormodal').modal('hide');
@@ -579,12 +574,11 @@ app.controller('userOppoController', function ($scope, $http) {
         }
         if (post_id == 0) {
             var field = document.getElementById("ask_field").value;
-            var description = $scope.opp.ask_que;//document.getElementById("ask_que").value;
-            //var description = description.trim();
+            var description = document.getElementById("ask_que").value;
+            var description = description.trim();
             var fileInput = document.getElementById("fileInput2").files;
 
             if ((field == '') || (description == ''))
-             //   if ( field == '' || description == '' ||  job_title == undefined  || location == undefined ) 
             {
                 $('#post .mes').html("<div class='pop_content'>Ask question and Field is required.");
                 $('#post').modal('show');
