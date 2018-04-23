@@ -9,7 +9,7 @@ class User_post_model extends CI_Model {
 
         if ($detailsdata == "student") {
 
-            $this->db->select("u.user_slug,u.user_id,u.first_name,u.last_name,ui.user_image,d.degree_name")->from("user u");
+            $this->db->select("u.user_slug,u.user_id,u.first_name,u.last_name,u.user_gender,ui.user_image,d.degree_name")->from("user u");
             $this->db->join('user_info ui', 'ui.user_id = u.user_id', 'left');
             $this->db->join('user_login ul', 'ul.user_id = u.user_id', 'left');
             $this->db->join('user_student us', 'us.user_id = u.user_id', 'left');
@@ -17,16 +17,16 @@ class User_post_model extends CI_Model {
             $this->db->where('u.user_id !=', $user_id);
             $this->db->where('u.user_id NOT IN (select from_id from ailee_user_contact where to_id=' . $user_id . ')', NULL, FALSE);
             $this->db->where('u.user_id NOT IN (select to_id from ailee_user_contact where from_id=' . $user_id . ')', NULL, FALSE);
-            $condition = '(us.current_study = (select us.current_study from ailee_user_student where user_id=' . $user_id . ') AND us.city == (select us.city from ailee_user_student where user_id=' . $user_id . '))';
+            $condition = '(us.current_study = (select us.current_study from ailee_user_student where user_id=' . $user_id . ') AND us.city = (select us.city from ailee_user_student where user_id=' . $user_id . '))';
             $this->db->where($condition);
             $this->db->order_by('us.current_study', 'asc');
           //  $this->db->order_by('us.city', 'asc');
 
             $this->db->limit('30');
-            $query = $this->db->get();
-            $result_array = $query->result_array();
+            $query = $this->db->get();            
+            return $result_array = $query->result_array();
         } else {
-            $this->db->select("u.user_slug,u.user_id,u.first_name,u.last_name,ui.user_image,jt.name as title_name")->from("user u");
+            $this->db->select("u.user_slug,u.user_id,u.first_name,u.last_name,u.user_gender,ui.user_image,jt.name as title_name")->from("user u");
             $this->db->join('user_info ui', 'ui.user_id = u.user_id', 'left');
             $this->db->join('user_login ul', 'ul.user_id = u.user_id', 'left');
             $this->db->join('user_profession up', 'up.user_id = u.user_id', 'left');
@@ -50,7 +50,7 @@ class User_post_model extends CI_Model {
 
     public function getContactAllSuggetion($user_id = '', $start='') {
         
-        $this->db->select("u.user_id,CONCAT(u.first_name,' ',u.last_name) as fullname,ui.user_image,jt.name as title_name,d.degree_name")->from("user u");
+        $this->db->select("u.user_id,CONCAT(u.first_name,' ',u.last_name) as fullname,u.user_gender,u.user_slug,ui.user_image,jt.name as title_name,d.degree_name")->from("user u");
         $this->db->join('user_info ui', 'ui.user_id = u.user_id', 'left');
         $this->db->join('user_login ul', 'ul.user_id = u.user_id', 'left');
         $this->db->join('user_profession up', 'up.user_id = u.user_id', 'left');
@@ -171,8 +171,8 @@ class User_post_model extends CI_Model {
         return $result_array['comment_count'];
     }
 
-    public function postCommentData($post_id = '') {
-        $this->db->select("u.user_slug,CONCAT(u.first_name,' ',u.last_name) as username, ui.user_image,upc.id as comment_id,upc.comment,UNIX_TIMESTAMP(STR_TO_DATE(upc.created_date, '%Y-%m-%d %H:%i:%s')) as created_date")->from("user_post_comment upc");
+    public function postCommentData($post_id = '',$user_id = '') {
+        $this->db->select("u.user_slug,u.user_gender,upc.user_id as commented_user_id,CONCAT(u.first_name,' ',u.last_name) as username, ui.user_image,upc.id as comment_id,upc.comment,upc.created_date")->from("user_post_comment upc");//UNIX_TIMESTAMP(STR_TO_DATE(upc.created_date, '%Y-%m-%d %H:%i:%s')) as created_date
         $this->db->join('user u', 'u.user_id = upc.user_id', 'left');
         $this->db->join('user_login ul', 'ul.user_id = upc.user_id', 'left');
         $this->db->join('user_info ui', 'ui.user_id = upc.user_id', 'left');
@@ -184,6 +184,7 @@ class User_post_model extends CI_Model {
         $query = $this->db->get();
         $post_comment_data = $query->result_array();
         foreach ($post_comment_data as $key => $value) {
+            $post_comment_data[$key]['comment_time_string'] = $this->common->time_elapsed_string(date('Y-m-d H:i:s', strtotime($post_comment_data[$key]['created_date'])));
             $post_comment_data[$key]['is_userlikePostComment'] = $this->is_userlikePostComment($user_id, $value['comment_id']);
             $post_comment_data[$key]['postCommentLikeCount'] = $this->postCommentLikeCount($value['comment_id']) == '0' ? '' : $this->postCommentLikeCount($value['comment_id']);
         }
@@ -191,7 +192,7 @@ class User_post_model extends CI_Model {
     }
 
     public function viewAllComment($post_id = '', $user_id = '') {
-        $this->db->select("u.user_slug,CONCAT(u.first_name,' ',u.last_name) as username, ui.user_image,upc.id as comment_id,upc.comment,UNIX_TIMESTAMP(STR_TO_DATE(upc.created_date, '%Y-%m-%d %H:%i:%s')) as created_date")->from("user_post_comment upc");
+        $this->db->select("u.user_slug,u.user_gender,upc.user_id as commented_user_id,CONCAT(u.first_name,' ',u.last_name) as username, ui.user_image,upc.id as comment_id,upc.comment,upc.created_date")->from("user_post_comment upc");//UNIX_TIMESTAMP(STR_TO_DATE(upc.created_date, '%Y-%m-%d %H:%i:%s')) as created_date
         $this->db->join('user u', 'u.user_id = upc.user_id', 'left');
         $this->db->join('user_login ul', 'ul.user_id = upc.user_id', 'left');
         $this->db->join('user_info ui', 'ui.user_id = upc.user_id', 'left');
@@ -202,6 +203,7 @@ class User_post_model extends CI_Model {
         $query = $this->db->get();
         $post_comment_data = $query->result_array();
         foreach ($post_comment_data as $key => $value) {
+            $post_comment_data[$key]['comment_time_string'] = $this->common->time_elapsed_string(date('Y-m-d H:i:s', strtotime($post_comment_data[$key]['created_date'])));
             $post_comment_data[$key]['is_userlikePostComment'] = $this->is_userlikePostComment($user_id, $value['comment_id']);
             $post_comment_data[$key]['postCommentLikeCount'] = $this->postCommentLikeCount($value['comment_id']) == '0' ? '' : $this->postCommentLikeCount($value['comment_id']);
         }
@@ -296,7 +298,8 @@ class User_post_model extends CI_Model {
 
     public function getPostUserId($post_id = '') {
         $this->db->select("user_id")->from("user_post up");
-        $this->db->where('up.post_id', $post_id);
+        //$this->db->where('up.post_id', $post_id);
+        $this->db->where('up.id', $post_id);//Pratik Change
         $this->db->where('up.status', 'publish');
         $this->db->where('up.is_delete', '0');
         $query = $this->db->get();
@@ -327,7 +330,7 @@ class User_post_model extends CI_Model {
         $getDeleteUserPost = $this->deletePostUser($user_id);
 
         $result_array = array();
-        $this->db->select("up.id,up.user_id,up.post_for,UNIX_TIMESTAMP(STR_TO_DATE(up.created_date, '%Y-%m-%d %H:%i:%s')) as created_date,up.post_id")->from("user_post up");
+        $this->db->select("up.id,up.user_id,up.post_for,up.created_date,up.post_id")->from("user_post up");//UNIX_TIMESTAMP(STR_TO_DATE(up.created_date, '%Y-%m-%d %H:%i:%s')) as created_date
         if ($getUserProfessionData && $getSameFieldProUser) {
             $this->db->where('up.user_id IN (' . $getSameFieldProUser . ')');
         } elseif ($getUserStudentData && $getSameFieldStdUser) {
@@ -340,12 +343,13 @@ class User_post_model extends CI_Model {
         $this->db->where('up.is_delete', '0');
         $this->db->order_by('up.id', 'desc');
         if ($limit != '') {
-            $this->db->limit($page);
+            $this->db->limit($limit,$page);
         }
         $query = $this->db->get();
         $user_post = $query->result_array();
 
         foreach ($user_post as $key => $value) {
+            $user_post[$key]['time_string'] = $this->common->time_elapsed_string(date('Y-m-d H:i:s', strtotime($user_post[$key]['created_date'])));
             $result_array[$key]['post_data'] = $user_post[$key];
 
             $this->db->select("count(*) as file_count")->from("user_post_file upf");
@@ -420,7 +424,7 @@ class User_post_model extends CI_Model {
                 $result_array[$key]['post_like_data'] = $post_like_data['username'];
             }
             $result_array[$key]['post_comment_count'] = $this->postCommentCount($value['id']);
-            $result_array[$key]['post_comment_data'] = $postCommentData = $this->postCommentData($value['id']);
+            $result_array[$key]['post_comment_data'] = $postCommentData = $this->postCommentData($value['id'],$user_id);
 
             foreach ($postCommentData as $key1 => $value1) {
                 $result_array[$key]['post_comment_data'][$key1]['is_userlikePostComment'] = $this->is_userlikePostComment($user_id, $value1['comment_id']);
@@ -438,16 +442,21 @@ class User_post_model extends CI_Model {
     }
 
     public function userDashboardPost($user_id = '', $page = '') {
-        $limit = '10';
+        $limit = '5';
         $start = ($page - 1) * $limit;
         if ($start < 0)
             $start = 0;
 
+        $getDeleteUserPost = $this->deletePostUser($user_id);
         $result_array = array();
-        $this->db->select("up.id,up.user_id,up.post_for,UNIX_TIMESTAMP(STR_TO_DATE(up.created_date, '%Y-%m-%d %H:%i:%s')) as created_date,up.post_id")->from("user_post up");
+        $this->db->select("up.id,up.user_id,up.post_for,up.created_date,up.post_id")->from("user_post up");//UNIX_TIMESTAMP(STR_TO_DATE(up.created_date, '%Y-%m-%d %H:%i:%s')) as created_date
         $this->db->where('user_id', $user_id);
         $this->db->where('up.status', 'publish');
+        $this->db->where('up.post_for != ', 'question');
         $this->db->where('up.is_delete', '0');
+        if ($getDeleteUserPost) {
+            $this->db->where('up.id NOT IN (' . $getDeleteUserPost . ')');
+        }
         $this->db->order_by('up.id', 'desc');
         if ($limit != '') {
             $this->db->limit($limit, $start);
@@ -456,6 +465,7 @@ class User_post_model extends CI_Model {
         $user_post = $query->result_array();
 
         foreach ($user_post as $key => $value) {
+            $user_post[$key]['time_string'] = $this->common->time_elapsed_string(date('Y-m-d H:i:s', strtotime($user_post[$key]['created_date'])));
             $result_array[$key]['post_data'] = $user_post[$key];
 
             $this->db->select("count(*) as file_count")->from("user_post_file upf");
@@ -464,7 +474,7 @@ class User_post_model extends CI_Model {
             $total_post_files = $query->row_array('file_count');
             $result_array[$key]['post_data']['total_post_files'] = $total_post_files['file_count'];
 
-            $this->db->select("u.user_id,u.user_slug,u.first_name,u.last_name,CONCAT(u.first_name,' ',u.last_name) as fullname,ui.user_image,jt.name as title_name,d.degree_name")->from("user u");
+            $this->db->select("u.user_id,u.user_slug,u.user_gender,u.first_name,u.last_name,CONCAT(u.first_name,' ',u.last_name) as fullname,ui.user_image,jt.name as title_name,d.degree_name")->from("user u");
             $this->db->join('user_info ui', 'ui.user_id = u.user_id', 'left');
             $this->db->join('user_login ul', 'ul.user_id = u.user_id', 'left');
             $this->db->join('user_profession up', 'up.user_id = u.user_id', 'left');
@@ -485,21 +495,25 @@ class User_post_model extends CI_Model {
                 $this->db->group_by('uo.opportunity_for', 'uo.location');
                 $query = $this->db->get();
                 $opportunity_data = $query->row_array();
+                $opportunity_data['opportunity'] = nl2br($this->common->make_links($opportunity_data['opportunity']));
                 $result_array[$key]['opportunity_data'] = $opportunity_data;
             } elseif ($value['post_for'] == 'simple') {
                 $this->db->select("usp.description")->from("user_simple_post usp");
                 $this->db->where('usp.id', $value['post_id']);
                 $query = $this->db->get();
                 $simple_data = $query->row_array();
+                $simple_data['description'] = $this->common->make_links(nl2br($simple_data['description']));//nl2br($this->common->make_links($simple_data['description']));
                 $result_array[$key]['simple_data'] = $simple_data;
             } elseif ($value['post_for'] == 'question') {
-                $this->db->select("uaq.*,GROUP_CONCAT(DISTINCT(t.name)) as category,it.industry_name as field")->from("user_ask_question uaq, ailee_tags t");
+                $this->db->select("uaq.*,IF(uaq.category != '', GROUP_CONCAT(DISTINCT(t.name)) , '') as category,it.industry_name as field")->from("user_ask_question uaq, ailee_tags t");
                 $this->db->join('industry_type it', 'it.industry_id = uaq.field', 'left');
                 $this->db->where('uaq.id', $value['post_id']);
-                $this->db->where('FIND_IN_SET(t.id, uaq.`category`) !=', 0);
+                //$this->db->where('FIND_IN_SET(t.id, uaq.`category`) !=', 0);
+                $this->db->where("IF(uaq.category != '', FIND_IN_SET(t.id, uaq.category) != 0 , '1')");
                 $this->db->group_by('uaq.category');
-                $query = $this->db->get();
+                $query = $this->db->get();                
                 $question_data = $query->row_array();
+                $question_data['description'] = nl2br($this->common->make_links($question_data['description']));
                 $result_array[$key]['question_data'] = $question_data;
             } elseif ($value['post_for'] == 'profile_update') {
                 $this->db->select("upu.*")->from("user_profile_update upu");
@@ -530,7 +544,7 @@ class User_post_model extends CI_Model {
                 $result_array[$key]['post_like_data'] = $post_like_data['username'];
             }
             $result_array[$key]['post_comment_count'] = $this->postCommentCount($value['id']);
-            $result_array[$key]['post_comment_data'] = $postCommentData = $this->postCommentData($value['id']);
+            $result_array[$key]['post_comment_data'] = $postCommentData = $this->postCommentData($value['id'],$user_id);
 
             foreach ($postCommentData as $key1 => $value1) {
                 $result_array[$key]['post_comment_data'][$key1]['is_userlikePostComment'] = $this->is_userlikePostComment($user_id, $value1['comment_id']);
@@ -541,64 +555,182 @@ class User_post_model extends CI_Model {
             $result_array[$key]['page_data']['total_record'] = $this->userPostCount($user_id);
             $result_array[$key]['page_data']['perpage_record'] = $limit;
         }
-//        echo '<pre>';
-//        print_r($result_array);
-//        exit;
+       // echo '<pre>';
+       // print_r($result_array);
+       // exit;
         return $result_array;
     }
 
-    public function userDashboardImage($user_id ) {
-     
-        $this->db->select('filename,upf.id')->from('user_post_file upf');
+    public function userDashboardImage($user_id = '') {
+        $getDeleteUserPost = $this->deletePostUser($user_id);
+
+        $sql = "SELECT main.* FROM (SELECT upf.post_id,upf.filename,'image' as filetype,up.created_date FROM ailee_user_post_file upf 
+                LEFT JOIN ailee_user_post up ON up.id = upf.post_id 
+                LEFT JOIN ailee_user_profile_update upu ON upu.id = up.post_id 
+                WHERE upf.file_type = 'image' AND up.user_id = $user_id AND up.status = 'publish' AND up.is_delete = '0' 
+                UNION
+                SELECT up.id,upu.data_value as filename,upu.data_key as filetype,up.created_date FROM ailee_user_profile_update upu 
+                LEFT JOIN ailee_user_post up ON upu.id = up.post_id 
+                WHERE upu.user_id = $user_id AND ( up.post_for = 'profile_update' OR up.post_for = 'cover_update') AND up.status = 'publish' AND up.is_delete = '0'
+                ) as main ";
+        if ($getDeleteUserPost) {
+            $sql .= "WHERE main.post_id NOT IN ($getDeleteUserPost) ";
+        }
+        $sql .= "ORDER BY main.created_date DESC LIMIT 6";
+        
+
+        $query = $this->db->query($sql);
+        /*$this->db->select('upf.filename,upu.data_key,upu.data_value')->from('user_post_file upf');
         $this->db->join('user_post up', 'up.id = upf.post_id', 'left');
-        $this->db->where('file_type', 'image');
-        if(!empty($user_id)){
+        $this->db->join('user_profile_update upu', 'upu.id = up.post_id', 'left');
+        $this->db->where('upf.file_type', 'image');
+        if($user_id != "")
+        {
             $this->db->where('up.user_id', $user_id);
         }
+        if ($getDeleteUserPost) {
+            $this->db->where('up.id NOT IN (' . $getDeleteUserPost . ')');
+        }
+        $this->db->where('up.status', 'publish');
+        $this->db->where('up.is_delete', '0');
         $this->db->order_by('upf.id', 'desc');
         $this->db->limit('6');
         $query = $this->db->get();
+        echo $this->db->last_query();exit;*/
         $userDashboardImage = $query->result_array();
-        $result_array['userDashboardImage'] = $userDashboardImage;
-        return $result_array;
+        //$result_array['userDashboardImage'] = $userDashboardImage;
+        return $userDashboardImage;
     }
 
-    public function userDashboardVideo($user_id) {
-        $this->db->select('filename,upf.id')->from('user_post_file upf');
+    public function userDashboardImageAll($user_id = '') {
+        $getDeleteUserPost = $this->deletePostUser($user_id);
+        
+        $sql = "SELECT main.* FROM (SELECT upf.post_id,upf.filename,'image' as filetype,up.created_date FROM ailee_user_post_file upf 
+                LEFT JOIN ailee_user_post up ON up.id = upf.post_id 
+                LEFT JOIN ailee_user_profile_update upu ON upu.id = up.post_id 
+                WHERE upf.file_type = 'image' AND up.user_id = $user_id AND up.status = 'publish' AND up.is_delete = '0' 
+                UNION
+                SELECT up.id,upu.data_value as filename,upu.data_key as filetype,up.created_date FROM ailee_user_profile_update upu 
+                LEFT JOIN ailee_user_post up ON upu.id = up.post_id 
+                WHERE upu.user_id = $user_id AND ( up.post_for = 'profile_update' OR up.post_for = 'cover_update') AND up.status = 'publish' AND up.is_delete = '0'
+                ) as main ";
+        if ($getDeleteUserPost) {
+            $sql .= "WHERE main.post_id NOT IN ($getDeleteUserPost) ";
+        }
+        $sql .= "ORDER BY main.created_date DESC";
+
+        $query = $this->db->query($sql);
+
+        $userDashboardImage = $query->result_array();
+        //$result_array['userDashboardImageAll'] = $userDashboardImage;
+        return $userDashboardImage;
+    }
+
+    public function userDashboardVideo($user_id = '') {
+        $getDeleteUserPost = $this->deletePostUser($user_id);
+        $this->db->select('filename')->from('user_post_file upf');
         $this->db->join('user_post up', 'up.id = upf.post_id', 'left');
-        $this->db->where('file_type', 'video');
-        if(!empty($user_id)){
+        $this->db->where('upf.file_type', 'video');
+        if($user_id != "")
+        {
             $this->db->where('up.user_id', $user_id);
         }
+        if ($getDeleteUserPost) {
+            $this->db->where('up.id NOT IN (' . $getDeleteUserPost . ')');
+        }
+        $this->db->where('up.status', 'publish');
+        $this->db->where('up.is_delete', '0');
         $this->db->order_by('upf.id', 'desc');
         $this->db->limit('6');
         $query = $this->db->get();
         $userDashboardVideo = $query->result_array();
-        $result_array['userDashboardVideo'] = $userDashboardVideo;
-        return $result_array;
+        //$result_array['userDashboardVideo'] = $userDashboardVideo;
+        return $userDashboardVideo;
     }
 
-    public function userDashboardAudio($user_id) {
-        $this->db->select('filename,upf.id')->from('user_post_file upf');
+    public function userDashboardVideoAll($user_id = '') {
+        $getDeleteUserPost = $this->deletePostUser($user_id);
+        $this->db->select('filename')->from('user_post_file upf');
         $this->db->join('user_post up', 'up.id = upf.post_id', 'left');
-        $this->db->where('file_type', 'audio');
-        if(!empty($user_id)){
+        $this->db->where('upf.file_type', 'video');
+        if($user_id != "")
+        {
             $this->db->where('up.user_id', $user_id);
         }
+        if ($getDeleteUserPost) {
+            $this->db->where('up.id NOT IN (' . $getDeleteUserPost . ')');
+        }
+        $this->db->where('up.status', 'publish');
+        $this->db->where('up.is_delete', '0');
+        $this->db->order_by('upf.id', 'desc');        
+        $query = $this->db->get();
+        $userDashboardVideoAll = $query->result_array();
+        //$result_array['userDashboardVideo'] = $userDashboardVideo;
+        return $userDashboardVideoAll;
+    }
+
+    public function userDashboardAudio($user_id = '') {
+        $getDeleteUserPost = $this->deletePostUser($user_id);
+        $this->db->select("upf.filename,up.id,up.post_for,IF(usp.description = 'undefined','',IFNULL(usp.description,'')) as description,IF(uo.opportunity = 'undefined','',IFNULL(uo.opportunity,'')) as opportunity")->from('user_post_file upf');
+        $this->db->join('user_post up', 'up.id = upf.post_id', 'left');
+        $this->db->join('user_simple_post usp', 'up.id = usp.post_id', 'left');
+        $this->db->join('user_opportunity uo', 'up.id = uo.post_id', 'left');
+        $this->db->where('upf.file_type', 'audio');
+        if($user_id != "")
+        {
+            $this->db->where('up.user_id', $user_id);
+        }
+        if ($getDeleteUserPost) {
+            $this->db->where('up.id NOT IN (' . $getDeleteUserPost . ')');
+        }
+        $this->db->where('up.status', 'publish');
+        $this->db->where('up.is_delete', '0');
         $this->db->order_by('upf.id', 'desc');
         $this->db->limit('6');
         $query = $this->db->get();
         $userDashboardAudio = $query->result_array();
-        $result_array['userDashboardAudio'] = $userDashboardAudio;
-        return $result_array;
+        //$result_array['userDashboardAudio'] = $userDashboardAudio;
+        return $userDashboardAudio;
     }
 
-    public function userDashboardPdf($user_id) {
-        $this->db->select('filename,upf.id')->from('user_post_file upf');
+    public function userDashboardAudioAll($user_id = '') {
+        $getDeleteUserPost = $this->deletePostUser($user_id);
+        $this->db->select("upf.filename,up.id,up.post_for,IF(usp.description = 'undefined','',IFNULL(usp.description,'')) as description,IF(uo.opportunity = 'undefined','',IFNULL(uo.opportunity,'')) as opportunity")->from('user_post_file upf');
         $this->db->join('user_post up', 'up.id = upf.post_id', 'left');
-        $this->db->where('file_type', 'pdf');
-        if(!empty($user_id)){
+        $this->db->join('user_simple_post usp', 'up.id = usp.post_id', 'left');
+        $this->db->join('user_opportunity uo', 'up.id = uo.post_id', 'left');
+        $this->db->where('upf.file_type', 'audio');
+        $this->db->where('up.status', 'publish');
+        $this->db->where('up.is_delete', '0');
+        if($user_id != "")
+        {
             $this->db->where('up.user_id', $user_id);
+        }
+        if ($getDeleteUserPost) {
+            $this->db->where('up.id NOT IN (' . $getDeleteUserPost . ')');
+        }
+        $this->db->order_by('upf.id', 'desc');        
+        $query = $this->db->get();
+        $userDashboardAudioAll = $query->result_array();
+        
+        return $userDashboardAudioAll;
+    }
+
+    public function userDashboardPdf($user_id = '') {
+        $getDeleteUserPost = $this->deletePostUser($user_id);
+        $this->db->select("upf.filename,up.id,up.post_for,IF(usp.description = 'undefined','',IFNULL(usp.description,'')) as description,IF(uo.opportunity = 'undefined','',IFNULL(uo.opportunity,'')) as opportunity")->from('user_post_file upf');
+        $this->db->join('user_post up', 'up.id = upf.post_id', 'left');
+        $this->db->join('user_simple_post usp', 'up.id = usp.post_id', 'left');
+        $this->db->join('user_opportunity uo', 'up.id = uo.post_id', 'left');;
+        $this->db->where('upf.file_type', 'pdf');
+        $this->db->where('up.status', 'publish');
+        $this->db->where('up.is_delete', '0');
+        if($user_id != "")
+        {
+            $this->db->where('up.user_id', $user_id);
+        }
+        if ($getDeleteUserPost) {
+            $this->db->where('up.id NOT IN (' . $getDeleteUserPost . ')');
         }
         $this->db->order_by('upf.id', 'desc');
         $this->db->limit('6');
@@ -749,6 +881,7 @@ class User_post_model extends CI_Model {
 
         $searchData['profile'] = $searchProfileData;
 
+
         $searchPostData = array();
         $getDeleteUserPost = $this->deletePostUser($userid);
 
@@ -844,7 +977,7 @@ class User_post_model extends CI_Model {
                 $searchPostData[$key]['post_like_data'] = $post_like_data['username'];
             }
             $searchPostData[$key]['post_comment_count'] = $this->postCommentCount($value['id']);
-            $searchPostData[$key]['post_comment_data'] = $postCommentData = $this->postCommentData($value['id']);
+            $searchPostData[$key]['post_comment_data'] = $postCommentData = $this->postCommentData($value['id'],$user_id);
 
             foreach ($postCommentData as $key1 => $value1) {
                 $searchPostData[$key]['post_comment_data'][$key1]['is_userlikePostComment'] = $this->is_userlikePostComment($user_id, $value1['comment_id']);
@@ -863,7 +996,7 @@ class User_post_model extends CI_Model {
     
     
     public function getLikeUserList($post_id = '') {
-        $this->db->select("upl.id,upl.post_id,upl.user_id,u.user_slug,u.first_name,u.last_name,CONCAT(u.first_name,' ',u.last_name) as fullname,ui.user_image,jt.name as title_name,d.degree_name")->from("user_post_like upl");
+        $this->db->select("upl.id,upl.post_id,upl.user_id,upl.modify_date,u.user_slug,u.user_gender,u.first_name,u.last_name,CONCAT(u.first_name,' ',u.last_name) as fullname,ui.user_image,jt.name as title_name,d.degree_name")->from("user_post_like upl");
         $this->db->join('user u', 'u.user_id = upl.user_id', 'left');
         $this->db->join('user_info ui', 'ui.user_id = upl.user_id', 'left');
         $this->db->join('user_login ul', 'ul.user_id = upl.user_id', 'left');
@@ -871,11 +1004,29 @@ class User_post_model extends CI_Model {
         $this->db->join('job_title jt', 'jt.title_id = up.designation', 'left');
         $this->db->join('user_student us', 'us.user_id = upl.user_id', 'left');
         $this->db->join('degree d', 'd.degree_id = us.current_study', 'left');
-        $this->db->order_by('upl.id', 'DESC');
         $this->db->where('upl.post_id',$post_id);
+        $this->db->where('upl.is_like','1');
+        $this->db->order_by('upl.id', 'DESC');
         $query = $this->db->get();
         $result_array = $query->result_array();
+        foreach ($result_array as $key => $value) {
+            $result_array[$key]['time_string'] = $this->common->time_elapsed_string($value['modify_date']);    
+        }
         return $result_array;
+    }
+
+    public function getQuestionDataFromId($post_id)
+    {
+        $this->db->select("uaq.*,IF(uaq.category != '', GROUP_CONCAT(DISTINCT(t.name)) , '') as category,it.industry_name as field")->from("user_ask_question uaq, ailee_tags t");
+        $this->db->join('industry_type it', 'it.industry_id = uaq.field', 'left');
+        $this->db->where('uaq.post_id', $post_id);
+        //$this->db->where('FIND_IN_SET(t.id, uaq.`category`) !=', 0);
+        $this->db->where("IF(uaq.category != '', FIND_IN_SET(t.id, uaq.category) != 0 , '1')");
+        $this->db->group_by('uaq.category');
+        $query = $this->db->get();                
+        $question_data = $query->row_array();
+        $question_data['description'] = nl2br($this->common->make_links($question_data['description']));
+        return $question_data;
     }
 
 }

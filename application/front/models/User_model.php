@@ -43,7 +43,7 @@ class User_model extends CI_Model {
     }
 
     public function getLeftboxData($user_id = '') {
-        $this->db->select('u.first_name,u.last_name,u.user_slug,ui.user_image,ui.profile_background,jt.name as title_name,d.degree_name')->from("user u");
+        $this->db->select('u.first_name,u.last_name,u.user_slug,u.user_gender,ui.user_image,ui.profile_background,jt.name as title_name,d.degree_name')->from("user u");
         $this->db->join('user_info ui', 'ui.user_id = u.user_id', 'left');
         $this->db->join('user_profession up', 'up.user_id = u.user_id', 'left');
         $this->db->join('job_title jt', 'jt.title_id = up.designation', 'left');
@@ -210,7 +210,7 @@ class User_model extends CI_Model {
     public function contact_request_pending($user_id = '') {
 //        $this->db->select("uc.from_id,uc.to_id,uc.modify_date,uc.status,uc.not_read,CONCAT(u.first_name,' ', u.last_name) as fullname")->from("user_contact uc");
 //        $this->db->join('user u', 'u.user_id = (CASE WHEN uc.from_id=' . $user_id . ' THEN uc.to_id ELSE uc.from_id END)');
-        $this->db->select("uc.from_id,uc.modify_date,uc.status,uc.not_read,CONCAT(u.first_name,' ', u.last_name) as fullname,ui.user_image,jt.name as designation,d.degree_name as degree")->from("user_contact uc");
+        $this->db->select("uc.from_id,uc.modify_date,uc.status,uc.not_read,CONCAT(u.first_name,' ', u.last_name) as fullname,u.user_gender, u.user_slug,ui.user_image,jt.name as designation,d.degree_name as degree")->from("user_contact uc");
         $this->db->join('user u', 'u.user_id = uc.from_id');
         $this->db->join('user_info ui', 'ui.user_id = uc.from_id');
         $this->db->join('user_profession up', 'up.user_id = uc.from_id', 'left');
@@ -221,13 +221,16 @@ class User_model extends CI_Model {
         $this->db->where('uc.status', 'pending');
         $query = $this->db->get();
         $result_array = $query->result_array();
+        foreach ($result_array as $key => $value) {
+            $result_array[$key]['time_string'] = $this->common->time_elapsed_string($value['modify_date']);    
+        }
         return $result_array;
     }
 
     public function contact_request_accept($user_id = '') {
 //        $this->db->select("uc.from_id,uc.to_id,uc.modify_date,uc.status,uc.not_read,CONCAT(u.first_name,' ', u.last_name) as fullname")->from("user_contact uc");
 //        $this->db->join('user u', 'u.user_id = (CASE WHEN uc.from_id=' . $user_id . ' THEN uc.to_id ELSE uc.from_id END)');
-        $this->db->select("uc.to_id,uc.modify_date,uc.status,uc.not_read,CONCAT(u.first_name,' ', u.last_name) as fullname, u.first_name, u.last_name , u.user_slug,ui.user_image,jt.name as designation,d.degree_name as degree")->from("user_contact uc");
+        $this->db->select("uc.to_id,uc.modify_date,uc.status,uc.not_read,CONCAT(u.first_name,' ', u.last_name) as fullname, u.first_name, u.last_name, u.user_gender , u.user_slug,ui.user_image,jt.name as designation,d.degree_name as degree")->from("user_contact uc");
         $this->db->join('user u', 'u.user_id = uc.to_id');
         $this->db->join('user_info ui', 'ui.user_id = uc.to_id');
         $this->db->join('user_profession up', 'up.user_id = uc.to_id', 'left');
@@ -236,8 +239,13 @@ class User_model extends CI_Model {
         $this->db->join('degree d', 'd.degree_id = us.current_study', 'left');
         $this->db->where("uc.from_id", $user_id);
         $this->db->where('uc.status', 'confirm');
+        $this->db->order_by('uc.modify_date', 'desc');
         $query = $this->db->get();
         $result_array = $query->result_array();
+        foreach ($result_array as $key => $value) {
+            $result_array[$key]['time_string'] = $this->common->time_elapsed_string($value['modify_date']);    
+        }
+        
         return $result_array;
     }
 

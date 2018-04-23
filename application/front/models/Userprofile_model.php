@@ -19,7 +19,7 @@ class Userprofile_model extends CI_Model {
         return $result_array;
     }
 
-    public function getContactData($user_id = '', $select_data = '', $page = '') {
+    public function getContactData($user_id = '', $select_data = '', $page = '',$login_user_id = '') {
         $limit = '6';
         $start = ($page - 1) * $limit;
         if ($start < 0)
@@ -27,7 +27,7 @@ class Userprofile_model extends CI_Model {
 
         $where = "((from_id = '" . $user_id . "' OR to_id = '" . $user_id . "'))";
 
-        $this->db->select("uc.id,u.user_id,u.first_name,u.last_name,ui.user_image,jt.name as title_name,d.degree_name,u.user_slug")->from("user_contact  uc");
+        $this->db->select("uc.id,u.user_id,u.first_name,u.last_name,u.user_gender,ui.user_image,jt.name as title_name,d.degree_name,u.user_slug")->from("user_contact  uc");
         $this->db->join('user u', 'u.user_id = (CASE WHEN uc.from_id=' . $user_id . ' THEN uc.to_id ELSE uc.from_id END)', 'left');
         $this->db->join('user_info ui', 'ui.user_id = u.user_id', 'left');
         $this->db->join('user_profession up', 'up.user_id = u.user_id', 'left');
@@ -49,6 +49,22 @@ class Userprofile_model extends CI_Model {
         $page_array['total_record'] = $total_record[0]['total'];
         $page_array['perpage_record'] = $limit;
 
+        foreach ($result_array as $key => $value) {
+            $is_userContactInfo= $this->userContactStatus($login_user_id, $value['user_id']);
+            if(isset($is_userContactInfo) && !empty($is_userContactInfo))
+            {
+                $result_array[$key]['contact_detail']['contact_status'] = 1;
+                $result_array[$key]['contact_detail']['contact_value'] = $is_userContactInfo['status'];
+                $result_array[$key]['contact_detail']['contact_id'] = $is_userContactInfo['id'];
+            }
+            else
+            {
+                $result_array[$key]['contact_detail']['contact_status'] = 0;
+                $result_array[$key]['contact_detail']['contact_value'] = 'new';
+                $result_array[$key]['contact_detail']['contact_id'] = $is_userContactInfo['id'];   
+            }
+        }
+
         $data = array(
             'contactrecord' => $result_array,
             'pagedata' => $page_array
@@ -66,7 +82,7 @@ class Userprofile_model extends CI_Model {
 
         $where = "((uf.follow_to = '" . $user_id . "'))";
 
-        $this->db->select("u.user_id,u.first_name,u.last_name,ui.user_image,jt.name as title_name,d.degree_name,u.user_slug")->from("user_follow  uf");
+        $this->db->select("u.user_id,u.first_name,u.last_name,u.user_gender,ui.user_image,jt.name as title_name,d.degree_name,u.user_slug")->from("user_follow  uf");
         $this->db->join('user u', 'u.user_id = uf.follow_from', 'left');
         $this->db->join('user_info ui', 'ui.user_id = u.user_id', 'left');
         $this->db->join('user_profession up', 'up.user_id = u.user_id', 'left');
@@ -90,11 +106,14 @@ class Userprofile_model extends CI_Model {
             $this->db->where('uf.status', '1');
             $this->db->where($condition);
             $querry = $this->db->get();
-            $result_query = $querry->result_array();
-            $result['follow_user_id'] = $result_query[0]['follow_user_id'];
+            $result_query = $querry->result_array();            
+            if(isset($result_query) && !empty($result_query))
+            {                
+                $result['follow_user_id'] = $result_query[0]['follow_user_id'];
+            }
 
             array_push($new_follow_array, $result);
-        }
+        }        
         $total_record = $this->getFollowerCount($user_id, $select_data = '');
         $page_array['page'] = $page;
         $page_array['total_record'] = $total_record[0]['total'];
@@ -108,14 +127,14 @@ class Userprofile_model extends CI_Model {
         // return $new_follow_array;
     }
 
-    public function getFollowingData($user_id = '', $select_data = '', $page = '') {
+    public function getFollowingData($user_id = '', $select_data = '', $page = '', $login_user_id = '') {
 
         $limit = '10';
         $start = ($page - 1) * $limit;
         if ($start < 0)
             $start = 0;
         $where = "((uf.follow_from = '" . $user_id . "'))";
-        $this->db->select("u.user_id,u.first_name,u.last_name,ui.user_image,jt.name as title_name,d.degree_name,u.user_slug")->from("user_follow  uf");
+        $this->db->select("u.user_id,u.first_name,u.last_name,u.user_gender,ui.user_image,jt.name as title_name,d.degree_name,u.user_slug")->from("user_follow  uf");
         $this->db->join('user u', 'u.user_id = uf.follow_to', 'left');
         $this->db->join('user_info ui', 'ui.user_id = u.user_id', 'left');
         $this->db->join('user_profession up', 'up.user_id = u.user_id', 'left');
@@ -134,6 +153,25 @@ class Userprofile_model extends CI_Model {
         $page_array['total_record'] = $total_record[0]['total'];
         $page_array['perpage_record'] = $limit;
 
+        foreach ($result_array as $key => $value) {
+            if($login_user_id != $value['user_id'])
+            {      
+                $condition = "((uf.follow_from = '" . $login_user_id . "' AND uf.follow_to = '" . $value['user_id'] . "'))";
+                $this->db->select("uf.id as follow_user_id")->from("user_follow uf");
+                $this->db->where('uf.status', '1');
+                $this->db->where($condition);
+                $querry = $this->db->get();
+                $result_query = $querry->result_array();            
+                if(isset($result_query) && !empty($result_query))
+                {                
+                    $result_array[$key]["follow_status"] = 1;
+                }
+                else
+                {
+                    $result_array[$key]["follow_status"] = 0;
+                }
+            }
+        }
         $data = array(
             'followingrecord' => $result_array,
             'pagedata' => $page_array
@@ -143,8 +181,19 @@ class Userprofile_model extends CI_Model {
     }
 
     public function userContactStatus($user_id = '', $id = '') {
-        $this->db->select("uc.status,uc.id")->from("user_contact as uc");
+        $this->db->select("uc.status,uc.id,uc.from_id")->from("user_contact as uc");
         $where = "((from_id = '" . $user_id . "' AND to_id = '" . $id . "') OR (from_id = '" . $id . "' AND to_id = '" . $user_id . "'))";
+        $this->db->where($where);
+        $this->db->order_by("uc.id", "DESC");
+        $query = $this->db->get();
+        $result_array = $query->row_array();
+        return $result_array;
+    }
+
+    public function userContactStatusNew($user_id = '', $id = '') //Login user id,To user id
+    {
+        $this->db->select("uc.status,uc.id")->from("user_contact as uc");
+        $where = "(from_id = '" . $user_id . "' AND to_id = '" . $id . "')";
         $this->db->where($where);
         $this->db->order_by("uc.id", "DESC");
         $query = $this->db->get();
@@ -232,7 +281,7 @@ class Userprofile_model extends CI_Model {
             $total_post_files = $query->row_array('file_count');
             $result_array[$key]['post_data']['total_post_files'] = $total_post_files['file_count'];
 
-            $this->db->select("u.user_id,u.user_slug,CONCAT(u.first_name,' ',u.last_name) as fullname,ui.user_image,jt.name as title_name,d.degree_name")->from("user u");
+            $this->db->select("u.user_id,u.user_slug,u.user_gender,CONCAT(u.first_name,' ',u.last_name) as fullname,ui.user_image,jt.name as title_name,d.degree_name")->from("user u");
             $this->db->join('user_info ui', 'ui.user_id = u.user_id', 'left');
             $this->db->join('user_login ul', 'ul.user_id = u.user_id', 'left');
             $this->db->join('user_profession up', 'up.user_id = u.user_id', 'left');
@@ -353,7 +402,7 @@ class Userprofile_model extends CI_Model {
     }
 
     public function postCommentData($post_id = '') {
-        $this->db->select("u.user_slug,CONCAT(u.first_name,' ',u.last_name) as username, ui.user_image,upc.id as comment_id,upc.comment,UNIX_TIMESTAMP(STR_TO_DATE(upc.created_date, '%Y-%m-%d %H:%i:%s')) as created_date")->from("user_post_comment upc");
+        $this->db->select("u.user_slug,upc.user_id as commented_user_id,CONCAT(u.first_name,' ',u.last_name) as username, ui.user_image,upc.id as comment_id,upc.comment,upc.created_date")->from("user_post_comment upc");//UNIX_TIMESTAMP(STR_TO_DATE(upc.created_date, '%Y-%m-%d %H:%i:%s')) as created_date
         $this->db->join('user u', 'u.user_id = upc.user_id', 'left');
         $this->db->join('user_login ul', 'ul.user_id = upc.user_id', 'left');
         $this->db->join('user_info ui', 'ui.user_id = upc.user_id', 'left');
@@ -398,6 +447,23 @@ class Userprofile_model extends CI_Model {
         return $result_array['group_post'];
     }
 
+    public function userQuestionsCount($user_id = '')
+    {
+
+        $getDeleteUserPost = $this->deletePostUser($user_id);
+        $this->db->select("COUNT(up.id) as post_count")->from("user_post up");
+        if ($getDeleteUserPost) {
+            $this->db->where('up.id NOT IN (' . $getDeleteUserPost . ')');
+        }
+        $this->db->where('up.user_id', $user_id);
+        $this->db->where('up.status', 'publish');
+        $this->db->where('up.post_for', 'question');
+        $this->db->where('up.is_delete', '0');
+        $query = $this->db->get();        
+        $result_array = $query->row_array();
+        return $result_array['post_count'];
+    }
+
     public function is_userlikePostComment($user_id = '', $comment_id = '') {
         $this->db->select("COUNT(upcl.id) as like_count")->from("user_post_comment_like upcl");
         $this->db->join('user_login ul', 'ul.user_id = upcl.user_id', 'left');
@@ -425,7 +491,7 @@ class Userprofile_model extends CI_Model {
         $getDeleteUserPost = $this->deletePostUser($user_id);
 
         $result_array = array();
-        $this->db->select("up.id,up.user_id,up.post_for,UNIX_TIMESTAMP(STR_TO_DATE(up.created_date, '%Y-%m-%d %H:%i:%s')) as created_date,up.post_id")->from("user_post up");
+        $this->db->select("up.id,up.user_id,up.post_for,up.created_date,up.post_id")->from("user_post up");//UNIX_TIMESTAMP(STR_TO_DATE(up.created_date, '%Y-%m-%d %H:%i:%s')) as created_date
         if ($getUserProfessionData && $getSameFieldProUser) {
             $this->db->where('up.user_id IN (' . $getSameFieldProUser . ')');
         } elseif ($getUserStudentData && $getSameFieldStdUser) {
@@ -442,6 +508,7 @@ class Userprofile_model extends CI_Model {
         $user_post = $query->result_array();
 
         foreach ($user_post as $key => $value) {
+            $user_post[$key]['time_string'] = $this->common->time_elapsed_string(date('Y-m-d H:i:s', strtotime($user_post[$key]['created_date'])));
             $result_array[$key]['post_data'] = $user_post[$key];
 
             $this->db->select("count(*) as file_count")->from("user_post_file upf");
@@ -469,6 +536,7 @@ class Userprofile_model extends CI_Model {
             $this->db->group_by('uaq.category');
             $query = $this->db->get();
             $question_data = $query->row_array();
+            $question_data['description'] = nl2br($this->common->make_links($question_data['description']));
             $result_array[$key]['question_data'] = $question_data;
 
             $this->db->select("upf.file_type,upf.filename")->from("user_post_file upf");
@@ -487,12 +555,15 @@ class Userprofile_model extends CI_Model {
                 $result_array[$key]['post_like_data'] = $post_like_data['username'];
             }
             $result_array[$key]['post_comment_count'] = $this->postCommentCount($value['id']);
-            $result_array[$key]['post_comment_data'] = $postCommentData = $this->postCommentData($value['id']);
+            $postCommentData = $this->postCommentData($value['id']);
 
             foreach ($postCommentData as $key1 => $value1) {
-                $result_array[$key]['post_comment_data'][$key1]['is_userlikePostComment'] = $this->is_userlikePostComment($user_id, $value1['comment_id']);
-                $result_array[$key]['post_comment_data'][$key1]['postCommentLikeCount'] = $this->postCommentLikeCount($value1['comment_id']) == '0' ? '' : $this->postCommentLikeCount($value1['comment_id']);
+                $postCommentData[$key1]['comment_time_string'] = $this->common->time_elapsed_string(date('Y-m-d H:i:s', strtotime($postCommentData[$key1]['created_date'])));
+                $postCommentData[$key1]['is_userlikePostComment'] = $this->is_userlikePostComment($user_id, $value1['comment_id']);
+                $postCommentData[$key1]['postCommentLikeCount'] = $this->postCommentLikeCount($value1['comment_id']) == '0' ? '' : $this->postCommentLikeCount($value1['comment_id']);
             }
+
+            $result_array[$key]['post_comment_data'] = $postCommentData;
 
             $result_array[$key]['page_data']['page'] = $page;
             $result_array[$key]['page_data']['total_record'] = $this->userPostCount($user_id);
@@ -500,9 +571,14 @@ class Userprofile_model extends CI_Model {
         return $result_array;
     }
 
-    public function questionList($user_id = '') {
+    public function questionList($user_id = '', $select_data = '', $page = '') {
+        $limit = '5';
+        $start = ($page - 1) * $limit;
+        if ($start < 0)
+            $start = 0;
+
         $result_array = array();
-        $this->db->select("up.id,up.user_id,up.post_for,UNIX_TIMESTAMP(STR_TO_DATE(up.created_date, '%Y-%m-%d %H:%i:%s')) as created_date,up.post_id")->from("user_post up");
+        $this->db->select("up.id,up.user_id,up.post_for,up.created_date,up.post_id")->from("user_post up");//UNIX_TIMESTAMP(STR_TO_DATE(up.created_date, '%Y-%m-%d %H:%i:%s')) as created_date
         if ($getUserProfessionData && $getSameFieldProUser) {
             $this->db->where('up.user_id IN (' . $getSameFieldProUser . ')');
         } elseif ($getUserStudentData && $getSameFieldStdUser) {
@@ -513,10 +589,15 @@ class Userprofile_model extends CI_Model {
         $this->db->where('up.status', 'publish');
         $this->db->where('up.post_for', 'question');
         $this->db->where('up.is_delete', '0');
+        $this->db->order_by('up.id', 'desc');
+        if ($limit != '') {
+            $this->db->limit($limit, $start);
+        }
         $query = $this->db->get();
         $user_post = $query->result_array();
 
         foreach ($user_post as $key => $value) {
+            $user_post[$key]['time_string'] = $this->common->time_elapsed_string(date('Y-m-d H:i:s', strtotime($user_post[$key]['created_date'])));
             $result_array[$key]['post_data'] = $user_post[$key];
 
             $this->db->select("count(*) as file_count")->from("user_post_file upf");
@@ -537,10 +618,11 @@ class Userprofile_model extends CI_Model {
             $user_data = $query->row_array();
             $result_array[$key]['user_data'] = $user_data;
 
-            $this->db->select("uaq.*,GROUP_CONCAT(DISTINCT(t.name)) as category,it.industry_name as field")->from("user_ask_question uaq, ailee_tags t");
+            $this->db->select("uaq.*,IF(uaq.category != '', GROUP_CONCAT(DISTINCT(t.name)) , '') as category,it.industry_name as field")->from("user_ask_question uaq, ailee_tags t");
             $this->db->join('industry_type it', 'it.industry_id = uaq.field', 'left');
             $this->db->where('uaq.id', $value['post_id']);
-            $this->db->where('FIND_IN_SET(t.id, uaq.`category`) !=', 0);
+            $this->db->where("IF(uaq.category != '', FIND_IN_SET(t.id, uaq.category) != 0 , '1')");
+            //$this->db->where('FIND_IN_SET(t.id, uaq.`category`) !=', 0);
             $this->db->group_by('uaq.category');
             $query = $this->db->get();
             $question_data = $query->row_array();
@@ -569,12 +651,313 @@ class Userprofile_model extends CI_Model {
             }
 
             $result_array[$key]['page_data']['page'] = $page;
-            $result_array[$key]['page_data']['total_record'] = $this->userPostCount($user_id);
+            $result_array[$key]['page_data']['total_record'] = $this->userQuestionsCount($user_id);//$this->userPostCount($user_id);
             $result_array[$key]['page_data']['perpage_record'] = $limit;
         }
 //        echo '<pre>';
 //        print_r($result_array);
 //        exit;
+        return $result_array;
+    }
+
+    public function getPhotosData($user_id = '', $select_data = '', $page = '') {
+        $limit = '5';
+        $start = ($page - 1) * $limit;
+        if ($start < 0)
+            $start = 0;
+
+        $getDeleteUserPost = $this->deletePostUser($user_id);
+
+        /*$this->db->select('filename')->from('user_post_file upf');
+        $this->db->join('user_post up', 'up.id = upf.post_id', 'left');
+        $this->db->where('upf.file_type', 'image');
+        if($user_id != "")
+        {
+            $this->db->where('up.user_id', $user_id);
+        }
+        if ($getDeleteUserPost) {
+            $this->db->where('up.id NOT IN (' . $getDeleteUserPost . ')');
+        }
+
+        $this->db->order_by('upf.id', 'desc');
+        if ($limit != '') {
+            $this->db->limit($limit, $start);
+        }
+        $query = $this->db->get();*/
+        $sql = "SELECT main.* FROM (SELECT upf.post_id,upf.filename,'image' as filetype,up.created_date FROM ailee_user_post_file upf 
+                LEFT JOIN ailee_user_post up ON up.id = upf.post_id 
+                LEFT JOIN ailee_user_profile_update upu ON upu.id = up.post_id 
+                WHERE upf.file_type = 'image' AND up.user_id = $user_id AND up.status = 'publish' AND up.is_delete = '0' 
+                UNION
+                SELECT up.id,upu.data_value as filename,upu.data_key as filetype,up.created_date FROM ailee_user_profile_update upu 
+                LEFT JOIN ailee_user_post up ON upu.id = up.post_id 
+                WHERE upu.user_id = $user_id AND ( up.post_for = 'profile_update' OR up.post_for = 'cover_update') AND up.status = 'publish' AND up.is_delete = '0'
+                ) as main ";
+        if ($getDeleteUserPost) {
+            $sql .= "WHERE main.post_id NOT IN ($getDeleteUserPost) ";
+        }
+        $sql .= "ORDER BY main.created_date DESC";
+        if ($limit != '') {            
+            $sql .= " LIMIT $start,$limit";
+        }
+
+        $query = $this->db->query($sql);
+        $result_array = $query->result_array();
+        $total_record = $this->getPhotosCount($user_id, $select_data = '');
+
+        $page_array['page'] = $page;
+        $page_array['total_record'] = $total_record[0]['total'];
+        $page_array['perpage_record'] = $limit;
+
+        $data = array(
+            'photosrecord' => $result_array,
+            'pagedata' => $page_array
+        );
+        return $data;
+        //  return $result_array;
+    }
+
+    public function userAllPhotos($user_id = '') {
+        $getDeleteUserPost = $this->deletePostUser($user_id);
+        $sql = "SELECT main.* FROM (SELECT upf.post_id,upf.filename,'image' as filetype,up.created_date FROM ailee_user_post_file upf 
+                LEFT JOIN ailee_user_post up ON up.id = upf.post_id 
+                LEFT JOIN ailee_user_profile_update upu ON upu.id = up.post_id 
+                WHERE upf.file_type = 'image' AND up.user_id = $user_id AND up.status = 'publish' AND up.is_delete = '0' 
+                UNION
+                SELECT up.id,upu.data_value as filename,upu.data_key as filetype,up.created_date FROM ailee_user_profile_update upu 
+                LEFT JOIN ailee_user_post up ON upu.id = up.post_id 
+                WHERE upu.user_id = $user_id AND ( up.post_for = 'profile_update' OR up.post_for = 'cover_update') AND up.status = 'publish' AND up.is_delete = '0'
+                ) as main ";
+        if ($getDeleteUserPost) {
+            $sql .= "WHERE main.post_id NOT IN ($getDeleteUserPost) ";
+        }
+        $sql .= "ORDER BY main.created_date DESC";
+
+        $query = $this->db->query($sql);        
+        $userDashboardImage = $query->result_array();
+        //$result_array['userDashboardImageAll'] = $userDashboardImage;
+        return $userDashboardImage;
+    }
+
+    public function getPhotosCount($user_id = '', $select_data = '') {
+        $getDeleteUserPost = $this->deletePostUser($user_id);        
+        $sql = "SELECT count(*) as total FROM (SELECT upf.post_id,upf.filename,'image' as filetype,up.created_date FROM ailee_user_post_file upf 
+                LEFT JOIN ailee_user_post up ON up.id = upf.post_id 
+                LEFT JOIN ailee_user_profile_update upu ON upu.id = up.post_id 
+                WHERE upf.file_type = 'image' AND up.user_id = $user_id AND up.status = 'publish' AND up.is_delete = '0' 
+                UNION
+                SELECT up.id,upu.data_value as filename,upu.data_key as filetype,up.created_date FROM ailee_user_profile_update upu 
+                LEFT JOIN ailee_user_post up ON upu.id = up.post_id 
+                WHERE upu.user_id = $user_id AND ( up.post_for = 'profile_update' OR up.post_for = 'cover_update') AND up.status = 'publish' AND up.is_delete = '0'
+                ) as main ";
+        if ($getDeleteUserPost) {
+            $sql .= "WHERE main.post_id NOT IN ($getDeleteUserPost) ";
+        }
+        $sql .= "ORDER BY main.created_date DESC";
+        
+        $query = $this->db->query($sql);        
+        $result_array = $query->result_array();
+        return $result_array;
+    }
+
+    public function getVideosData($user_id = '', $select_data = '', $page = '') {
+        $limit = '5';
+        $start = ($page - 1) * $limit;
+        if ($start < 0)
+            $start = 0;
+
+        $getDeleteUserPost = $this->deletePostUser($user_id);
+        $this->db->select('filename')->from('user_post_file upf');
+        $this->db->join('user_post up', 'up.id = upf.post_id', 'left');
+        $this->db->where('upf.file_type', 'video');
+        if($user_id != "")
+        {
+            $this->db->where('up.user_id', $user_id);
+        }
+        if ($getDeleteUserPost) {
+            $this->db->where('up.id NOT IN (' . $getDeleteUserPost . ')');
+        }
+        $this->db->order_by('upf.id', 'desc');
+        if ($limit != '') {
+            $this->db->limit($limit, $start);
+        }
+        $this->db->where('up.status', 'publish');
+        $this->db->where('up.is_delete', '0');
+        $query = $this->db->get();
+        $result_array = $query->result_array();
+        $total_record = $this->getVideosCount($user_id, $select_data = '');
+
+        $page_array['page'] = $page;
+        $page_array['total_record'] = $total_record[0]['total'];
+        $page_array['perpage_record'] = $limit;
+
+        $data = array(
+            'videorecord' => $result_array,
+            'pagedata' => $page_array
+        );
+        return $data;
+        //  return $result_array;
+    }
+
+    public function userAllVideo($user_id = '') {
+        $getDeleteUserPost = $this->deletePostUser($user_id);
+        $this->db->select('filename')->from('user_post_file upf');
+        $this->db->join('user_post up', 'up.id = upf.post_id', 'left');
+        $this->db->where('upf.file_type', 'video');
+        if($user_id != "")
+        {
+            $this->db->where('up.user_id', $user_id);
+        }
+        if ($getDeleteUserPost) {
+            $this->db->where('up.id NOT IN (' . $getDeleteUserPost . ')');
+        }
+        $this->db->where('up.status', 'publish');
+        $this->db->where('up.is_delete', '0');
+        $this->db->order_by('upf.id', 'desc');        
+        $query = $this->db->get();
+        $userDashboardImage = $query->result_array();
+        //$result_array['userDashboardImageAll'] = $userDashboardImage;
+        return $userDashboardImage;
+    }
+
+    public function getVideosCount($user_id = '', $select_data = '') {
+        $getDeleteUserPost = $this->deletePostUser($user_id);
+        $this->db->select('count(*) as total')->from('user_post_file upf');
+        $this->db->join('user_post up', 'up.id = upf.post_id', 'left');
+        $this->db->where('upf.file_type', 'video');
+        if($user_id != "")
+        {
+            $this->db->where('up.user_id', $user_id);
+        }
+        if ($getDeleteUserPost) {
+            $this->db->where('up.id NOT IN (' . $getDeleteUserPost . ')');
+        }
+        $this->db->where('up.status', 'publish');
+        $this->db->where('up.is_delete', '0');
+        $this->db->order_by('upf.id', 'desc');
+        $query = $this->db->get();
+        $result_array = $query->result_array();
+        return $result_array;
+    }
+
+    public function getAudiosData($user_id = '', $select_data = '', $page = '') {
+        $limit = '5';
+        $start = ($page - 1) * $limit;
+        if ($start < 0)
+            $start = 0;
+
+        $getDeleteUserPost = $this->deletePostUser($user_id);
+        $this->db->select("upf.filename,up.id,up.post_for,IF(usp.description = 'undefined','',IFNULL(usp.description,'')) as description,IF(uo.opportunity = 'undefined','',IFNULL(uo.opportunity,'')) as opportunity")->from('user_post_file upf');
+        $this->db->join('user_post up', 'up.id = upf.post_id', 'left');
+        $this->db->join('user_simple_post usp', 'up.id = usp.post_id', 'left');
+        $this->db->join('user_opportunity uo', 'up.id = uo.post_id', 'left');
+        $this->db->where('upf.file_type', 'audio');
+        if($user_id != "")
+        {
+            $this->db->where('up.user_id', $user_id);
+        }
+        if ($getDeleteUserPost) {
+            $this->db->where('up.id NOT IN (' . $getDeleteUserPost . ')');
+        }
+        $this->db->where('up.status', 'publish');
+        $this->db->where('up.is_delete', '0');
+        $this->db->order_by('upf.id', 'desc');
+        if ($limit != '') {
+            $this->db->limit($limit, $start);
+        }
+        $query = $this->db->get();
+        $result_array = $query->result_array();
+        $total_record = $this->getAudiosCount($user_id, $select_data = '');
+
+        $page_array['page'] = $page;
+        $page_array['total_record'] = $total_record[0]['total'];
+        $page_array['perpage_record'] = $limit;
+
+        $data = array(
+            'videorecord' => $result_array,
+            'pagedata' => $page_array
+        );
+        return $data;
+        //  return $result_array;
+    }
+
+    public function getAudiosCount($user_id = '', $select_data = '') {
+        $getDeleteUserPost = $this->deletePostUser($user_id);
+        $this->db->select('count(*) as total')->from('user_post_file upf');
+        $this->db->join('user_post up', 'up.id = upf.post_id', 'left');
+        $this->db->where('upf.file_type', 'audio');
+        if($user_id != "")
+        {
+            $this->db->where('up.user_id', $user_id);
+        }
+        if ($getDeleteUserPost) {
+            $this->db->where('up.id NOT IN (' . $getDeleteUserPost . ')');
+        }
+        $this->db->where('up.status', 'publish');
+        $this->db->where('up.is_delete', '0');
+        $this->db->order_by('upf.id', 'desc');
+        $query = $this->db->get();
+        $result_array = $query->result_array();
+        return $result_array;
+    }
+
+    public function getPdfData($user_id = '', $select_data = '', $page = '') {
+        $limit = '5';
+        $start = ($page - 1) * $limit;
+        if ($start < 0)
+            $start = 0;
+        $getDeleteUserPost = $this->deletePostUser($user_id);
+        $this->db->select("upf.filename,up.id,up.post_for,IF(usp.description = 'undefined','',IFNULL(usp.description,'')) as description,IF(uo.opportunity = 'undefined','',IFNULL(uo.opportunity,'')) as opportunity")->from('user_post_file upf');
+        $this->db->join('user_post up', 'up.id = upf.post_id', 'left');
+        $this->db->join('user_simple_post usp', 'up.id = usp.post_id', 'left');
+        $this->db->join('user_opportunity uo', 'up.id = uo.post_id', 'left');
+        $this->db->where('upf.file_type', 'pdf');
+        if($user_id != "")
+        {
+            $this->db->where('up.user_id', $user_id);
+        }
+        if ($getDeleteUserPost) {
+            $this->db->where('up.id NOT IN (' . $getDeleteUserPost . ')');
+        }
+        $this->db->where('up.status', 'publish');
+        $this->db->where('up.is_delete', '0');
+        $this->db->order_by('upf.id', 'desc');
+        if ($limit != '') {
+            $this->db->limit($limit, $start);
+        }
+        $query = $this->db->get();
+        $result_array = $query->result_array();
+        $total_record = $this->getPdfCount($user_id, $select_data = '');
+
+        $page_array['page'] = $page;
+        $page_array['total_record'] = $total_record[0]['total'];
+        $page_array['perpage_record'] = $limit;
+
+        $data = array(
+            'pdfrecord' => $result_array,
+            'pagedata' => $page_array
+        );
+        return $data;
+        //  return $result_array;
+    }
+
+    public function getPdfCount($user_id = '', $select_data = '') {
+        $getDeleteUserPost = $this->deletePostUser($user_id);
+        $this->db->select('count(*) as total')->from('user_post_file upf');
+        $this->db->join('user_post up', 'up.id = upf.post_id', 'left');
+        $this->db->where('upf.file_type', 'pdf');
+        if($user_id != "")
+        {
+            $this->db->where('up.user_id', $user_id);
+        }
+        if ($getDeleteUserPost) {
+            $this->db->where('up.id NOT IN (' . $getDeleteUserPost . ')');
+        }
+        $this->db->where('up.status', 'publish');
+        $this->db->where('up.is_delete', '0');
+        $this->db->order_by('upf.id', 'desc');
+        $query = $this->db->get();
+        $result_array = $query->result_array();
         return $result_array;
     }
 
