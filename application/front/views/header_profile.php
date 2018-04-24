@@ -299,15 +299,19 @@ if($browser == "Firefox")
 						<ul>
 							<li class="dropdown user-id">
 								<label class="dropdown-toggle user-id-custom" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                    <span class="usr-img">
+                                    
                                         <?php
                                         if ($session_user['aileenuser_userimage'] != '')
                                         { ?>
+                                            <span class="usr-img profile-brd" id="header-main-profile-pic">
                                             <img ng-src="<?php echo USER_THUMB_UPLOAD_URL . $session_user['aileenuser_userimage'] ?>" alt="<?php echo $session_user['aileenuser_firstname'] ?>">
+                                            </span>
                                         <?php
                                         }
                                         else
-                                        { 
+                                        { ?>
+                                            <span class="usr-img">
+                                            <?php
                                             if($userData['user_gender'] == "M")
                                             {?>
                                                 <img ng-src="<?php echo base_url('assets/img/man-user.jpg') ?>">
@@ -318,9 +322,10 @@ if($browser == "Firefox")
                                             ?>
                                                 <img ng-src="<?php echo base_url('assets/img/female-user.jpg') ?>">
                                             <?php
-                                            }
-                                        } ?>
-                                    </span>
+                                            }?>
+                                            </span>
+                                            <?php
+                                        } ?>                                    
                                     <span class="pr-name">
                                         <?php
                                         /*if (isset($session_user['aileenuser_firstname'])) {

@@ -447,6 +447,12 @@ app.controller('questionDetailsController', function ($scope, $http,$window,$fil
         });
     }
 
+    $scope.IsVisible = false;
+    $scope.ShowHide = function () {
+        //If DIV is visible it will be hidden and vice versa.
+        $scope.IsVisible = $scope.IsVisible ? false : true;
+    }
+
      $scope.ask_question_check = function (event,queIndex) {
 
         if (document.getElementById("ask_edit_post_id_"+queIndex)) {

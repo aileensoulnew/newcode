@@ -71,9 +71,18 @@
                             <div class="post-img">
                                 <?php if ($leftbox_data['user_image'] != '') { ?> 
                                     <img ng-src="<?php echo USER_THUMB_UPLOAD_URL . $leftbox_data['user_image'] ?>" alt="<?php echo $leftbox_data['first_name'] ?>">  
-                                <?php } else { ?>
-                                    <img ng-src="<?php echo base_url(NOBUSIMAGE) ?>" alt="<?php echo $leftbox_data['first_name'] ?>">
-                                <?php } ?>
+                                <?php } else { if($leftbox_data['user_gender'] == "M")
+                                        {?>                                
+                                            <img class="login-user-pro-pic" ng-src="<?php echo base_url('assets/img/man-user.jpg') ?>">
+                                        <?php
+                                        }
+                                        if($leftbox_data['user_gender'] == "F")
+                                        {
+                                        ?>
+                                            <img class="login-user-pro-pic" ng-src="<?php echo base_url('assets/img/female-user.jpg') ?>">
+                                        <?php
+                                        }
+                                    } ?>
                             </div>
                             <div class="post-text" data-target="#post-popup" data-toggle="modal" onclick="void(0)">
                                 Share an opportunity, Article
@@ -83,7 +92,7 @@
                         <div class="post-box-bottom">
                             <ul>
                                 <li>
-                                    <a href="javascript:void(0);" data-target="#opportunity-popup" data-toggle="modal">
+                                    <a href="#" data-target="#opportunity-popup" data-toggle="modal">
                                         <img src="<?php echo base_url('assets/n-images/post-op.png') ?>"><span><span class="none-479">Post</span> <span> Opportunity</span></span>
                                     </a>
                                 </li>
@@ -93,7 +102,7 @@
                                     </a>
                                 </li>
                                 <li class="pl15">
-                                    <a href="javascript:void(0);" data-target="#ask-question" data-toggle="modal">
+                                    <a href="#" data-target="#ask-question" data-toggle="modal">
                                         <img src="<?php echo base_url('assets/n-images/ask-qustion.png') ?>"><span>Ask Question</span>
                                     </a>
                                 </li>
@@ -115,9 +124,12 @@
                                     <img src="<?php echo base_url('assets/img/bui-no.png?ver=' . time()); ?>" alt="bui-no.png">
                                 </div>
                                 <div class="art_no_post_text">No Feed Available.</div>
-                            </div></div>
+                            </div>
+                        </div>
 
-<div class="fw post_loader" style="text-align:center; display: none;"><img ng-src="<?php echo base_url('assets/images/loader.gif?ver=' . time()) . '?ver=' . time() ?>" alt="Loader" /></div>
+                        <div class="fw post_loader" style="text-align:center; display: none;">
+                            <img ng-src="<?php echo base_url('assets/images/loader.gif?ver=' . time()) . '?ver=' . time() ?>" alt="Loader" />
+                        </div>
                         <div ng-if="postData.length != 0" class="all-post-box" ng-repeat="post in postData">
                             <!--<input type="hidden" name="post_index" class="post_index" ng-class="post_index" ng-model="post_index" ng-value="{{$index + 1}}">-->
                             <input type="hidden" name="page_number" class="page_number" ng-class="page_number" ng-model="post.page_number" ng-value="{{post.page_data.page}}">
@@ -127,11 +139,14 @@
                                 <div class="post-head">
                                     <div class="post-img" ng-if="post.post_data.post_for == 'question'">
                                         <img ng-src="<?php echo USER_THUMB_UPLOAD_URL ?>{{post.user_data.user_image}}" ng-if="post.user_data.user_image != '' && post.question_data.is_anonymously == '0'">
-                                        <span class="no-img-post"  ng-if="post.user_data.user_image == '' || post.question_data.is_anonymously == '1'">A</span>
+                                        <img ng-class="post.post_data.user_id == user_id ? 'login-user-pro-pic' : ''" ng-if="post.user_data.user_image == '' && post.user_data.user_gender == 'M'" ng-src="<?php echo base_url('assets/img/man-user.jpg') ?>">
+                                        <img ng-class="post.post_data.user_id == user_id ? 'login-user-pro-pic' : ''" ng-if="post.user_data.user_image == '' && post.user_data.user_gender == 'F'" ng-src="<?php echo base_url('assets/img/female-user.jpg') ?>">
                                     </div>
                                     <div class="post-img" ng-if="post.post_data.post_for != 'question'">
                                         <img ng-src="<?php echo USER_THUMB_UPLOAD_URL ?>{{post.user_data.user_image}}" ng-if="post.user_data.user_image != ''">
                                         <span class="no-img-post" ng-bind="(post.user_data.first_name| limitTo:1 | uppercase) + (post.user_data.last_name | limitTo:1 | uppercase)"  ng-if="post.user_data.user_image == ''"></span>
+                                        <img ng-class="post.post_data.user_id == user_id ? 'login-user-pro-pic' : ''" ng-if="post.user_data.user_image == '' && post.user_data.user_gender == 'M'" ng-src="<?php echo base_url('assets/img/man-user.jpg') ?>">
+                                        <img ng-class="post.post_data.user_id == user_id ? 'login-user-pro-pic' : ''" ng-if="post.user_data.user_image == '' && post.user_data.user_gender == 'F'" ng-src="<?php echo base_url('assets/img/female-user.jpg') ?>">
                                     </div>
                                     <div class="post-detail">
                                         <div class="fw" ng-if="post.post_data.post_for == 'question'">
@@ -271,7 +286,8 @@
                                                 <img ng-src="<?php echo USER_THUMB_UPLOAD_URL ?>{{comment.user_image}}">
                                             </div>
                                             <div class="post-img" ng-if="comment.user_image == ''">
-                                                <div class="post-img-mainuser">{{comment.first_name| limitTo:1 | uppercase}}{{comment.last_name| limitTo:1 | uppercase}}</div>
+                                                <img ng-class="comment.commented_user_id == user_id ? 'login-user-pro-pic' : ''" ng-if=" comment.user_gender == 'M'" ng-src="<?php echo base_url('assets/img/man-user.jpg') ?>">
+                                                <img ng-class="comment.commented_user_id == user_id ? 'login-user-pro-pic' : ''" ng-if=" comment.user_gender == 'F'" ng-src="<?php echo base_url('assets/img/female-user.jpg') ?>">
                                             </div>
                                         </div>
                                         <div class="comment-dis">
@@ -301,9 +317,20 @@
                                         <div class="post-img">
                                             <?php if ($leftbox_data['user_image'] != '') { ?> 
                                                 <img ng-src="<?php echo USER_THUMB_UPLOAD_URL . $leftbox_data['user_image'] . '?ver=' . time() ?>" alt="<?php echo $leftbox_data['first_name'] ?>">  
-                                            <?php } else { ?>
-                                                <img ng-src="<?php echo base_url(NOBUSIMAGE . '?ver=' . time()) ?>" alt="<?php echo $leftbox_data['first_name'] ?>">
-                                            <?php } ?>
+                                            <?php } else {
+
+                                                    if($leftbox_data['user_gender'] == "M")
+                                                    {?>                                
+                                                        <img ng-class="post.post_data.user_id == user_id ? 'login-user-pro-pic' : ''" ng-src="<?php echo base_url('assets/img/man-user.jpg') ?>">
+                                                    <?php
+                                                    }
+                                                    if($leftbox_data['user_gender'] == "F")
+                                                    {
+                                                    ?>
+                                                        <img ng-class="post.post_data.user_id == user_id ? 'login-user-pro-pic' : ''" ng-src="<?php echo base_url('assets/img/female-user.jpg') ?>">
+                                                    <?php
+                                                    }                                
+                                            } ?>
 
                                         </div>
                                         <div class="comment-input">
@@ -388,30 +415,48 @@
                         <form  id="post_something" name="post_something" ng-submit="post_something_check(event)">
                             <div class="post-box">
                                 <div class="post-img">
-                                    <?php if ($leftbox_data['user_image'] != '') { ?> 
-                                        <img ng-src="<?php echo USER_THUMB_UPLOAD_URL . $leftbox_data['user_image'] . '?ver=' . time() ?>" alt="<?php echo $leftbox_data['first_name'] ?>">  
-                                    <?php } else { ?>
-                                        <img ng-src="<?php echo base_url(NOBUSIMAGE . '?ver=' . time()) ?>" alt="<?php echo $leftbox_data['first_name'] ?>">
-                                    <?php } ?>
+                                    <?php
+                                    if ($leftbox_data['user_image'] != '')
+                                    { ?>
+                                        <img class="login-user-pro-pic" ng-src="<?php echo USER_THUMB_UPLOAD_URL . $leftbox_data['user_image'] . '?ver=' . time() ?>" alt="<?php echo $leftbox_data['first_name'] ?>">  
+                                    <?php
+                                    }
+                                    else
+                                    { 
+                                        if($leftbox_data['user_gender'] == "M")
+                                        {?>                                
+                                            <img class="login-user-pro-pic" ng-src="<?php echo base_url('assets/img/man-user.jpg') ?>">
+                                        <?php
+                                        }
+                                        if($leftbox_data['user_gender'] == "F")
+                                        {
+                                        ?>
+                                            <img class="login-user-pro-pic" ng-src="<?php echo base_url('assets/img/female-user.jpg') ?>">
+                                        <?php
+                                        } 
+                                    } ?>
                                 </div>
                                 <div class="post-text">
                                     <textarea name="description" ng-model="sim.description" id="description" class="title-text-area" placeholder="Write something here..."></textarea>
                                 </div>
                                 <div class="all-upload" ng-if="is_edit != 1">
                                     <div class="form-group">
+                                        <div id="fileCountSim"></div>
+                                        <div id="selectedFiles" class="file-preview">
+                                        </div>
                                         <input file-input="files" ng-file-model="sim.postfiles" type="file" id="fileInput1" name="postfiles[]" data-overwrite-initial="false" data-min-file-count="2"  multiple style="display: none;">
                                     </div>
                                     <label for="fileInput1" ng-click="postFiles()">
-                                        <i class="fa fa-camera upload_icon"><span class="upload_span_icon"> Photo </span></i>
-                                        <i class="fa fa-video-camera upload_icon"><span class="upload_span_icon"> Video</span>  </i> 
-                                        <i class="fa fa-music upload_icon"> <span class="upload_span_icon">  Audio </span> </i>
-                                        <i class="fa fa-file-pdf-o upload_icon"><span class="upload_span_icon"> PDF </span></i>
+                                        <i class="fa fa-camera upload_icon" onclick="javascript:$('#fileInput1').attr('accept','image/*');"><span class="upload_span_icon"> Photo </span></i>
+                                        <i class="fa fa-video-camera upload_icon" onclick="javascript:$('#fileInput1').attr('accept','video/*');"><span class="upload_span_icon"> Video</span>  </i> 
+                                        <i class="fa fa-music upload_icon" onclick="javascript:$('#fileInput1').attr('accept','audio/*');"> <span class="upload_span_icon">  Audio </span> </i>
+                                        <i class="fa fa-file-pdf-o upload_icon" onclick="javascript:$('#fileInput1').attr('accept','.pdf');"><span class="upload_span_icon"> PDF </span></i>
                                     </label>
                                 </div>
                                 <div class="post-box-bottom" >
                                     <ul ng-if="is_edit != 1">
                                         <li>
-                                            <a href="javascript:void(0);"  class="post-opportunity-modal" data-target="#opportunity-popup" data-toggle="modal">
+                                            <a href="#"  class="post-opportunity-modal" data-target="#opportunity-popup" data-toggle="modal" data-dismiss="modal">
                                                 <img src="<?php echo base_url('assets/n-images/post-op.png') ?>"><span><span class="none-479">Post</span> <span>Opportunity</span></span>
                                             </a>
                                         </li>
@@ -421,7 +466,7 @@
                                             </a>
                                         </li>
                                         <li class="pl15">
-                                            <a href="javascript:void(0);" class="post-ask-question-modal"  data-target="#ask-question" data-toggle="modal">
+                                            <a href="#" class="post-ask-question-modal"  data-target="#ask-question" data-toggle="modal">
                                                 <img src="<?php echo base_url('assets/n-images/ask-qustion.png') ?>"><span>Ask Question</span>
                                             </a>
                                         </li>
@@ -446,11 +491,26 @@
                         <form id="post_opportunity" name="post_opportunity" ng-submit="post_opportunity_check(event)">
                             <div class="post-box">
                                 <div class="post-img">
-                                    <?php if ($leftbox_data['user_image'] != '') { ?> 
-                                        <img ng-src="<?php echo USER_THUMB_UPLOAD_URL . $leftbox_data['user_image'] . '?ver=' . time() ?>" alt="<?php echo $leftbox_data['first_name'] ?>">  
-                                    <?php } else { ?>
-                                        <img ng-src="<?php echo base_url(NOBUSIMAGE . '?ver=' . time()) ?>" alt="<?php echo $leftbox_data['first_name'] ?>">
-                                    <?php } ?>
+                                    <?php
+                                    if ($leftbox_data['user_image'] != '')
+                                    { ?>
+                                        <img class="login-user-pro-pic" ng-src="<?php echo USER_THUMB_UPLOAD_URL . $leftbox_data['user_image'] . '?ver=' . time() ?>" alt="<?php echo $leftbox_data['first_name'] ?>">  
+                                    <?php
+                                    }
+                                    else
+                                    { 
+                                        if($leftbox_data['user_gender'] == "M")
+                                        {?>                                
+                                            <img class="login-user-pro-pic" ng-src="<?php echo base_url('assets/img/man-user.jpg') ?>">
+                                        <?php
+                                        }
+                                        if($leftbox_data['user_gender'] == "F")
+                                        {
+                                        ?>
+                                            <img class="login-user-pro-pic" ng-src="<?php echo base_url('assets/img/female-user.jpg') ?>">
+                                        <?php
+                                        } 
+                                    } ?>
                                 </div>
                                 <div class="post-text">
                                     <textarea name="description" ng-model="opp.description" id="description" class="title-text-area" placeholder="Post Opportunity"></textarea>
@@ -458,20 +518,23 @@
 
                                 <div class="all-upload" ng-if="is_edit != 1">
                                     <div class="form-group">
+                                        <div id="fileCountOpp"></div>
+                                        <div id="selectedFilesOpp" class="file-preview"></div>
+
                                         <input file-input="files" ng-file-model="opp.postfiles" type="file" id="fileInput" name="postfiles[]" data-overwrite-initial="false" data-min-file-count="2"  multiple style="display: none;">
                                     </div>
                                     <label for="fileInput" ng-click="postFiles()">
-                                        <i class="fa fa-camera upload_icon"><span class="upload_span_icon"> Photo </span></i>
-                                        <i class="fa fa-video-camera upload_icon"><span class="upload_span_icon"> Video</span>  </i> 
-                                        <i class="fa fa-music upload_icon"> <span class="upload_span_icon">  Audio </span> </i>
-                                        <i class="fa fa-file-pdf-o upload_icon"><span class="upload_span_icon"> PDF </span></i>
+                                        <i class="fa fa-camera upload_icon" onclick="javascript:$('#fileInput').attr('accept','image/*');"><span class="upload_span_icon"> Photo </span></i>
+                                        <i class="fa fa-video-camera upload_icon" onclick="javascript:$('#fileInput').attr('accept','video/*');"><span class="upload_span_icon"> Video</span>  </i> 
+                                        <i class="fa fa-music upload_icon" onclick="javascript:$('#fileInput').attr('accept','audio/*');"> <span class="upload_span_icon">  Audio </span> </i>
+                                        <i class="fa fa-file-pdf-o upload_icon" onclick="javascript:$('#fileInput').attr('accept','.pdf');"><span class="upload_span_icon"> PDF </span></i>
                                     </label>
                                 </div>
                             </div>
                             <div class="post-field">
                                 <div id="content" class="form-group">
                                     <label>For whom this opportunity?<span class="pull-right"><img ng-src="<?php echo base_url('assets/n-images/tooltip.png') ?>" tooltips tooltip-append-to-body="true" tooltip-close-button="true" tooltip-side="right" tooltip-hide-trigger="click" tooltip-template="I'm a tooltip that is kwjnefk jnkwjenfkjnk kjwnekjn kjwnekfjn kjwenfkjnkwjnekfjnwkejnf kjwnef bounded on body!" alt="tooltip"></span></label>
-                                    <tags-input ng-model="opp.job_title" display-property="name" placeholder="Ex: Seeking Opportunity, CEO, Enterpreneur, Founder, Singer, Photographer...." replace-spaces-with-dashes="false" template="title-template" on-tag-added="onKeyup()">
+                                    <tags-input id="job_title" ng-model="opp.job_title" display-property="name" placeholder="Ex: Seeking Opportunity, CEO, Enterpreneur, Founder, Singer, Photographer...." replace-spaces-with-dashes="false" template="title-template" on-tag-added="onKeyup()">
                                         <auto-complete source="loadJobTitle($query)" min-length="0" load-on-focus="false" load-on-empty="false" max-results-to-show="32" template="title-autocomplete-template"></auto-complete>
                                     </tags-input>
                                     <script type="text/ng-template" id="title-template">
@@ -484,7 +547,7 @@
 
                                 <div class="form-group">
                                     <label>For which location?<span class="pull-right"><img ng-src="<?php echo base_url('assets/n-images/tooltip.png') ?>" alt="tooltip"></span></label>
-                                    <tags-input ng-model="opp.location" display-property="city_name" placeholder="Ex: Mumbai, Delhi, New south wels, London, New York, Captown, Sydeny, Shanghai...." replace-spaces-with-dashes="false" template="location-template" on-tag-added="onKeyup()">
+                                    <tags-input id="location" ng-model="opp.location" display-property="city_name" placeholder="Ex: Mumbai, Delhi, New south wels, London, New York, Captown, Sydeny, Shanghai...." replace-spaces-with-dashes="false" template="location-template" on-tag-added="onKeyup()">
                                         <auto-complete source="loadLocation($query)" min-length="0" load-on-focus="false" load-on-empty="false" max-results-to-show="32" template="location-autocomplete-template"></auto-complete>
                                     </tags-input>
                                     <script type="text/ng-template" id="location-template">
@@ -497,11 +560,13 @@
                                 <div class="form-group">
                                     <label>For which field?<span class="pull-right"><img ng-src="<?php echo base_url('assets/n-images/tooltip.png') ?>" alt="tooltip"></span></label>
                                     <!--<input name="field" id="field" type="text" placeholder="What is your field?" autocomplete="off">-->
-                                    <select name="field" ng-model="opp.field" id="field" ng-change="other_field(this)" class="post-opportunity-field">
-                                        <option value="" selected="selected">Select your field</option>
-                                        <option data-ng-repeat='fieldItem in fieldList' value='{{fieldItem.industry_id}}'>{{fieldItem.industry_name}}</option>             
-                                        <option value="0">Other</option>
-                                    </select>
+                                    <span class="select-field-custom">
+                                        <select name="field" ng-model="opp.field" id="field" ng-change="other_field(this)" class="post-opportunity-field">
+                                            <option value="" selected="selected">Select your field</option>
+                                            <option data-ng-repeat='fieldItem in fieldList' value='{{fieldItem.industry_id}}'>{{fieldItem.industry_name}}</option>             
+                                            <option value="0">Other</option>
+                                        </select>
+                                    </span>
                                 </div>
                                 <div class="form-group" ng-if="field == '0'">
                                     <input type="text" class="form-control" ng-model="opp.otherField" placeholder="Enter other field" ng-required="true" autocomplete="off">

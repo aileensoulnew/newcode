@@ -316,7 +316,7 @@ class User_post_model extends CI_Model {
     }
 
     public function userPost($user_id = '', $page = '') {
-        $limit = '10';
+        $limit = '5';
         $start = ($page - 1) * $limit;
         if ($start < 0)
             $start = 0;
@@ -343,9 +343,10 @@ class User_post_model extends CI_Model {
         $this->db->where('up.is_delete', '0');
         $this->db->order_by('up.id', 'desc');
         if ($limit != '') {
-            $this->db->limit($limit,$page);
+            $this->db->limit($limit,$start);
         }
         $query = $this->db->get();
+        //echo $this->db->last_query();exit;
         $user_post = $query->result_array();
 
         foreach ($user_post as $key => $value) {
@@ -358,7 +359,7 @@ class User_post_model extends CI_Model {
             $total_post_files = $query->row_array('file_count');
             $result_array[$key]['post_data']['total_post_files'] = $total_post_files['file_count'];
 
-            $this->db->select("u.user_id,u.user_slug,u.first_name,u.last_name,CONCAT(u.first_name,' ',u.last_name) as fullname,ui.user_image,jt.name as title_name,d.degree_name")->from("user u");
+            $this->db->select("u.user_id,u.user_slug,u.first_name,u.last_name,u.user_gender,CONCAT(u.first_name,' ',u.last_name) as fullname,ui.user_image,jt.name as title_name,d.degree_name")->from("user u");
             $this->db->join('user_info ui', 'ui.user_id = u.user_id', 'left');
             $this->db->join('user_login ul', 'ul.user_id = u.user_id', 'left');
             $this->db->join('user_profession up', 'up.user_id = u.user_id', 'left');
@@ -433,7 +434,7 @@ class User_post_model extends CI_Model {
 
             $result_array[$key]['page_data']['page'] = $page;
             $result_array[$key]['page_data']['total_record'] = $this->userPostCount($user_id);
-            //  $result_array[$key]['page_data']['perpage_record'] = $limit;
+             $result_array[$key]['page_data']['perpage_record'] = $limit;
         }
 //        echo '<pre>';
 //        print_r($result_array);
