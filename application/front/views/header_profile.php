@@ -2,28 +2,28 @@
 $session_user = $this->session->userdata();
 $userData = $this->user_model->getUserData($session_user['aileenuser']);
 $browser = $this->agent->browser();
-        $browserVersion = $this->agent->version();
-        if($browser == "Internet Explorer")
-        {
-            if(explode(".", $browserVersion)[0] < 12)
-            {
-                echo "<div class='update-browser'>For a better experience, update your browser.</div>";
-            }
-        }
-        if($browser == "Chrome")
-        {            
-            if(explode(".", $browserVersion)[0] < 70)
-            {
-                echo "<div class='update-browser'>For a better experience, update your browser.</div>";
-            }
-        }
-        if($browser == "Firefox")
-        {            
-            if(explode(".", $browserVersion)[0] < 60)
-            {
-                echo "<div class='update-browser'>For a better experience, update your browser.</div>";
-            }
-        }
+$browserVersion = $this->agent->version();
+if($browser == "Internet Explorer")
+{
+    if(explode(".", $browserVersion)[0] < 12)
+    {
+        echo "<div class='update-browser'>For a better experience, update your browser.</div>";
+    }
+}
+if($browser == "Chrome")
+{            
+    if(explode(".", $browserVersion)[0] < 70)
+    {
+        echo "<div class='update-browser'>For a better experience, update your browser.</div>";
+    }
+}
+if($browser == "Firefox")
+{            
+    if(explode(".", $browserVersion)[0] < 60)
+    {
+        echo "<div class='update-browser'>For a better experience, update your browser.</div>";
+    }
+}
 ?>
 <div class="web-header">
     <header class="custom-header" ng-controller="headerCtrl">
