@@ -75,10 +75,10 @@
 .modal .post-img{width:40px; height:40px;}
 .post-img img{width:100%;}
 .post-box .post-text{width:90%; float:left; padding:14px 10px; font-size:22px; color:#999;}
-#ask_question .post-box .post-text{width:100%; padding:0;}
-#ask_question .post-box .post-text textarea{padding:5px 0;}
-.post-box .post-text textarea{border:0px; border-bottom:1px solid #d2d2d2; border-radius:0;}
-#ask_question .post-field textarea{height:140px;}
+#ask_question.edit-question-form .post-box .post-text{width:100%; padding:0;}
+#ask_question.edit-question-form .post-box .post-text textarea{padding:5px 0;}
+.edit-question-form .post-box .post-text textarea{border:0px; border-bottom:1px solid #d2d2d2; border-radius:0;}
+#ask_question.edit-question-form .post-field textarea{height:140px;}
 .post-box .post-cam{position:absolute; right:10px; top:23px;}
 .post-box .post-cam .fa{color:#1b8ab9; font-size:25px}
 .post-box-bottom{margin-top:10px; border-top:1px solid #d2d2d2; padding-top:5px; width:100%; float:left;}
@@ -1887,7 +1887,7 @@ li .custom-user-box.no-data-available{border:0; padding: 15px;}
 	.post-popup-box .post-box{padding:15px 0;}
 	.post-popup-box .post-box .post-img{margin-left:15px;}
 	.post-popup-box .all-upload label{margin-bottom:0; float: none; width: 100%;}
-        #ask_question .all-upload label{width: auto;}
+    #ask_question .all-upload label{width: auto;}
 	.post-popup-box .all-upload label i{width:100%; border-bottom:1px solid #d2d2d2;}
 	.post-popup-box .all-upload .upload_icon{padding:10px 15px; margin:0;}
 	.post-popup-box .all-upload .upload_icon:hover{background:none; border-radius:0;}
@@ -1903,9 +1903,9 @@ li .custom-user-box.no-data-available{border:0; padding: 15px;}
 	
 	.post-popup-box .post-box .post-text{width:82%;}
 	#ask-question .modal-content .all-upload .upload_icon:first-child{border-bottom:0px;}
-	.all-upload .form-group{margin: 0;}
-        #post_opportunity{width:100%; float: left; background: #fff;}
-        #ask_question{width:100%; float: left; background: #fff;}
+	.all-upload .form-group{margin: 0; padding-left:15px; padding-right:15px;}
+    #post_opportunity{width:100%; float: left; background: #fff;}
+    #ask_question{width:100%; float: left; background: #fff;}
 	.main-user-option-scroll tr td{text-align:center;}
 	.table-responsive.content td{ border-right:0px; padding:10px;}
 	.main-user-option-scroll tr td a{color:#5c5c5c;}
@@ -1976,6 +1976,7 @@ li .custom-user-box.no-data-available{border:0; padding: 15px;}
         .cover-pic .btn{margin-top: -10px;}
         .modal-dialog{margin-bottom: 55px;}
         .custom-popup .modal-body .mes img{width: 300px;}
+		
 }
 @media screen and (max-width: 639px) {
 	/***  all profile  ***/

@@ -59,7 +59,7 @@
                         <p class="question"><a ng-href="<?php echo base_url('questions/') ?>{{post.question_data.id}}/{{post.question_data.question | slugify}}" ng-bind="post.question_data.question" target="_self"></a></p>
                     </div>
                     <div id="edit-ask-que-{{post.post_data.id}}" style="display: none;">
-                        <form id="ask_question" name="ask_question" ng-submit="ask_question_check(event,queIndex)">
+                        <form id="ask_question" class="edit-question-form" name="ask_question" ng-submit="ask_question_check(event,queIndex)">
                             <div class="post-box">                        
                                 <div class="post-text">                            
                                     <textarea class="title-text-area" ng-keyup="questionList()" id="ask_que_{{post.post_data.id}}" placeholder="Ask Question"></textarea>
