@@ -1,6 +1,29 @@
 <?php
 $session_user = $this->session->userdata();
 $userData = $this->user_model->getUserData($session_user['aileenuser']);
+$browser = $this->agent->browser();
+$browserVersion = $this->agent->version();
+if($browser == "Internet Explorer")
+{
+    if(explode(".", $browserVersion)[0] < 11)
+    {
+        echo "<div class='update-browser'>For a better experience, update your browser.</div>";
+    }
+}
+if($browser == "Chrome")
+{            
+    if(explode(".", $browserVersion)[0] < 65)
+    {
+        echo "<div class='update-browser'>For a better experience, update your browser.</div>";
+    }
+}
+if($browser == "Firefox")
+{            
+    if(explode(".", $browserVersion)[0] < 55)
+    {
+        echo "<div class='update-browser'>For a better experience, update your browser.</div>";
+    }
+}
 ?>
 <div class="web-header">
     <header class="custom-header" ng-controller="headerCtrl">
@@ -199,28 +222,33 @@ $userData = $this->user_model->getUserData($session_user['aileenuser']);
                             </li>
                         <li class="dropdown user-id">
                             <label title="<?php echo $session_user['aileenuser_firstname']; ?>" class="dropdown-toggle user-id-custom" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                <span class="usr-img" id="header-main-profile-pic">
                                     <?php
                                     if ($session_user['aileenuser_userimage'] != '')
                                     {?>
-                                        <img ng-src="<?php echo USER_THUMB_UPLOAD_URL . $session_user['aileenuser_userimage'] ?>" alt="<?php echo $session_user['aileenuser_firstname'] ?>">
+                                        <span class="usr-img profile-brd" id="header-main-profile-pic">
+                                            <img ng-src="<?php echo USER_THUMB_UPLOAD_URL . $session_user['aileenuser_userimage'] ?>" alt="<?php echo $session_user['aileenuser_firstname'] ?>">
+                                        </span>
                                     <?php
                                     }
                                     else
-                                    {
-                                        if($userData['user_gender'] == "M")
-                                        {?>
-                                            <img ng-src="<?php echo base_url('assets/img/man-user.jpg') ?>">
+                                    {?>                                        
+                                        <span class="usr-img" id="header-main-profile-pic">
+                                    <?php
+                                            if($userData['user_gender'] == "M")
+                                            {?>
+                                                <img ng-src="<?php echo base_url('assets/img/man-user.jpg') ?>">
+                                            <?php
+                                            }
+                                            if($userData['user_gender'] == "F")
+                                            {
+                                            ?>
+                                                <img ng-src="<?php echo base_url('assets/img/female-user.jpg') ?>">
+                                            <?php
+                                            }
+                                    ?>
+                                        </span>
                                         <?php
-                                        }
-                                        if($userData['user_gender'] == "F")
-                                        {
-                                        ?>
-                                            <img ng-src="<?php echo base_url('assets/img/female-user.jpg') ?>">
-                                        <?php
-                                        }
                                     } ?>
-                                </span>
                                 <span class="pr-name"><?php
                                     if (isset($session_user['aileenuser_firstname'])) {
                                         echo ucfirst($session_user['aileenuser_firstname']);

@@ -907,19 +907,19 @@ app.controller('dashboardController', function ($scope, $compile, $http, $locati
         if($('#job_title ul li').length > 0)
         {            
             $(this).attr('placeholder', '');
-            $(this).css('width', '10px');
+            $(this).css('width', '200px');
         }
     });
     $(document).on('focusout','#job_title .input',function () {
         if($('#job_title ul li').length > 0)
         {             
             $(this).attr('placeholder', '');
-            $(this).css('width', '10px');
+            $(this).css('width', '200px');
         }
         if($('#job_title ul li').length == 0)
         {            
             $(this).attr('placeholder', 'Ex:Seeking Opportunity, CEO, Enterpreneur, Founder, Singer, Photographer....');
-            $(this).css('width', '100%');
+            $(this).css('width', '200px');
         }         
     });
 
@@ -927,19 +927,19 @@ app.controller('dashboardController', function ($scope, $compile, $http, $locati
         if($('#location ul li').length > 0)
         {            
             $(this).attr('placeholder', '');
-            $(this).css('width', '10px');
+            $(this).css('width', '200px');
         }
     });
     $(document).on('focusout','#location .input',function () {
         if($('#location ul li').length > 0)
         {            
             $(this).attr('placeholder', '');
-            $(this).css('width', '10px');
+            $(this).css('width', '200px');
         }
         if($('#location ul li').length == 0)
         {            
             $(this).attr('placeholder', 'Ex:Mumbai, Delhi, New south wels, London, New York, Captown, Sydeny, Shanghai....');
-            $(this).css('width', '100%');
+            $(this).css('width', '200px');
         }
          /*$(this).attr('placeholder', 'Ex:Seeking Opportunity, CEO, Enterpreneur, Founder, Singer, Photographer....');
          $(this).css('width', '100%');*/
@@ -949,19 +949,19 @@ app.controller('dashboardController', function ($scope, $compile, $http, $locati
         if($('#ask_related_category ul li').length > 0)
         {            
             $(this).attr('placeholder', '');
-            $(this).css('width', '10px');
+            $(this).css('width', '200px');
         }
     });
     $(document).on('focusout','#ask_related_category .input',function () {
         if($('#ask_related_category ul li').length > 0)
         {             
             $(this).attr('placeholder', '');
-            $(this).css('width', '10px');
+            $(this).css('width', '200px');
         }
         if($('#ask_related_category ul li').length == 0)
         {            
             $(this).attr('placeholder', 'Related Category');
-            $(this).css('width', '100%');
+            $(this).css('width', '200px');
         }         
     });
 
@@ -2932,6 +2932,17 @@ app.controller('dashboardController', function ($scope, $compile, $http, $locati
             });
             $scope.opp.job_title_edit = edit_jobtitle;
 
+            if(city_names.length > 0)
+            {
+                $('#location .input').attr('placeholder', '');
+                $('#location .input').css('width', '200px');
+            }
+            if(job_title.length > 0)
+            {
+                $('#job_title .input').attr('placeholder', '');
+                $('#job_title .input').css('width', '200px');
+            }
+
             $('[id=field_edit'+post_id+'] option').filter(function() { 
                 return ($(this).text() == field); //To select Blue
             }).prop('selected', true);
@@ -3865,6 +3876,10 @@ function profile_pic() {
                 $("#user-profile.profile-img").html(res.userImageContent);
                 $("#view-profile-img .modal-body .mes img").attr('src',res.userProfilePicMain);
                 $("#header-main-profile-pic").html('<img ng-src="'+res.userProfilePicThumb+'" src="'+res.userProfilePicThumb+'">');
+                if(!$("#header-main-profile-pic").hasClass("profile-brd"))
+                {
+                    $("#header-main-profile-pic").addClass("profile-brd");
+                }
                 $(".login-user-pro-pic").attr('src',res.userProfilePicThumb);
                 document.getElementById('upload-one').value = null;
                 document.getElementById('upload-demo-one').value = '';
