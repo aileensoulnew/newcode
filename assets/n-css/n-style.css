@@ -1755,6 +1755,7 @@ li .custom-user-box.no-data-available{border:0; padding: 15px;}
 .custom-user-box.no-data-available{padding: 0 0 100px; border: none;}
 .no-data-available .art-img-nn{width: 400px; height: 300px; margin: 0 auto; padding: 60px 0;}
 .no-data-available .art-img-nn .art_no_post_img{padding-bottom: 15px;}
+.all-up-mr{margin-left:-5px;}
 .update-browser{position: fixed;
     bottom: 0;
     width: 100%;
@@ -1864,6 +1865,7 @@ li .custom-user-box.no-data-available{border:0; padding: 15px;}
     .container {width: 100%;}
 	.mob-banner{padding:0;}
 	.mob-comment{display: block;}
+	.mob-plr15{padding-left:15px; padding-right:15px;}
 	/***  all profile  ***/
 	.custom-box .custom-width{height:auto; border-left:0 !important; border-right:0 !important;}
 	.custom-box .left-box{width:150px; height:150px; margin:0 auto;}
@@ -1994,6 +1996,7 @@ li .custom-user-box.no-data-available{border:0; padding: 15px;}
 	.comment-box .add-comment .comment-input{padding:0;}
 	.mob-comment .btn2 img{display:block;}
 	.read-more-post{font-size:12px;}
+	.questionSuggetion.question-available{width: calc(100% - 30px); float:left; margin-left:15px;}
 		
 }
 @media screen and (max-width: 639px) {
@@ -2125,7 +2128,7 @@ li .custom-user-box.no-data-available{border:0; padding: 15px;}
         .cover-pic{left: -3px; right: auto;}
         .user-photo-name .profile-img{padding: 3px;}
         .post-popup-box .all-upload .upload_icon .upload_span_icon{padding-left: 2px;}
-        .post-popup-box .all-upload .upload_icon{padding: 10px 5px 10px 12px;}
+        .post-popup-box .all-upload .upload_icon{padding: 10px 5px 10px 15px;}
         .cover-pic .btn{float: left !important; }
 		.post-discription .post-field label{font-size:14px;}
 		.btn1{font-size: 14px; padding: 3px 15px;}

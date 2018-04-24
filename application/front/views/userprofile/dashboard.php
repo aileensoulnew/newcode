@@ -901,25 +901,26 @@
                         <div class="post-text">
                             <!-- <textarea class="title-text-area" ng-keyup="questionList()" ng-model="ask.ask_que" id="ask_que" placeholder="Ask Question" typeahead="item as item.question for item in queSearchResult | filter:$viewValue" autocomplete="off"></textarea> -->
                             <textarea class="title-text-area" ng-keyup="questionList()" ng-model="ask.ask_que" id="ask_que" placeholder="Ask Question"></textarea>
-                            <ul class="questionSuggetion custom-scroll">
+                            
+                        </div>
+						<ul class="questionSuggetion custom-scroll">
                                 <li ng-repeat="que in queSearchResult">
                                     <a ng-href="<?php echo base_url('questions/') ?>{{que.id}}/{{que.question| slugify}}" target="_self" ng-bind="que.question"></a>
                                 </li>
                             </ul>
-                        </div>
                         <div class="all-upload" ng-if="is_edit != 1">
                             <div class="form-group">
                                 <div id="fileCountQue"></div>
                                 <div id="selectedFilesQue" class="file-preview"></div>
                                 <input file-input="files" ng-file-model="ask.postfiles" type="file" id="fileInput2" name="postfiles[]" data-overwrite-initial="false" data-min-file-count="2" multiple style="display: none;">
                             </div>
-                            <label for="fileInput2" ng-click="postFiles()">
+                            <label class="all-up-mr" for="fileInput2" ng-click="postFiles()">
                                 <i class="fa fa-camera upload_icon" onclick="javascript:$('#fileInput2').attr('accept','image/*');"><span class="upload_span_icon"> Add Screenshot </span></i>
                             </label>
                             <div class="add-link" ng-click="ShowHide()">
                                 <i class="fa fa fa-link upload_icon"><span class="upload_span_icon"> Add Link</span>  </i> 
                             </div>
-                            <div class="form-group"  ng-show = "IsVisible">
+                            <div class="form-group mob-plr15"  ng-show = "IsVisible">
                                 <input type="text" ng-model="ask.web_link" class="" placeholder="Add Your Web Link">
                             </div>
                         </div>
