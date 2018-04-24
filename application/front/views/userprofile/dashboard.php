@@ -356,11 +356,13 @@
                                     <div class="form-group">
                                         <label>For which field?<span class="pull-right"><img ng-src="<?php echo base_url('assets/n-images/tooltip.png') ?>" alt="tooltip"></span></label>
                                         <!--<input name="field" id="field" type="text" placeholder="What is your field?" autocomplete="off">-->
+										<span class="select-field-custom">
                                         <select name="field" ng-model="opp.field" id="field_edit{{post.post_data.id}}" ng-change="other_field(this)">
                                             <option value="" selected="selected">Select your field</option>
                                             <option data-ng-repeat='fieldItem in fieldList' value='{{fieldItem.industry_id}}'>{{fieldItem.industry_name}}</option>             
                                             <option value="0">Other</option>
                                         </select>
+										</span>
                                     </div>
                                     <div class="form-group" ng-if="field == '0'">
                                         <input type="text" class="form-control" ng-model="opp.otherField" placeholder="Enter other field" ng-required="true" autocomplete="off">

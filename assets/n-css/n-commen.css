@@ -533,6 +533,7 @@ header h2.logo{margin:0; float:left; padding-right:20px; padding:0; line-height:
 .right-header ul li:last-child{border-right:none;}
 .right-header ul li a{color:#fff;}
 .right-header .usr-img{width:25px; height:25px;  border-radius:100%; margin-right:5px; float:left; margin-top:3px;}
+.right-header .usr-img.profile-brd{width:26px; height:26px; border:1px solid #fff;}
 .right-header .usr-img img{width:100%; border-radius:100%; /*border:1px solid #fff;*/}
 .right-header .usr-img .custom-user{width:100%; border-radius:100%; border:2px solid #fff; text-align: center; background:-moz-linear-gradient(96deg,#1b8ab9 0,#1b8ab9 44%,#3bb0ac 100%);
     background:-webkit-gradient(linear,left top,left bottom,color-stop(0,#3bb0ac),color-stop(56%,#1b8ab9),color-stop(100%,#1b8ab9));
