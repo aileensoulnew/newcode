@@ -29,7 +29,6 @@ $(document).ready(function(){
             $.ajax({
                 type:'POST',
                 url: base_url + "artist/ajax_data",
-                //url:'<?php echo base_url() . "artist/ajax_data"; ?>',
                 data:'state_id='+stateID,
                 success:function(html){
                     $('#city').html(html);
@@ -129,6 +128,7 @@ $('#skills').change(function other_category(){
 
 
 function otherchange(cat_id){
+    
     if(cat_id == 26){
         var active = document.querySelector(".multi-select-container");
         active.classList.remove("multi-select-container--open"); 

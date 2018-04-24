@@ -162,11 +162,49 @@ class Artist_live extends MY_Controller {
             $userid = $this->session->userdata('aileenuser');
             $recuser = $this->db->select('user_id')->get_where('art_reg', array('user_id' => $userid))->row()->user_id;
         }
-         $this->data['header_profile'] = $this->load->view('header_profile', $this->data, TRUE);
+        $this->data['head'] = $this->load->view('head', $this->data, TRUE);
+        $this->data['header_profile'] = $this->load->view('header_profile', $this->data, TRUE);
         if ($recuser) {
             redirect('artist/home', refresh);
         } else {
             $this->load->view('artist_live/profile', $this->data);
+        }
+    }
+
+    // Get country, state, city from id
+    public function ajax_data() {
+        return 123;
+        if (isset($_POST["country_id"]) && !empty($_POST["country_id"])) {
+            //Get all state data
+            $contition_array = array('country_id' => $_POST["country_id"], 'status' => '1');
+            $state = $this->data['states'] = $this->common->select_data_by_condition('states', $contition_array, $data = 'state_id,state_name', $sortby = 'state_name', $orderby = 'ASC', $limit = '', $offset = '', $join_str = array(), $groupby = '');
+
+            //Count total number of rows
+            //Display states list
+            if (count($state) > 0) {
+                echo '<option value="">Select state</option>';
+                foreach ($state as $st) {
+                    echo '<option value="' . $st['state_id'] . '">' . $st['state_name'] . '</option>';
+                }
+            } else {
+                echo '<option value="">State not available</option>';
+            }
+        }
+
+        if (isset($_POST["state_id"]) && !empty($_POST["state_id"])) {
+            //Get all city data
+            $contition_array = array('state_id' => $_POST["state_id"], 'status' => '1');
+            $city = $this->data['city'] = $this->common->select_data_by_condition('cities', $contition_array, $data = 'city_id,city_name', $sortby = 'city_name', $orderby = 'ASC', $limit = '', $offset = '', $join_str = array(), $groupby = '');
+
+            //Display cities list
+            if (count($city) > 0) {
+                echo '<option value="">Select city</option>';
+                foreach ($city as $cit) {
+                    echo '<option value="' . $cit['city_id'] . '">' . $cit['city_name'] . '</option>';
+                }
+            } else {
+                echo '<option value="0">City not available</option>';
+            }
         }
     }
 

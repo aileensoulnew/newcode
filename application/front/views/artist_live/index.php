@@ -158,13 +158,13 @@
         <script data-semver="0.13.0" src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.13.0.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
         <script>
-                                            var base_url = '<?php echo base_url(); ?>';
-                                            var user_id = '<?php echo $this->session->userdata('aileenuser'); ?>';
-                                            var title = '<?php echo $title; ?>';
-                                            var header_all_profile = '<?php echo $header_all_profile; ?>';
-                                            var q = '';
-                                            var l = '';
-                                            var app = angular.module('artistApp', ['ui.bootstrap']);
+            var base_url = '<?php echo base_url(); ?>';
+            var user_id = '<?php echo $this->session->userdata('aileenuser'); ?>';
+            var title = '<?php echo $title; ?>';
+            var header_all_profile = '<?php echo $header_all_profile; ?>';
+            var q = '';
+            var l = '';
+            var app = angular.module('artistApp', ['ui.bootstrap']);
         </script>               
         <script src="<?php echo base_url('assets/js/webpage/user/user_header_profile.js?ver=' . time()) ?>"></script>
         <script src="<?php echo base_url('assets/js/webpage/artist-live/searchArtist.js?ver=' . time()) ?>"></script>
