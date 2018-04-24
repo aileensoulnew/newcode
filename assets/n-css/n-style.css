@@ -1998,7 +1998,7 @@ li .custom-user-box.no-data-available{border:0; padding: 15px;}
 	.comment-box .add-comment .comment-input{padding:0;}
 	.mob-comment .btn2 img{display:block;}
 	.read-more-post{font-size:12px;}
-<<<<<<< HEAD
+
 	.questionSuggetion.question-available{width: calc(100% - 30px); float:left; margin-left:15px;}
 	.edit-comment .comment-input{width:100%; padding-right:0;}
 	.edit-comment .comment-input .editable_text{padding-right:35px;}
@@ -2009,9 +2009,7 @@ li .custom-user-box.no-data-available{border:0; padding: 15px;}
 	-moz-transform: scale(1) !important;
 	-o-transform: scale(1) !important;}
 	#posterrormodal .modal-content{width:90%;}
-=======
-		
->>>>>>> 65dd9479775e120c96c11d8dfe99a194f700227d
+
 }
 @media screen and (max-width: 639px) {
 	/***  all profile  ***/
