@@ -385,7 +385,7 @@ app.controller('userOppoController', function ($scope, $http,$compile) {
             $(this).css('width', '200px');
         }         
     });
-    
+
     $scope.opp = {};
     $scope.sim = {};
     $scope.ask = {};
@@ -612,6 +612,55 @@ app.controller('userOppoController', function ($scope, $http,$compile) {
         fileNamesArrOpp.splice(fileNameIndex, 1);
         $("#imgPrevOpp_"+rmId).remove();
         formFileDataOpp.delete("myfiles_"+rmId);
+    };
+
+    $(document).on('change','#fileInput2', function(e){        
+        $.each($('#fileInput2')[0].files, function(i, f) {
+            if(fileNamesArrQue.indexOf(f.name) < 0)
+            {
+
+                if(f.type.match("image.*")) {
+                
+                formFileExtQue.push(f.type.split('/')[1]);
+                fileNamesArrQue.push(f.name);
+
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        var $el = $("<div class='img_preview' id='imgPrevQue_"+cntImgQue+"'><div class='i-ip'><img src=\"" + e.target.result + "\" data-file='"+f.name+"' class='selFile' title='"+f.name+"'></div><label class='remove_img' name='remove_image' ng-click=\"removeFileQue('"+cntImgQue+"')\" ><i class='fa fa-trash-o' aria-hidden='true'></i></label></div>").appendTo('#selectedFilesQue');
+                        //$("#selectedFiles").append(html);
+                        $compile($el)($scope);
+
+                        formFileDataQue.append('myfiles_'+cntImgQue, f);
+
+                        cntImgQue++;
+                        fileCountQue++;                    
+                        $("#fileCountQue").text(fileCountQue);
+                        if($('#fileInput2')[0].files.length - 1 == i)
+                        {
+                            $('#fileInput2').val("");
+                        }
+                    }
+                    reader.readAsDataURL(f); 
+                }               
+            }            
+        });
+    });
+
+    $scope.removeFileQue = function(rmId) {
+        fileCountQue--;
+        $("#fileCountQue").text(fileCountQue);
+        if(fileCountQue <= 0)
+        {
+            $("#fileInput2").val("");
+        }        
+        var ext = formFileDataQue.get("myfiles_"+rmId).type.split('/')[1];
+        var fileExtIndex = formFileExtQue.indexOf(ext.toString());
+        formFileExtQue.splice(fileExtIndex, 1);
+        
+        var fileNameIndex = fileNamesArrQue.indexOf(formFileDataQue.get("myfiles_"+rmId).name);
+        fileNamesArrQue.splice(fileNameIndex, 1);
+        $("#imgPrevQue_"+rmId).remove();
+        formFileDataQue.delete("myfiles_"+rmId);
     };
 
 
@@ -1210,7 +1259,6 @@ app.controller('userOppoController', function ($scope, $http,$compile) {
             var description = document.getElementById("ask_que").value;
             var description = description.trim();
             var fileInput = document.getElementById("fileInput2").files;
-
             if ((field == '') || (description == ''))
             {
                 $('#post .mes').html("<div class='pop_content'>Ask question and Field is required.");
@@ -1221,57 +1269,104 @@ app.controller('userOppoController', function ($scope, $http,$compile) {
                         $('.modal-post').show();
                     }
                 });
-                event.preventDefault();
+                //event.preventDefault();
                 return false;
             } else {
-                //                var length = fileInput.length;
-                //                var vfirstname = fileInput[0].name;
-                //                var ext = vfirstname.split('.').pop();
-                //                var ext1 = vfirstname.split('.').pop();
-                //                var allowedExtensions = ['jpg', 'JPG', 'jpeg', 'JPEG', 'PNG', 'png', 'gif', 'GIF', 'psd', 'PSD', 'bmp', 'BMP', 'tiff', 'TIFF', 'iff', 'IFF', 'xbm', 'XBM', 'webp', 'WebP', 'HEIF', 'heif', 'BAT', 'bat', 'BPG', 'bpg', 'SVG', 'svg'];
-                //                var foundPresent = $.inArray(ext, allowedExtensions) > -1;
-                //                if (foundPresent == true)
-                //                {
-                //                    var foundPresent1 = $.inArray(ext1, allowedExtensions) > -1;
-                //
-                //                }
-                var form_data = new FormData();
-                // angular.forEach($scope.files, function (file) {
-                //     form_data.append('postfiles[]', file);
-                // });
-                $.each($("#fileInput2")[0].files, function(i, file) {
+
+                var allowedExtensions = ['jpg', 'JPG', 'jpeg', 'JPEG', 'PNG', 'png', 'gif', 'GIF', 'psd', 'PSD', 'bmp', 'BMP', 'tiff', 'TIFF', 'iff', 'IFF', 'xbm', 'XBM', 'webp', 'WebP', 'HEIF', 'heif', 'BAT', 'bat', 'BPG', 'bpg', 'SVG', 'svg'];
+                
+                var imgExtNot = false;
+
+                if(fileCountQue > 0)
+                {
+                    $.each(formFileExtQue, function( index, value ) {
+                        //console.log( index + ": " + value );
+                        if($.inArray(value, allowedExtensions) == -1)
+                        {
+                            imgExtNot = true;
+                        }                        
+                    });
+
+                    if(imgExtNot == true || fileCountQue > 10)
+                    {
+                        $('.biderror .mes').html("<div class='pop_content'>You can only upload photo. You cannot upload more than 10 photos at a time.");
+                            $('#posterrormodal').modal('show');
+                            //$("#post_opportunity")[0].reset();
+                            //setInterval('window.location.reload()', 10000);
+                            $(document).on('keydown', function (e) {
+                                if (e.keyCode === 27) {
+                                    $('#posterrormodal').modal('hide');
+                                    $('.modal-post').show();
+                                }
+                            });
+                            //event.preventDefault();
+                            return false;
+                    }                    
+                }
+
+                /*var form_data = new FormData();
+                angular.forEach($scope.files, function (file) {
                     form_data.append('postfiles[]', file);
-                });
+                });*/
                 //form_data.append('postfiles',$scope.ask.postfiles);
-                form_data.append('question', $scope.ask.ask_que);
-                form_data.append('description', $scope.ask.ask_description);
-                form_data.append('field', $scope.ask.ask_field);
-                form_data.append('other_field', $scope.ask.otherField);
-                form_data.append('category', JSON.stringify($scope.ask.related_category));
-                form_data.append('weblink', $scope.ask.web_link);
-                form_data.append('post_for', $scope.ask.post_for);
-                form_data.append('is_anonymously', $scope.ask.is_anonymously);
+                formFileDataQue.append('question', $scope.ask.ask_que);
+                formFileDataQue.append('description', $scope.ask.ask_description);
+                formFileDataQue.append('field', $scope.ask.ask_field);
+                formFileDataQue.append('other_field', $scope.ask.otherField);
+                formFileDataQue.append('category', JSON.stringify($scope.ask.related_category));
+                formFileDataQue.append('weblink', $scope.ask.web_link);
+                formFileDataQue.append('post_for', $scope.ask.post_for);
+                formFileDataQue.append('is_anonymously', $scope.ask.is_anonymously);
 
                 $('body').removeClass('modal-open');
                 $("#opportunity-popup").modal('hide');
                 $("#ask-question").modal('hide');
-                $('.post_loader').show();
-                $http.post(base_url + 'user_post/post_opportunity', form_data,
+                //$('.post_loader').show();
+                // $.each($("#fileInput2")[0].files, function(i, file) {
+                //     form_data.append('postfiles[]', file);
+                // });
+                $('#progress_div').show();
+                var bar = $('.progress-bar');
+                var percent = $('.sr-only');
+
+                $http.post(base_url + 'user_post/post_opportunity', formFileDataQue,
                         {
                             transformRequest: angular.identity,
+                            headers: {'Content-Type': undefined, 'Process-Data': false},
+                            uploadEventHandlers: {
+                                progress: function(e) {
+                                     if (e.lengthComputable) {
+                                        progress = Math.round(e.loaded * 100 / e.total);
 
-                            headers: {'Content-Type': undefined, 'Process-Data': false}
+                                        bar.width((progress - 1) +'%');
+                                        percent.html((progress - 1) +'%');
+
+                                        //console.log("progress: " + progress + "%");
+                                        if (e.loaded == e.total) {
+                                            /*setTimeout(function(){
+                                                $('#progress_div').hide();
+                                                progress = 0;
+                                                bar.width(progress+'%');
+                                                percent.html(progress+'%');
+                                            }, 2000);*/
+                                            //console.log("File upload finished!");
+                                            //console.log("Server will perform extra work now...");
+                                        }
+                                    }
+                                }
+                            }
                         })
                         .then(function (success) {
                             if (success) {
-                                 $('.post_loader').hide();
+                                //window.location = base_url+user_slug+"/questions";
+                                $('.post_loader').hide();
                                 $scope.opp.description = '';
                                 $scope.opp.job_title = '';
                                 $scope.opp.location = '';
                                 $scope.opp.field = '';
                                 $scope.opp.postfiles = '';
-                                document.getElementById('fileInput').value = '';
-
+                                document.getElementById('fileInput2').value = '';
+                                $('.file-preview-thumbnails').html('');
                                 $scope.ask.postfiles = '';
                                 $scope.ask.ask_que = '';
                                 $scope.ask.ask_description = '';
@@ -1279,10 +1374,27 @@ app.controller('userOppoController', function ($scope, $http,$compile) {
                                 $scope.ask.otherField = '';
                                 $scope.ask.related_category = '';
                                 $scope.ask.web_link = '';
-                                $scope.ask.post_for = '';
+                                $scope.ask.post_for = 'question';
                                 $scope.ask.is_anonymously = '';
-                                $('.file-preview-thumbnails').html('');
-                                $scope.postData.splice(0, 0, success.data[0]);
+
+                                //$scope.postData.splice(0, 0, success.data[0]);
+                                getUserPost(pg);
+
+                                bar.width(100+'%');
+                                percent.html(100+'%');
+                                setTimeout(function(){                                    
+                                    progress = 0;
+                                    // bar.width(progress+'%');
+                                    // percent.html(progress+'%');
+                                }, 2000);
+                                imgExt = false;
+                                cntImgQue = 0;
+                                formFileDataQue = new FormData();
+                                fileCountQue = 0;
+                                fileNamesArrQue = [];
+                                formFileExtQue = [];
+                                $("#selectedFilesQue").html("");
+                                $("#fileCountQue").text("");
                                 $('video, audio').mediaelementplayer();
                             }
                         });
@@ -1306,6 +1418,8 @@ app.controller('userOppoController', function ($scope, $http,$compile) {
                 event.preventDefault();
                 return false;
             } else {
+
+
                 var form_data = new FormData();
 
                 form_data.append('question', $scope.ask.ask_que);
@@ -1323,6 +1437,7 @@ app.controller('userOppoController', function ($scope, $http,$compile) {
                 $http.post(base_url + 'user_post/edit_post_opportunity', form_data,
                         {
                             transformRequest: angular.identity,
+
                             headers: {'Content-Type': undefined, 'Process-Data': false}
                         })
                         .then(function (success) {

@@ -591,11 +591,26 @@
                         <form id="ask_question" name="ask_question" ng-submit="ask_question_check(event)">
                             <div class="post-box">
                                 <div class="post-img">
-                                    <?php if ($leftbox_data['user_image'] != '') { ?> 
-                                        <img ng-src="<?php echo USER_THUMB_UPLOAD_URL . $leftbox_data['user_image'] . '?ver=' . time() ?>" alt="<?php echo $leftbox_data['first_name'] ?>">  
-                                    <?php } else { ?>
-                                        <img ng-src="<?php echo base_url(NOBUSIMAGE . '?ver=' . time()) ?>" alt="<?php echo $leftbox_data['first_name'] ?>">
-                                    <?php } ?>
+                                    <?php
+                                    if ($leftbox_data['user_image'] != '')
+                                    { ?>
+                                        <img class="login-user-pro-pic" ng-src="<?php echo USER_THUMB_UPLOAD_URL . $leftbox_data['user_image'] . '?ver=' . time() ?>" alt="<?php echo $leftbox_data['first_name'] ?>">  
+                                    <?php
+                                    }
+                                    else
+                                    {
+                                        if($leftbox_data['user_gender'] == "M")
+                                        {?>                                
+                                            <img class="login-user-pro-pic" ng-src="<?php echo base_url('assets/img/man-user.jpg') ?>">
+                                        <?php
+                                        }
+                                        if($leftbox_data['user_gender'] == "F")
+                                        {
+                                        ?>
+                                            <img class="login-user-pro-pic" ng-src="<?php echo base_url('assets/img/female-user.jpg') ?>">
+                                        <?php
+                                        } 
+                                    } ?>
                                 </div>
                                 <div class="post-text">
                                     <!--<textarea class="title-text-area" ng-keyup="questionList()" ng-model="ask.ask_que" id="ask_que" placeholder="Ask Question" typeahead="item as item.question for item in queSearchResult | filter:$viewValue" autocomplete="off"></textarea>-->
@@ -608,6 +623,8 @@
                                 </div>
                                 <div class="all-upload" ng-if="is_edit != 1">
                                     <div class="form-group">
+                                        <div id="fileCountQue"></div>
+                                        <div id="selectedFilesQue" class="file-preview"></div>
                                         <input file-input="files" ng-file-model="ask.postfiles" type="file" id="fileInput2" name="postfiles[]" data-overwrite-initial="false" data-min-file-count="2"  multiple style="display: none;">
                                     </div>
                                     <label for="fileInput2" ng-click="postFiles()">
@@ -628,7 +645,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Related Categories<span class="pull-right"><img ng-src="<?php echo base_url('assets/n-images/tooltip.png') ?>" alt="tooltip"></span></label>
-                                    <tags-input ng-model="ask.related_category" display-property="name"placeholder="Related Category" replace-spaces-with-dashes="false" template="category-template" on-tag-added="onKeyup()">
+                                    <tags-input id="ask_related_category" ng-model="ask.related_category" display-property="name"placeholder="Related Category" replace-spaces-with-dashes="false" template="category-template" on-tag-added="onKeyup()">
                                         <auto-complete source="loadCategory($query)" min-length="0" load-on-focus="false" load-on-empty="false" max-results-to-show="32" template="category-autocomplete-template"></auto-complete>
                                     </tags-input>
                                     <script type="text/ng-template" id="category-template">
@@ -640,11 +657,13 @@
                                 </div>
                                 <div class="form-group">
                                     <label>From which field the Question asked?<span class="pull-right"><img ng-src="<?php echo base_url('assets/n-images/tooltip.png') ?>" alt="tooltip"></span></label>
-                                    <select ng-model="ask.ask_field" id="ask_field">
-                                        <option value="" selected="selected">Field</option>
-                                        <option data-ng-repeat='fieldItem in fieldList' value='{{fieldItem.industry_id}}'>{{fieldItem.industry_name}}</option>             
-                                        <option value="0">Other</option>
-                                    </select>
+                                    <span class="select-field-custom">
+                                        <select ng-model="ask.ask_field" id="ask_field">
+                                            <option value="" selected="selected">Field</option>
+                                            <option data-ng-repeat='fieldItem in fieldList' value='{{fieldItem.industry_id}}'>{{fieldItem.industry_name}}</option>             
+                                            <option value="0">Other</option>
+                                        </select>
+                                    </span>
                                 </div>
 
                                 <div class="form-group" ng-if="ask.ask_field == '0'">
