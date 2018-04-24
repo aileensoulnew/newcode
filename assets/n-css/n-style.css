@@ -102,7 +102,7 @@
 	line-height:1.5;}
 .post-popup-box	.post-box .post-text{width:498px;}
 .post-popup-box .post-area{padding:10px; background:#fff; width:100%; float:left;}
-#ask_question .all-upload{margin-bottom:10px; margin-left:-5px;}
+#ask_question.edit-question-form .all-upload{margin-bottom:10px; margin-left:-5px;}
 .post-popup-box .post-area textarea{min-height:100px; font-size: 15px !important;}
 .all-upload{width:100%; float:left;}
 .all-upload label{float:left;}
@@ -2006,6 +2006,7 @@ li .custom-user-box.no-data-available{border:0; padding: 15px;}
     .add-anonymously .control{font-size: 14px;}
     .add-anonymously .control__indicator{width: 14px; height: 14px;}
 	#ask_question .post-field label{font-size:14px;}
+	.control--checkbox .control__indicator::after{left:4px; top:2px; height:8px; width:4px;}
 }
 @media screen and (max-width: 539px) {
 	.add-comment .comment-input{width:69%;}
