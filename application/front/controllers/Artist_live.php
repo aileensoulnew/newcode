@@ -83,7 +83,7 @@ class Artist_live extends MY_Controller {
         $this->data['category_id'] = $category_id['category_id'];
         $this->load->view('artist_live/categoryArtistList', $this->data);
     }
-
+    // 
     public function artist_search() {
         $userid = $this->session->userdata('aileenuser');
         $this->data['userdata'] = $this->user_model->getUserSelectedData($userid, $select_data = "u.first_name,u.last_name,ui.user_image");
