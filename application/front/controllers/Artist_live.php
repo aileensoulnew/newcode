@@ -173,7 +173,7 @@ class Artist_live extends MY_Controller {
 
     // Get country, state, city from id
     public function ajax_data() {
-         
+        
         if (isset($_POST["country_id"]) && !empty($_POST["country_id"])) {
             //Get all state data
             $contition_array = array('country_id' => $_POST["country_id"], 'status' => '1');
