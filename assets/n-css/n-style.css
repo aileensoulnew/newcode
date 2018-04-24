@@ -2010,6 +2010,20 @@ li .custom-user-box.no-data-available{border:0; padding: 15px;}
 	.like-popup .like-detail{width:80%;}
 	#ask_question .all-upload .form-group{padding-left:15px; padding-right:15px;}
 	#ask_question.edit-question-form .all-upload .form-group{padding-left:0px; padding-right:0px;}
+	.how-it-popup .pro_img img{
+        margin-left:25px;
+        width:50px;
+        margin-top:-15px
+    }
+    .how-it-popup .pro_img{
+        padding:22px 10px 1px
+    }
+    .how-it-popup .modal-header h1{
+        font-size:26px
+    }
+	#bus-popup .modal-content{width:100%;}
+	
+	
 	
 
 }
@@ -2042,6 +2056,10 @@ li .custom-user-box.no-data-available{border:0; padding: 15px;}
     .add-anonymously .control__indicator{width: 14px; height: 14px;}
 	#ask_question .post-field label{font-size:14px;}
 	.control--checkbox .control__indicator::after{left:4px; top:2px; height:8px; width:4px;}
+	#bidmodal-2 .modal-content{width:100%;}
+	#popup-form #userimage{padding:0;}
+	#upload-demo-one{width:100% !important; float:left;}
+	#userimage .col-md-7.text-center{padding:0;}
 }
 @media screen and (max-width: 539px) {
 	.add-comment .comment-input{width:69%;}
@@ -2055,7 +2073,9 @@ li .custom-user-box.no-data-available{border:0; padding: 15px;}
         
 }
 @media screen and (max-width: 479px) {
-	
+	#upload-demo-one .cr-boundary{width:258px !important; height:258px !important;}
+	#upload-demo-one .cr-boundary .cr-viewport{margin:30px auto;}
+	.croppie-container .cr-image{top:-20px;}
 	/***  all profile  ***/
 	.custom-box .custom-width .right-box h1 a::after{left: 50% !important; width: 150px; margin-left: -75px;}
 	.page-title h3{font-size:18px;}
@@ -2147,6 +2167,12 @@ li .custom-user-box.no-data-available{border:0; padding: 15px;}
 	.post-discription .post-field label{font-size:14px;}
 	.btn1{font-size: 14px; padding: 3px 15px;}
 	.like-popup .like-detail{width:73%;}
+	.btn-4{
+        font-size:12px;
+    }
+	.btn-4,.btns .btn-4{
+        padding:5px 20px;
+    }
 }
 @media screen and (max-width: 359px) {
 	.all-job-bottom{text-align:center;}
@@ -2171,6 +2197,10 @@ li .custom-user-box.no-data-available{border:0; padding: 15px;}
 	.blog-page .sub-header .sub-menu li a.fs22{font-size:18px;}
 	.blog-page .sub-header .sub-menu li a{font-size:16px;}
 	.blog-page .mobile-header .sub-header .sub-menu li{width:33%;}
+	.how-it-popup .modal-body h3{font-size: 22px; margin-bottom: 12px;}
+	.por_content ul li .pro-text{font-size:12px;}
+	.por_content ul li .pro-text .count{width: 14px;}
+	.por_content ul li img{margin-right: 3px; float: left; width: 40px; height: 40px;}
 }
 @media screen and (max-width: 320px) {
 
