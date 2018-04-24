@@ -1854,10 +1854,11 @@ li .custom-user-box.no-data-available{border:0; padding: 15px;}
 	.blog-user-detail{width:110px; padding-left:0;}
 	.blog-detail{width:610px; left:110px;}
 	.comment-text{width:90%;}
-        .middle-section-banner{padding: 47px 0 0px;}
-        footer{position: relative; height: auto;}
-        .cover-pic{width: 100%; float:left;}
-        .post-box-bottom ul li:nth-child(2){display: none;}
+    .middle-section-banner{padding: 47px 0 0px;}
+    footer{position: relative; height: auto;}
+    .cover-pic{width: 100%; float:left;}
+    .post-box-bottom ul li:nth-child(2){display: none;}
+	.update-browser{display:none;}
 }
 @media screen and (max-width: 767px) {
     .container {width: 100%;}
