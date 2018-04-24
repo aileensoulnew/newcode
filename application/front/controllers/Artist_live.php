@@ -208,7 +208,7 @@ class Artist_live extends MY_Controller {
         }
     }
 
-    // Artist home tab. for post
+    // Artist home tab. for post , after register success open this view
     public function art_post() {
 
         $user_name = $this->session->userdata('user_name');
@@ -233,7 +233,7 @@ class Artist_live extends MY_Controller {
         $this->data['get_url'] = $this->get_url($userid);
 
         if (!$this->data['artisticdata']) {
-            redirect('artist/find-artist');
+            redirect('find-artist');
         } else {
             $this->data['left_artistic'] = $this->load->view('artist/left_artistic', $this->data, true);
             $artistic_name = $this->get_artistic_name($id);
