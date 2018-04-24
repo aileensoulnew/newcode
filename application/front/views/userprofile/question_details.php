@@ -96,7 +96,7 @@
                                 <div class="post-des-detail" ng-if="post.opportunity_data.opportunity"><b>Opportunity:</b><span ng-bind="post.opportunity_data.opportunity"></span></div>
                                 <!-- Edit Question Start -->
                                 <div id="edit-ask-que-{{post.post_data.id}}" style="display: none;">
-                                    <form id="ask_question" name="ask_question" ng-submit="ask_question_check(event,$index)">
+                                    <form id="ask_question" class="edit-question-form" name="ask_question" ng-submit="ask_question_check(event,$index)">
                                         <div class="post-box">                        
                                             <div class="post-text">                            
                                                 <textarea class="title-text-area" ng-keyup="questionList()" id="ask_que_{{post.post_data.id}}" placeholder="Ask Question"></textarea>
