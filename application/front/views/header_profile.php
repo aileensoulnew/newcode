@@ -225,7 +225,7 @@ if($browser == "Firefox")
                                     <?php
                                     if ($session_user['aileenuser_userimage'] != '')
                                     {?>
-                                        <span class="usr-img" id="header-main-profile-pic profile-brd">
+                                        <span class="usr-img profile-brd" id="header-main-profile-pic">
                                             <img ng-src="<?php echo USER_THUMB_UPLOAD_URL . $session_user['aileenuser_userimage'] ?>" alt="<?php echo $session_user['aileenuser_firstname'] ?>">
                                         </span>
                                     <?php
