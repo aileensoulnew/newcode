@@ -5,21 +5,21 @@ $browser = $this->agent->browser();
 $browserVersion = $this->agent->version();
 if($browser == "Internet Explorer")
 {
-    if(explode(".", $browserVersion)[0] < 12)
+    if(explode(".", $browserVersion)[0] < 11)
     {
         echo "<div class='update-browser'>For a better experience, update your browser.</div>";
     }
 }
 if($browser == "Chrome")
 {            
-    if(explode(".", $browserVersion)[0] < 70)
+    if(explode(".", $browserVersion)[0] < 65)
     {
         echo "<div class='update-browser'>For a better experience, update your browser.</div>";
     }
 }
 if($browser == "Firefox")
 {            
-    if(explode(".", $browserVersion)[0] < 60)
+    if(explode(".", $browserVersion)[0] < 55)
     {
         echo "<div class='update-browser'>For a better experience, update your browser.</div>";
     }
