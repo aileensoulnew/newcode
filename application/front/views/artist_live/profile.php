@@ -77,7 +77,7 @@
 					 <div class="common-form job_reg_main">
 						<h3>Welcome in Artistic Profile</h3>
 
-						<?php echo form_open(base_url('artist/profile_insert'), array('id' => 'artinfo','name' => 'artinfo','class' => 'clearfix', 'onsubmit' => "return validation_other(event)")); ?>
+						<?php echo form_open(base_url('artist/home'), array('id' => 'artinfo','name' => 'artinfo','class' => 'clearfix', 'onsubmit' => "return validation_other(event)")); ?>
 
 						<?php
 								 $firstname =  form_error('firstname');

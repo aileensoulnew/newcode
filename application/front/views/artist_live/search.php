@@ -26,10 +26,10 @@
                         </div>
                         <ul class="search-listing">
                             <li ng-repeat="category in artistCategory">
-                                <label class=""><a href="<?php echo base_url('artist/category/') ?>{{category.category_slug}}">{{category.art_category | capitalize}}<span class="pull-right">({{category.count}})</span></a></label>
+                                <label class=""><a href="<?php echo base_url('artist/') ?>{{category.category_slug}}">{{category.art_category | capitalize}}<span class="pull-right">({{category.count}})</span></a></label>
                             </li>
                             <li>
-                                <label class=""><a href="<?php echo base_url('artist/category/other') ?>">Other<span class="pull-right">({{otherCategoryCount}})</span></a></label>
+                                <label class=""><a href="<?php echo base_url('artist/other') ?>">Other<span class="pull-right">({{otherCategoryCount}})</span></a></label>
                             </li>
                         </ul>
                     </div>
