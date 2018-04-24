@@ -912,7 +912,7 @@ app.controller('dashboardController', function ($scope, $compile, $http, $locati
     });
     $(document).on('focusout','#job_title .input',function () {
         if($('#job_title ul li').length > 0)
-        {            
+        {             
             $(this).attr('placeholder', '');
             $(this).css('width', '10px');
         }
