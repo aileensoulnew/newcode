@@ -929,7 +929,7 @@
                         </div>
                         <div class="form-group">
                             <label>Related Categories<span class="pull-right"><img ng-src="<?php echo base_url('assets/n-images/tooltip.png') ?>" alt="tooltip"></span></label>
-                            <tags-input ng-model="ask.related_category" display-property="name"placeholder="Related Category" replace-spaces-with-dashes="false" template="category-template" on-tag-added="onKeyup()">
+                            <tags-input id="ask_related_category" ng-model="ask.related_category" display-property="name" placeholder="Related Category" replace-spaces-with-dashes="false" template="category-template" on-tag-added="onKeyup()">
                                 <auto-complete source="loadCategory($query)" min-length="0" load-on-focus="false" load-on-empty="false" max-results-to-show="32" template="category-autocomplete-template"></auto-complete>
                             </tags-input>
                             <script type="text/ng-template" id="category-template">
