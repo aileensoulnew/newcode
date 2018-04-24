@@ -149,11 +149,26 @@
                 <div class="comment-box">
                     <div class="add-comment">
                         <div class="post-img">
-                            <?php if ($leftbox_data['user_image'] != '') { ?> 
-                                <img ng-class="post.post_data.user_id == user_id ? 'login-user-pro-pic' : ''" ng-src="<?php echo USER_THUMB_UPLOAD_URL . $leftbox_data['user_image'] . '?ver=' . time() ?>" alt="<?php echo $leftbox_data['first_name'] ?>">  
-                            <?php } else { ?>
-                                <img ng-class="post.post_data.user_id == user_id ? 'login-user-pro-pic' : ''" ng-src="<?php echo base_url(NOBUSIMAGE . '?ver=' . time()) ?>" alt="<?php echo $leftbox_data['first_name'] ?>">
-                            <?php } ?>
+                            <?php
+                            if ($leftbox_data['user_image'] != '')
+                            { ?>
+                                <img class="login-user-pro-pic" ng-src="<?php echo USER_THUMB_UPLOAD_URL . $leftbox_data['user_image'] . '?ver=' . time() ?>" alt="<?php echo $leftbox_data['first_name'] ?>">  
+                            <?php
+                            }
+                            else
+                            { 
+                                if($leftbox_data['user_gender'] == "M")
+                                {?>                                
+                                    <img class="login-user-pro-pic" ng-src="<?php echo base_url('assets/img/man-user.jpg') ?>">
+                                <?php
+                                }
+                                if($leftbox_data['user_gender'] == "F")
+                                {
+                                ?>
+                                    <img class="login-user-pro-pic" ng-src="<?php echo base_url('assets/img/female-user.jpg') ?>">
+                                <?php
+                                } 
+                            } ?>
                         </div>
                         <div class="comment-input">
                             <div contenteditable="true" data-directive ng-model="comment" ng-class="{'form-control': false, 'has-error':isMsgBoxEmpty}" ng-change="isMsgBoxEmpty = false" class="editable_text" placeholder="Add a Comment ..." ng-enter="sendComment({{post.post_data.id}},$index,post)" id="commentTaxBox-{{post.post_data.id}}" ng-focus="setFocus" focus-me="setFocus" ng-paste="handlePaste($event)"></div>

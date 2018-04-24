@@ -45,6 +45,9 @@ class Userprofile_page extends MY_Controller {
     }
 
     public function questions() {
+        $userid = $this->session->userdata('aileenuser');
+        $this->data['userdata'] = $this->user_model->getUserSelectedData($userid, $select_data = "u.user_slug,u.first_name,u.last_name,ui.user_image");
+        $this->data['leftbox_data'] = $this->user_model->getLeftboxData($userid);
         $this->load->view('userprofile/questions', $this->data);
     }
 
