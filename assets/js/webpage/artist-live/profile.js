@@ -3,7 +3,7 @@ $(document).ready(function(){
   if(profile_login == 'live'){
 
         $('#register').modal('show');
-  }
+  } // country change
     $('#country').on('change',function(){ 
         var countryID = $(this).val();
         if(countryID){

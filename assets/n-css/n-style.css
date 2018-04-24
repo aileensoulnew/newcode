@@ -75,10 +75,10 @@
 .modal .post-img{width:40px; height:40px;}
 .post-img img{width:100%;}
 .post-box .post-text{width:90%; float:left; padding:14px 10px; font-size:22px; color:#999;}
-.edit-question-form .post-box .post-text{width:100%; padding:0;}
-.edit-question-form .post-box .post-text textarea{padding:5px 0;}
+#ask_question.edit-question-form .post-box .post-text{width:100%; padding:0;}
+#ask_question.edit-question-form .post-box .post-text textarea{padding:5px 0;}
 .edit-question-form .post-box .post-text textarea{border:0px; border-bottom:1px solid #d2d2d2; border-radius:0;}
-.edit-question-form .post-field textarea{height:140px;}
+#ask_question.edit-question-form .post-field textarea{height:140px;}
 .edit-question-form .all-upload .form-group input{margin-top:10px;}
 .post-box .post-cam{position:absolute; right:10px; top:23px;}
 .post-box .post-cam .fa{color:#1b8ab9; font-size:25px}
@@ -103,7 +103,7 @@
 	line-height:1.5;}
 .post-popup-box	.post-box .post-text{width:498px;}
 .post-popup-box .post-area{padding:10px; background:#fff; width:100%; float:left;}
-.edit-question-form .all-upload{margin-bottom:10px; margin-left:-5px;}
+#ask_question.edit-question-form .all-upload{margin-bottom:10px; margin-left:-5px;}
 .post-popup-box .post-area textarea{min-height:100px; font-size: 15px !important;}
 .all-upload{width:100%; float:left;}
 .all-upload label{float:left;}
@@ -1758,7 +1758,6 @@ li .custom-user-box.no-data-available{border:0; padding: 15px;}
 .custom-user-box.no-data-available{padding: 0 0 100px; border: none;}
 .no-data-available .art-img-nn{width: 400px; height: 300px; margin: 0 auto; padding: 60px 0;}
 .no-data-available .art-img-nn .art_no_post_img{padding-bottom: 15px;}
-.all-up-mr{margin-left:-5px;}
 .update-browser{position: fixed;
     bottom: 0;
     width: 100%;
@@ -1869,7 +1868,6 @@ li .custom-user-box.no-data-available{border:0; padding: 15px;}
     .container {width: 100%;}
 	.mob-banner{padding:0;}
 	.mob-comment{display: block;}
-	.mob-plr15{padding-left:15px; padding-right:15px;}
 	/***  all profile  ***/
 	.custom-box .custom-width{height:auto; border-left:0 !important; border-right:0 !important;}
 	.custom-box .left-box{width:150px; height:150px; margin:0 auto;}
@@ -2000,6 +1998,7 @@ li .custom-user-box.no-data-available{border:0; padding: 15px;}
 	.comment-box .add-comment .comment-input{padding:0;}
 	.mob-comment .btn2 img{display:block;}
 	.read-more-post{font-size:12px;}
+<<<<<<< HEAD
 	.questionSuggetion.question-available{width: calc(100% - 30px); float:left; margin-left:15px;}
 	.edit-comment .comment-input{width:100%; padding-right:0;}
 	.edit-comment .comment-input .editable_text{padding-right:35px;}
@@ -2010,6 +2009,9 @@ li .custom-user-box.no-data-available{border:0; padding: 15px;}
 	-moz-transform: scale(1) !important;
 	-o-transform: scale(1) !important;}
 	#posterrormodal .modal-content{width:90%;}
+=======
+		
+>>>>>>> 65dd9479775e120c96c11d8dfe99a194f700227d
 }
 @media screen and (max-width: 639px) {
 	/***  all profile  ***/
@@ -2140,7 +2142,7 @@ li .custom-user-box.no-data-available{border:0; padding: 15px;}
         .cover-pic{left: -3px; right: auto;}
         .user-photo-name .profile-img{padding: 3px;}
         .post-popup-box .all-upload .upload_icon .upload_span_icon{padding-left: 2px;}
-        .post-popup-box .all-upload .upload_icon{padding: 10px 5px 10px 15px;}
+        .post-popup-box .all-upload .upload_icon{padding: 10px 5px 10px 12px;}
         .cover-pic .btn{float: left !important; }
 		.post-discription .post-field label{font-size:14px;}
 		.btn1{font-size: 14px; padding: 3px 15px;}

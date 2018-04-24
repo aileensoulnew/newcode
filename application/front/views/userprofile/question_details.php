@@ -95,8 +95,8 @@
                                 </div>
                                 <div class="post-des-detail" ng-if="post.opportunity_data.opportunity"><b>Opportunity:</b><span ng-bind="post.opportunity_data.opportunity"></span></div>
                                 <!-- Edit Question Start -->
-                                <div id="edit-ask-que-{{post.post_data.id}}"  style="display: none;">
-                                    <form id="ask_question" class="edit-question-form" name="ask_question" ng-submit="ask_question_check(event,$index)">
+                                <div id="edit-ask-que-{{post.post_data.id}}" style="display: none;">
+                                    <form id="ask_question" name="ask_question" ng-submit="ask_question_check(event,$index)">
                                         <div class="post-box">                        
                                             <div class="post-text">                            
                                                 <textarea class="title-text-area" ng-keyup="questionList()" id="ask_que_{{post.post_data.id}}" placeholder="Ask Question"></textarea>
@@ -149,7 +149,7 @@
                                             <input type="hidden" name="post_for" ng-model="ask.post_for" class="form-control" value="question">
                                             <input type="hidden" id="ask_edit_post_id_{{$index}}" name="ask_edit_post_id" class="form-control" value="{{post.post_data.id}}">
                                         </div>
-                                        <div class="text-right fw pt10 pb20">
+                                        <div class="text-right fw pt10 pb20 pr15">
                                             <div class="add-anonymously">
                                                 <label class="control control--checkbox" title="Checked this">Add Anonymously<input type="checkbox" value="1" id="ask_is_anonymously{{post.post_data.id}}" ng-checked="post.question_data.is_anonymously == 1"><div class="control__indicator"></div></label>
                                             </div>
