@@ -375,6 +375,31 @@ app.controller('questionDetailsController', function ($scope, $http,$window,$fil
               related_category[catArrIndex] = {"name":element};
             });
             $scope.ask.related_category_edit = related_category;
+            if(rel_category.length > 0)
+            {
+                $('#ask_related_category_edit'+post_id+' .input').attr('placeholder', '');
+                $('#ask_related_category_edit'+post_id+' .input').css('width', '200px');
+            }
+            $(document).on('focusin','#ask_related_category_edit'+post_id+' .input',function () {
+                if($('#ask_related_category_edit'+post_id+' ul li').length > 0)
+                {            
+                    $(this).attr('placeholder', '');
+                    $(this).css('width', '200px');
+                }
+            });
+            $(document).on('focusout','#ask_related_category_edit'+post_id+' .input',function () {
+                if($('#ask_related_category_edit'+post_id+' ul li').length > 0)
+                {             
+                    $(this).attr('placeholder', '');
+                    $(this).css('width', '200px');
+                }
+                if($('#ask_related_category_edit'+post_id+' ul li').length == 0)
+                {            
+                    $(this).attr('placeholder', 'Related Category');
+                    $(this).css('width', '200px');
+                }         
+            });
+
             //$("#ask_related_category_edit"+post_id).val(related_category);
 
             var ask_field = $scope.postData[index].question_data.field;
