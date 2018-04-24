@@ -83,7 +83,7 @@ class Artist_live extends MY_Controller {
         $this->data['category_id'] = $category_id['category_id'];
         $this->load->view('artist_live/categoryArtistList', $this->data);
     }
-    // 
+
     public function artist_search() {
         $userid = $this->session->userdata('aileenuser');
         $this->data['userdata'] = $this->user_model->getUserSelectedData($userid, $select_data = "u.first_name,u.last_name,ui.user_image");
@@ -173,7 +173,7 @@ class Artist_live extends MY_Controller {
 
     // Get country, state, city from id
     public function ajax_data() {
-        
+
         if (isset($_POST["country_id"]) && !empty($_POST["country_id"])) {
             //Get all state data
             $contition_array = array('country_id' => $_POST["country_id"], 'status' => '1');
@@ -205,6 +205,40 @@ class Artist_live extends MY_Controller {
             } else {
                 echo '<option value="0">City not available</option>';
             }
+        }
+    }
+
+    // Artist home tab. for post
+    public function art_post() {
+
+        $user_name = $this->session->userdata('user_name');
+        $userid = $this->session->userdata('aileenuser');
+
+        //if user deactive profile then redirect to artist/index untill active profile start
+        $contition_array = array('user_id' => $userid, 'status' => '0', 'is_delete' => '0');
+        $artistic_deactive = $this->data['artistic_deactive'] = $this->common->select_data_by_condition('art_reg', $contition_array, $data = 'art_id', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby);
+        if ($artistic_deactive) {
+            redirect('find-artist');
+        }
+        //if user deactive profile then redirect to artist/index untill active profile End
+        $contition_array = array('user_id' => $userid, 'status' => '1', 'art_step' => '4');
+        $artisticdata = $this->data['artisticdata'] = $this->common->select_data_by_condition('art_reg', $contition_array, $data = 'art_id,user_id,slug,art_user_image,art_name,art_lastname,profile_background,designation', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
+        // for three userlist box condition_array start
+        $contition_array = array('status' => '1', 'art_step' => '4', 'is_delete' => '0');
+        $this->data['usercount'] = $this->common->select_data_by_condition('art_reg', $contition_array, $data = 'art_id', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
+        $contition_array = array('follow_type' => '1', 'follow_from' => $artisticdata[0]['art_id'], 'follow_status' => '1');
+        $this->data['followcount'] = $this->common->select_data_by_condition('follow', $contition_array, $data = 'follow_id', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
+        $contition_array = array('profile' => '1', 'user_from' => $artisticdata[0]['art_id']);
+        $this->data['crosscount'] = $this->common->select_data_by_condition('user_ignore', $contition_array, $data = 'id', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
+        $this->data['get_url'] = $this->get_url($userid);
+
+        if (!$this->data['artisticdata']) {
+            redirect('artist/find-artist');
+        } else {
+            $this->data['left_artistic'] = $this->load->view('artist/left_artistic', $this->data, true);
+            $artistic_name = $this->get_artistic_name($id);
+            $this->data['title'] = 'Home | Artistic Profile' . TITLEPOSTFIX;
+            $this->load->view('artist_live/art_post', $this->data);
         }
     }
 
