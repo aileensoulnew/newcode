@@ -142,4 +142,32 @@ class Artist_live extends MY_Controller {
         echo "yes";
     }
 
+    // Signup Registration page
+    public function registration() {
+
+        $userid = $this->session->userdata('aileenuser');
+
+        $contition_array = array('status' => '1');
+        $this->data['countries'] = $this->common->select_data_by_condition('countries', $contition_array, $data = 'country_id,country_name', $sortby = 'country_name', $orderby = 'ASC', $limit = '', $offset = '', $join_str = array(), $groupby = '');
+
+        $contition_array = array('status' => '1');
+        $this->data['art_category'] = $this->common->select_data_by_condition('art_category', $contition_array, $data = 'category_id,art_category', $sortby = '', $orderby = '', $limit = '', $offset = '', $join_str = array(), $groupby = '');
+
+        if ($userid) {
+            $this->data['profile_login'] = "login";
+        } else {
+            $this->data['profile_login'] = "live";
+        }
+        if ($this->session->userdata('aileenuser')) {
+            $userid = $this->session->userdata('aileenuser');
+            $recuser = $this->db->select('user_id')->get_where('art_reg', array('user_id' => $userid))->row()->user_id;
+        }
+         $this->data['header_profile'] = $this->load->view('header_profile', $this->data, TRUE);
+        if ($recuser) {
+            redirect('artist/home', refresh);
+        } else {
+            $this->load->view('artist_live/profile', $this->data);
+        }
+    }
+
 }

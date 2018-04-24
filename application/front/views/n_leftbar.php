@@ -79,7 +79,7 @@
                 </a>
             </li>
             <li>
-                <a href="<?php echo base_url('artist/') ?>" title="Artistic Profile">
+                <a href="<?php echo base_url('find-artist/') ?>" title="Artistic Profile">
                     <div class="all-pr-img">
                         <img ng-src="<?php echo base_url('assets/n-images/i5.jpg?ver='.time()) ?>" alt="Artistic Profile">
                     </div>
