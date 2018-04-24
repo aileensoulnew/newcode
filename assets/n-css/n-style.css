@@ -103,7 +103,8 @@
 	line-height:1.5;}
 .post-popup-box	.post-box .post-text{width:498px;}
 .post-popup-box .post-area{padding:10px; background:#fff; width:100%; float:left;}
-#ask_question.edit-question-form .all-upload{margin-bottom:10px; margin-left:-5px;}
+#ask_question.edit-question-form .all-upload{margin-bottom:10px;}
+.edit-question-form .all-upload .add-link{margin-left:-5px;}
 .post-popup-box .post-area textarea{min-height:100px; font-size: 15px !important;}
 .all-upload{width:100%; float:left;}
 .all-upload label{float:left;}
@@ -2007,6 +2008,9 @@ li .custom-user-box.no-data-available{border:0; padding: 15px;}
 	-o-transform: scale(1) !important;}
 	#posterrormodal .modal-content{width:90%;}
 	.like-popup .like-detail{width:80%;}
+	#ask_question .all-upload .form-group{padding-left:15px; padding-right:15px;}
+	#ask_question.edit-question-form .all-upload .form-group{padding-left:0px; padding-right:0px;}
+	
 
 }
 @media screen and (max-width: 639px) {
