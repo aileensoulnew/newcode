@@ -1788,7 +1788,7 @@ li .custom-user-box.no-data-available{border:0; padding: 15px;}
 	.job-detail .job-top-detail{width:85%;}
 	.detail-discription .all-job-middle ul li span{width:80%;}
 	.all-contact .all-user-list .owl-nav{top:88px;}
-        .audience-box{min-height: 385px;}
+    .audience-box{min-height: 385px;}
 }
 @media screen and (max-width: 1199px) {
 	.block-1199{display:block;}
