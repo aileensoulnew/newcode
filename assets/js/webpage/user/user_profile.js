@@ -904,13 +904,45 @@ app.controller('dashboardController', function ($scope, $compile, $http, $locati
     });
 
     $(document).on('focusin','#job_title .input',function () {
-
-
-        /*$(this).attr('placeholder', '');
-        $(this).css('width', '10px');*/
+        if($('#job_title ul li').length > 0)
+        {            
+            $(this).attr('placeholder', '');
+            $(this).css('width', '10px');
+        }
     });
     $(document).on('focusout','#job_title .input',function () {
-         console.log($(this).tagsinput('items'));
+        if($('#job_title ul li').length > 0)
+        {            
+            $(this).attr('placeholder', '');
+            $(this).css('width', '10px');
+        }
+        if($('#job_title ul li').length == 0)
+        {            
+            $(this).attr('placeholder', 'Ex:Seeking Opportunity, CEO, Enterpreneur, Founder, Singer, Photographer....');
+            $(this).css('width', '100%');
+        }
+         /*$(this).attr('placeholder', 'Ex:Seeking Opportunity, CEO, Enterpreneur, Founder, Singer, Photographer....');
+         $(this).css('width', '100%');*/
+    });
+
+    $(document).on('focusin','#location .input',function () {
+        if($('#location ul li').length > 0)
+        {            
+            $(this).attr('placeholder', '');
+            $(this).css('width', '10px');
+        }
+    });
+    $(document).on('focusout','#location .input',function () {
+        if($('#location ul li').length > 0)
+        {            
+            $(this).attr('placeholder', '');
+            $(this).css('width', '10px');
+        }
+        if($('#location ul li').length == 0)
+        {            
+            $(this).attr('placeholder', 'Ex:Mumbai, Delhi, New south wels, London, New York, Captown, Sydeny, Shanghai....');
+            $(this).css('width', '100%');
+        }
          /*$(this).attr('placeholder', 'Ex:Seeking Opportunity, CEO, Enterpreneur, Founder, Singer, Photographer....');
          $(this).css('width', '100%');*/
     });
