@@ -920,9 +920,7 @@ app.controller('dashboardController', function ($scope, $compile, $http, $locati
         {            
             $(this).attr('placeholder', 'Ex:Seeking Opportunity, CEO, Enterpreneur, Founder, Singer, Photographer....');
             $(this).css('width', '100%');
-        }
-         /*$(this).attr('placeholder', 'Ex:Seeking Opportunity, CEO, Enterpreneur, Founder, Singer, Photographer....');
-         $(this).css('width', '100%');*/
+        }         
     });
 
     $(document).on('focusin','#location .input',function () {
@@ -945,6 +943,26 @@ app.controller('dashboardController', function ($scope, $compile, $http, $locati
         }
          /*$(this).attr('placeholder', 'Ex:Seeking Opportunity, CEO, Enterpreneur, Founder, Singer, Photographer....');
          $(this).css('width', '100%');*/
+    });
+
+    $(document).on('focusin','#ask_related_category .input',function () {
+        if($('#ask_related_category ul li').length > 0)
+        {            
+            $(this).attr('placeholder', '');
+            $(this).css('width', '10px');
+        }
+    });
+    $(document).on('focusout','#ask_related_category .input',function () {
+        if($('#ask_related_category ul li').length > 0)
+        {             
+            $(this).attr('placeholder', '');
+            $(this).css('width', '10px');
+        }
+        if($('#ask_related_category ul li').length == 0)
+        {            
+            $(this).attr('placeholder', 'Related Category');
+            $(this).css('width', '100%');
+        }         
     });
 
     /*$("#post-popup").on('hidden.bs.modal', function (event) {

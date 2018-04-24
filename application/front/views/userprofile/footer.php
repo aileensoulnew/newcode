@@ -52,21 +52,5 @@ if ($this->uri->segment(1) == '' || $this->uri->segment(1) == 'main' || $this->u
     </footer>
 
     <!-- IMAGE PRELOADER SCRIPT -->
-    <script type="text/javascript">
-        /*$.fn.preload = function (fn) {
-            var len = this.length, i = 0;
-            return this.each(function () {
-                var tmp = new Image, self = this;
-                if (fn)
-                    tmp.onload = function () {
-                        fn.call(self, 100 * ++i / len, i === len);
-                    };
-                tmp.src = this.src;
-            });
-        };
-
-        $('img').preload(function (perc, done) {
-            console.log(this, perc, done);
-        }); */
-    </script>
+   
     <!-- IMAGE PRELOADER SCRIPT -->
