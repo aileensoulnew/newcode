@@ -112,7 +112,7 @@
                                 <input type="hidden" name="post_for" ng-model="ask.post_for" class="form-control" value="question">
                                 <input type="hidden" id="ask_edit_post_id_{{queIndex}}" name="ask_edit_post_id" class="form-control" value="{{post.post_data.id}}">
                             </div>
-                            <div class="text-right fw pt10 pb20 pr15">
+                            <div class="text-right fw pt10 pb20">
                                 <div class="add-anonymously">
                                     <label class="control control--checkbox" title="Checked this">Add Anonymously<input type="checkbox" value="1" id="ask_is_anonymously{{post.post_data.id}}" ng-checked="post.question_data.is_anonymously == 1"><div class="control__indicator"></div></label>
                                 </div>
