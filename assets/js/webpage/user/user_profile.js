@@ -3876,6 +3876,10 @@ function profile_pic() {
                 $("#user-profile.profile-img").html(res.userImageContent);
                 $("#view-profile-img .modal-body .mes img").attr('src',res.userProfilePicMain);
                 $("#header-main-profile-pic").html('<img ng-src="'+res.userProfilePicThumb+'" src="'+res.userProfilePicThumb+'">');
+                if(!$("#header-main-profile-pic").hasClass("profile-brd"))
+                {
+                    $("#header-main-profile-pic").addClass("profile-brd");
+                }
                 $(".login-user-pro-pic").attr('src',res.userProfilePicThumb);
                 document.getElementById('upload-one').value = null;
                 document.getElementById('upload-demo-one').value = '';
