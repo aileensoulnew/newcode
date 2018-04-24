@@ -126,7 +126,7 @@
                         <div class="col-md-6 col-sm-6 col-xs-5">
                             <ul class="bottom-left">
                                 <li class="like-count">
-                                    <a href="javascript:void(0)" id="post-like-{{post.post_data.id}}" ng-click="post_like(post.post_data.id)" ng-if="post.is_userlikePost == '1'" class="like">Liked</a>
+                                    <a href="javascript:void(0)" id="post-like-{{post.post_data.id}}" ng-click="post_like(post.post_data.id)" ng-if="post.is_userlikePost == '1'" class="like">Like</a>
                                     <a href="javascript:void(0)" id="post-like-{{post.post_data.id}}" ng-click="post_like(post.post_data.id)" ng-if="post.is_userlikePost == '0'">Like</a>
                                 </li>
                                 <li class="comment-count"><a href="javascript:void(0)" ng-click="giveAnswer(post.post_data.id)"><span>Give Answer</span></a></li>
